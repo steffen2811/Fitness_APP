@@ -1,9 +1,13 @@
+/* TODO: Auto generate API documentation tool? */
+/* TODO: Error messages in static file */
+
 var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
 var mysql = require('mysql')
 
 var router = express.Router();
 
+/* connection to DB */
 var connection = mysql.createConnection({
     host     : 'localhost',
     user     : 'root',
@@ -11,57 +15,105 @@ var connection = mysql.createConnection({
     database : 'users'
   });
 
-  connection.connect()
+connection.connect()
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    hashPassword("Password", function(error, hash)
+/* POST - Create user */
+router.post('/create', function(req, res, next) {
+    /* TODO: check if email is valid and if it already exist */
+
+    /* Hash password using bcrypt */
+    hashPassword(req.body["password"], function(err, passHash)
     {
-        console.log(hash);
-        comparePassword("Password123", hash, function(error, match)
+        if(err)
         {
-            console.log(match);
-            res.send(match)
-        });
+            res.status(500).json({  error: err });
+            return;
+        }
+        
+        /* Insert new user into DB */
+        connection.query(`INSERT INTO users.users (email, password) VALUES ("${req.body["email"]}", "${passHash}")`, function (err) {
+            if(err)
+            {
+                res.status(500).json({ error: err });
+                return;
+            }
+            
+            res.json({ message: "User created"});
+        })
+    })
+});
+
+/* POST - login */
+router.post('/login', function(req, res, err)
+{
+    /* Get rows from DB where the email is requested */
+    connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){
+        if(err)
+        {
+            res.status(500).json({ error: err });
+            return;
+        }
+        else
+        {
+            /* Check a row is found (User found in DB) */
+            if(row["length"] == 1)
+            {
+                /* Compare hash from DB with received plain password */
+                comparePassword(req.body["password"], row["0"]["password"], function(err, match)
+                {
+                    if(err)
+                    {
+                        res.status(500).json({ error: err });
+                        return;
+                    }
+                    /* email and password match */
+                    if(match)
+                    {
+                        res.json({ message: "Login successful"});
+                    }
+                    /* Incorrect password */
+                    else
+                    {
+                        res.json({ message: "Incorrect password"});
+                    }
+                });
+            }
+            /* User not found */
+            else
+            {
+                res.json({ message: "User not found"});
+            }
+        }
     });
 });
 
-/* GET users listing. */
-router.post('/Create', function(req, res, next) {
-    
-    var password = hashPassword(req.body["password"], function(err, hash)
-    {
-        if(err)
-            res.status(404).end()
-        
-        password = hash
-    })
-
-    
-
-    connection.query('INSERT INTO users (email, password) VALUES ("ib", "pass")', function (err, rows, fields) {
-        if(err)
-            res.send("Error")
-
-        res.send("User created")
-    })
-});
-
+/* Function - Hash password when a new user is created */
 function hashPassword(password, callback) {
+    /* Generate 10 round salt for the new user */
     bcrypt.genSalt(10, function(err, salt) {
         if (err) 
+        {
             return callback(err);
+        }
+        /* Hash the password */
         bcrypt.hash(password, salt, null, function(err, hash) {
             return callback(err, hash);
         });
    });
  };
 
+ /* Function - Compare plain password and hashed password */
  function comparePassword(plainPass, hashword, callback) {
+    /* Check if the passwords match */
     bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {   
-        return err == null ?
-            callback(null, isPasswordMatch) :
+        if (err)
+        {
             callback(err);
+        }
+        else
+        {
+            callback(null, isPasswordMatch)
+        }
     });
  };
 
