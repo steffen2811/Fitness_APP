@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('fitness-app:server');
 var http = require('http');
+var requestStats = require('request-stats')
 
 /**
  * Get port from environment and store in Express.
@@ -88,3 +89,10 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+
+/** 
+ * Event to be called every time a request to the server completes
+ */
+requestStats(server, function (stats) {
+  console.log(stats)
+})
