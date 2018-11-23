@@ -1,0 +1,35 @@
+version: '2'
+services:
+  fitmess_app_api:
+    build: ./API/Fitness_APP
+    depends_on: 
+      - db
+    environment:
+      DEBUG: 'true'
+      MYSQL_PASS: 'myql'
+      MYSQL_USER: root
+    ports:
+    - 3333:3333/tcp
+  # db:
+  #   image: mysql
+  #   command: --default-authentication-plugin=mysql_native_password
+  #   restart: always
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: Password1
+  #     MYSQL_USER: test
+  #     MYSQL_PASSWORD: test123 
+  #   ports:
+      
+  #     - 3306:3306/tcp
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
