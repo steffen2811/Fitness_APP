@@ -10,7 +10,7 @@ var router = express.Router();
 /* connection to DB */
 var connection = mysql.createConnection({
     host     : 'localhost',
-    user     : 'root',
+    user     : 'NodeJS',
     password : 'Password1',
     database : 'users'
   });
@@ -20,6 +20,7 @@ connection.connect()
 /* POST - Create user */
 router.post('/create', function(req, res, next) {
     /* TODO: check if email is valid and if it already exist */
+    var timeSpendPerWeek = req.body["timeSpendPerWeek"]
 
     /* Hash password using bcrypt */
     hashPassword(req.body["password"], function(err, passHash)
@@ -31,7 +32,8 @@ router.post('/create', function(req, res, next) {
         }
         
         /* Insert new user into DB */
-        connection.query(`INSERT INTO users.users (email, password) VALUES ("${req.body["email"]}", "${passHash}")`, function (err) {
+        connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
+        VALUES ("${req.body["email"]}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
             if(err)
             {
                 res.status(500).json({ error: err });
