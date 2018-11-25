@@ -9,10 +9,11 @@ var router = express.Router();
 
 /* connection to DB */
 var connection = mysql.createConnection({
-    host     : 'localhost',
-    user     : 'NodeJS',
+    host     : 'db',
+    user     : 'root',
     password : 'Password1',
-    database : 'users'
+    database : 'users',
+    insecureAuth : true
   });
 
 connection.connect()

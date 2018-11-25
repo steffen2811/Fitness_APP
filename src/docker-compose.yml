@@ -1,33 +1,27 @@
-version: '2'
+version: '2.1'
 services:
   fitmess_app_api:
     build: ./API/Fitness_APP
     depends_on: 
-      - db
+      db:
+        condition: service_healthy
     environment:
       DEBUG: 'true'
-      MYSQL_PASS: 'myql'
-      MYSQL_USER: root
     ports:
-    - 3333:3333/tcp
-  # db:
-  #   image: mysql
-  #   command: --default-authentication-plugin=mysql_native_password
-  #   restart: always
-  #   environment:
-  #     MYSQL_ROOT_PASSWORD: Password1
-  #     MYSQL_USER: test
-  #     MYSQL_PASSWORD: test123 
-  #   ports:
-      
-  #     - 3306:3306/tcp
+    - 3333:3000/tcp
   db:
-    image: mysql
-    command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    image: mysql:5.7
+    command:
+    - --default-authentication-plugin=mysql_native_password
     environment:
-      MYSQL_ROOT_PASSWORD: example
-
+      MYSQL_ROOT_PASSWORD: Password1
+    volumes:
+    - ./mysql_init/CreateDB.sql:/docker-entrypoint-initdb.d/CreateDB.sql
+    restart: always
+    healthcheck:
+      test: "/usr/bin/mysql --user=root --password=Password1 --execute \"select * from users.users\""
+      timeout: 20s
+      retries: 10
   adminer:
     image: adminer
     restart: always
