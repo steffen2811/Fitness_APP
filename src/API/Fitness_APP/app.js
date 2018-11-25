@@ -11,6 +11,9 @@ var usersRouter = require('./routes/users');
 /* Set app as express */
 var app = express();
 
+console.log('The value of MYSQL_PASS is:', process.env.MYSQL_PASS);
+console.log('The value of MYSQL_USER is:', process.env.MYSQL_USER);
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
