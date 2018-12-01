@@ -1,33 +1,34 @@
 //
-//  ViewController.swift
+//  SignupViewController.swift
 //  Fitness app
 //
-//  Created by Tobias Brammer Fredriksen on 25/10/2018.
+//  Created by Tobias Brammer Fredriksen on 01/12/2018.
 //  Copyright © 2018 Tobias Brammer Fredriksen. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class ViewController: UIViewController {
 
+class SignupViewController: UIViewController {
+    
     @IBOutlet weak var EmailTxtField: UITextField!
-    @IBOutlet weak var PasswordTxtField: UITextField!
+    @IBOutlet weak var PasswordTxtFIeld: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        
     }
-
-    @IBAction func SignIn(_ sender: Any) {
-        Login()
+    @IBAction func SignupButton(_ sender: Any) {
+        Signup()
     }
     
-    
-    func Login() {
-        let parameters = ["email": EmailTxtField.text, "password": PasswordTxtField.text] as [String : Any]
+    func Signup() {
+        let parameters = ["email": EmailTxtField.text, "password": PasswordTxtFIeld.text] as [String : Any]
         
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/login")
+        let url = URL(string: "http://localhost:3333/users/create")
         
         //Create the session object
         let session = URLSession.shared
@@ -61,6 +62,4 @@ class ViewController: UIViewController {
         })
         task.resume()
     }
-
 }
-
