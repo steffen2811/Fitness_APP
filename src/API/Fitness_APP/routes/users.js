@@ -73,6 +73,7 @@ router.post('/login', function(req, res, err)
                     if(match)
                     {
                         res.json({ message: "Login successful"});
+                        //res.json(ReturnUser(row["0"]));
                     }
                     /* Incorrect password */
                     else
@@ -89,6 +90,18 @@ router.post('/login', function(req, res, err)
         }
     });
 });
+
+
+function ReturnUser(id ,email, timeSpendPerWeek) {
+    // Define desired object
+    var obj = {
+        id: id,
+        Email:  email,
+        TimeSpend: timeSpendPerWeek
+    };
+    // Return it
+    return obj;
+  }
 
 /* Function - Hash password when a new user is created */
 function hashPassword(password, callback) {

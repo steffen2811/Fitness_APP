@@ -58,6 +58,18 @@ class ViewController: UIViewController {
             
             let datastring = String(data: data, encoding: String.Encoding.utf8)
             print(datastring)
+            
+            print(response)
+            
+            /*if let httpresponse = response as? HTTPURLResponse {
+                let Respones1 = httpresponse.allHeaderFields["Set-Cookie"] as? String
+                print(Respones1)
+                UserDefaults.standard.set(Respones1, forKey: "token")
+            }*/
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "Login", sender: self)
+            }
+            
         })
         task.resume()
     }

@@ -59,6 +59,11 @@ class SignupViewController: UIViewController {
             
             let datastring = String(data: data, encoding: String.Encoding.utf8)
             print(datastring)
+            
+            
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "SignedUp", sender: self)
+            }
         })
         task.resume()
     }
