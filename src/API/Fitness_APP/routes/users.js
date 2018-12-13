@@ -3,7 +3,7 @@
 
 var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
-var mysql = require('mysql')
+var mysql = require('mysql');
 var router = express.Router();
 
 /* connection to DB */
@@ -15,12 +15,14 @@ var connection = mysql.createConnection({
     insecureAuth : true
   });
 
+
+
 connection.connect()
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
     console.log("sessionChecker")
-    if (typeof req.session.user !== 'undefined') {
+    if(typeof req.session.user !== "undefined"){
         console.log("defined")
         res.redirect('/');
     } else {
