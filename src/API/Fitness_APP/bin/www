@@ -94,5 +94,5 @@ function onListening() {
  * Event to be called every time a request to the server completes
  */
 requestStats(server, function (stats) {
-  console.log(stats)
+  //console.log(stats)
 })

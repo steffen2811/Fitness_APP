@@ -3,8 +3,7 @@
 
 var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
-var mysql = require('mysql')
-
+var mysql = require('mysql');
 var router = express.Router();
 
 /* connection to DB */
@@ -16,7 +15,18 @@ var connection = mysql.createConnection({
     insecureAuth : true
   });
 
+
+
 connection.connect()
+
+// middleware function to check for logged-in users
+var sessionChecker = (req, res, next) => {
+    if(typeof req.session.user !== "undefined"){
+        res.redirect('/');
+    } else {
+        next();
+    }    
+};
 
 /* POST - Create user */
 router.post('/create', function(req, res, next) {
@@ -47,7 +57,7 @@ router.post('/create', function(req, res, next) {
 });
 
 /* POST - login */
-router.post('/login', function(req, res, err)
+router.get('/login', sessionChecker, function(req, res, err)
 {
     /* Get rows from DB where the email is requested */
     connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){
@@ -72,8 +82,9 @@ router.post('/login', function(req, res, err)
                     /* email and password match */
                     if(match)
                     {
-                        res.json({ message: "Login successful"});
-                        //res.json(ReturnUser(row["0"]));
+                        //res.json({ message: "Login successful"});
+                        req.session.user=row["0"]
+                        res.json(ReturnUser(row["0"]));
                     }
                     /* Incorrect password */
                     else
@@ -117,6 +128,21 @@ router.post('/CurrentUser', function(req, res, err)
         }
     });
 });
+
+router.get('/logout',function(req,res){
+    req.session.destroy(function(err){
+        if(err){
+            console.log(err);
+        } 
+        else
+        {
+            res.clearCookie('connect.sid')
+            res.redirect('/'); 
+        }
+    });
+});
+
+
 
 function ReturnUser(id ,email, timeSpendPerWeek) {
     // Define desired object
