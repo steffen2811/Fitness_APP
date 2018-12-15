@@ -6,7 +6,7 @@ var session = require('express-session');
 var redisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var client  = redis.createClient();
+var client  = redis.createClient('redis://redis:6379');
 
 /* use index and users from routes */
 var indexRouter = require('./routes/index');
@@ -18,7 +18,7 @@ var app = express();
 app.use(session({
     secret: 'E6A9f7JaTyxJpZrNzKTuRnQUqgzXnfsa',
     // create new redis store.
-    store: new redisStore({ host: 'localhost', port: 6379, client: client,ttl :  260}),
+    store: new redisStore({ host: 'redis', port: 6379, client: client,ttl :  260}),
     saveUninitialized: false,
     resave: false
 }));

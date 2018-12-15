@@ -8,7 +8,7 @@ var router = express.Router();
 
 /* connection to DB */
 var connection = mysql.createConnection({
-    host     : '127.0.0.1',
+    host     : 'db',
     user     : 'root',
     password : 'Password1',
     database : 'users',
@@ -21,12 +21,9 @@ connection.connect()
 
 // middleware function to check for logged-in users
 var sessionChecker = (req, res, next) => {
-    console.log("sessionChecker")
     if(typeof req.session.user !== "undefined"){
-        console.log("defined")
         res.redirect('/');
     } else {
-        console.log("undefined")
         next();
     }    
 };
@@ -60,7 +57,7 @@ router.post('/create', function(req, res, next) {
 });
 
 /* POST - login */
-router.post('/login', sessionChecker, function(req, res, err)
+router.get('/login', sessionChecker, function(req, res, err)
 {
     /* Get rows from DB where the email is requested */
     connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){

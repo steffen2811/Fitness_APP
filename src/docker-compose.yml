@@ -4,13 +4,12 @@ services:
   fitness_app_api:
     image: node
     build: ./API/Fitness_APP
+    command: npm start
     depends_on: 
       db:
         condition: service_healthy
       redis:
         condition: service_started
-    environment:
-      DEBUG: 'true'
     ports:
     - 3333:3000/tcp
     restart: always
