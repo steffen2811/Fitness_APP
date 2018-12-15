@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class ViewController: UIViewController {
 
@@ -16,6 +18,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        if(FBSDKAccessToken.current() == nil){
+            print("Not logged in ")
+        }else{
+            print("Logged in already")
+            getFBUserData()
+        }
     }
 
     @IBAction func SignIn(_ sender: Any) {
@@ -61,6 +69,11 @@ class ViewController: UIViewController {
             
             print(response)
             
+            let defaults = UserDefaults.standard
+            
+            defaults.set(self.EmailTxtField.text, forKey: "email")
+            defaults.synchronize()
+            
             /*if let httpresponse = response as? HTTPURLResponse {
                 let Respones1 = httpresponse.allHeaderFields["Set-Cookie"] as? String
                 print(Respones1)
@@ -74,5 +87,34 @@ class ViewController: UIViewController {
         task.resume()
     }
 
+    @IBAction func FacebookLogin(_ sender: Any) {
+        let fbLoginManager : FBSDKLoginManager = FBSDKLoginManager()
+        fbLoginManager.logIn(withReadPermissions: ["email"], from: self) { (result, error) -> Void in
+            if (error == nil){
+                let fbloginresult : FBSDKLoginManagerLoginResult = result!
+                // if user cancel the login
+                if (result?.isCancelled)!{
+                    return
+                }
+                if(fbloginresult.grantedPermissions.contains("email"))
+                {
+                    self.getFBUserData()
+                }
+            }
+        }
+    }
+    
+    func getFBUserData(){
+        if((FBSDKAccessToken.current()) != nil){
+            FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, first_name, last_name, picture.type(large), email"]).start(completionHandler: { (connection, result, error) -> Void in
+                if (error == nil){
+                    //everything works print the user data
+                    print(result)
+                    
+                }
+            })
+        }
+    }
 }
+
 

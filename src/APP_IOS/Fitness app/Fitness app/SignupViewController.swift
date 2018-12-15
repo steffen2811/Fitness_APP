@@ -9,7 +9,6 @@
 import Foundation
 import UIKit
 
-
 class SignupViewController: UIViewController {
     
     @IBOutlet weak var EmailTxtField: UITextField!
@@ -60,6 +59,10 @@ class SignupViewController: UIViewController {
             let datastring = String(data: data, encoding: String.Encoding.utf8)
             print(datastring)
             
+            let defaults = UserDefaults.standard
+            
+            defaults.set(self.EmailTxtField.text, forKey: "email")
+            defaults.synchronize()
             
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "SignedUp", sender: self)
