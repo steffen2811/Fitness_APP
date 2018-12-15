@@ -22,7 +22,9 @@ class ViewController: UIViewController {
             print("Not logged in ")
         }else{
             print("Logged in already")
-            getFBUserData()
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "Login", sender: self)
+            }
         }
     }
 
@@ -110,6 +112,16 @@ class ViewController: UIViewController {
                 if (error == nil){
                     //everything works print the user data
                     print(result)
+                    guard let Info = result as? [String: Any] else { return }
+                    
+                    if let Email = Info["email"] as? String
+                    {
+                        print(Email)
+                        let defaults = UserDefaults.standard
+                        defaults.set(Email, forKey: "email")
+                        defaults.synchronize()
+                        
+                    }
                     
                 }
             })

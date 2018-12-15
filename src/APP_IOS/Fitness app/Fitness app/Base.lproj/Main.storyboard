@@ -308,6 +308,14 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="H3w-Rv-C3H">
+                                <rect key="frame" x="164" y="617" width="47" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Log ud"/>
+                                <connections>
+                                    <action selector="LogudButton:" destination="NoQ-UP-0M7" eventType="touchUpInside" id="aFe-gB-oyY"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="Gd0-3V-66w"/>
@@ -320,7 +328,6 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="AgeLabel" destination="wGi-aE-BiU" id="uxB-P5-Yxn"/>
                         <outlet property="CityLabel" destination="i8g-cQ-I9W" id="ES2-vd-v7U"/>

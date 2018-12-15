@@ -72,8 +72,8 @@ router.post('/login', function(req, res, err)
                     /* email and password match */
                     if(match)
                     {
-                        //res.json({ message: "Login successful"});
-                        res.json(ReturnUser(row["0"]));
+                        res.json({ message: "Login successful"});
+                        //res.json(ReturnUser(row["0"]));
                     }
                     /* Incorrect password */
                     else
@@ -92,7 +92,7 @@ router.post('/login', function(req, res, err)
 });
 
 
-router.get('/CurrentUser', function(req, res, err)
+router.post('/CurrentUser', function(req, res, err)
 {  
     connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){
         if(err)
