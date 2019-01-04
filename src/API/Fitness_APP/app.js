@@ -30,7 +30,7 @@ app.use(session({
     // create new redis store.
     store: new redisStore({
         host: process.env.REDIS_SERVER_ADR,
-        pass: process.env.REDIS_PASSWORD,
+        pass: "Password1",
         port: 6379,
         client: client
     }),

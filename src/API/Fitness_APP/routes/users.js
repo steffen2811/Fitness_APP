@@ -10,7 +10,7 @@ var router = express.Router();
 var connection = mysql.createConnection({
     host: process.env.MYSQL_SERVER_ADR,
     user: 'root',
-    password: process.env.MYSQL_ROOT_PASSWORD,
+    password: 'Password1',
     database: 'users',
     insecureAuth: true
 });
@@ -19,9 +19,10 @@ connection.connect()
 
 /* POST - Create user */
 router.post('/create', sessionChecker, function (req, res, next) {
-    /* TODO: check if email is valid and if it already exist */
+    /* TODO: check if email is valid */
     var timeSpendPerWeek = req.body["timeSpendPerWeek"]
 
+    /* Get data from authorization header */
     getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
             res.status(500).json({
@@ -30,7 +31,8 @@ router.post('/create', sessionChecker, function (req, res, next) {
             return;
         }
 
-        connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row){
+        /* Check if user already exist */
+        connection.query(`SELECT users.email FROM users.users WHERE email="${email}"`, function (err, row) {
             if (err) {
                 res.status(500).json({
                     error: err
@@ -38,22 +40,15 @@ router.post('/create', sessionChecker, function (req, res, next) {
                 return;
             }
 
-
-
-        });
-
-        /* Hash password using bcrypt */
-        hashPassword(password, function (err, passHash) {
-            if (err) {
-                res.status(500).json({
-                    error: err
+            if (row["length"] >= 1) {
+                res.status(409).json({
+                    message: "User already exist"
                 });
                 return;
             }
 
-            /* Insert new user into DB */
-            connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
-            VALUES ("${email}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
+            /* Hash password using bcrypt */
+            hashPassword(password, function (err, passHash) {
                 if (err) {
                     res.status(500).json({
                         error: err
@@ -61,17 +56,28 @@ router.post('/create', sessionChecker, function (req, res, next) {
                     return;
                 }
 
-                /* Get all data of user */
-                connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row) {
+                /* Insert new user into DB */
+                connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
+                VALUES ("${email}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
                     if (err) {
                         res.status(500).json({
                             error: err
                         });
                         return;
                     }
-                    req.session.user = row[0];
-                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
-                    res.json(req.session.user);
+
+                    /* Get all data of user */
+                    connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row) {
+                        if (err) {
+                            res.status(500).json({
+                                error: err
+                            });
+                            return;
+                        }
+                        req.session.user = row[0];
+                        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+                        res.json(req.session.user);
+                    });
                 });
             });
         });
@@ -115,7 +121,7 @@ router.get('/login', sessionChecker, function (req, res, err) {
                         }
                         /* Incorrect password */
                         else {
-                            res.json({
+                            res.status(401).json({
                                 message: "Incorrect password"
                             });
                         }
@@ -123,7 +129,7 @@ router.get('/login', sessionChecker, function (req, res, err) {
                 }
                 /* User not found */
                 else {
-                    res.json({
+                    res.status(401).json({
                         message: "User not found"
                     });
                 }
