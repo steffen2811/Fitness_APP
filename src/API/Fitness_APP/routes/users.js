@@ -8,181 +8,209 @@ var router = express.Router();
 
 /* connection to DB */
 var connection = mysql.createConnection({
-    host     : 'db',
-    user     : 'root',
-    password : 'Password1',
-    database : 'users',
-    insecureAuth : true
-  });
-
-
+    host: process.env.MYSQL_SERVER_ADR,
+    user: 'root',
+    password: process.env.MYSQL_ROOT_PASSWORD,
+    database: 'users',
+    insecureAuth: true
+});
 
 connection.connect()
 
-// middleware function to check for logged-in users
-var sessionChecker = (req, res, next) => {
-    if(typeof req.session.user !== "undefined"){
-        res.redirect('/');
-    } else {
-        next();
-    }    
-};
-
 /* POST - Create user */
-router.post('/create', function(req, res, next) {
+router.post('/create', sessionChecker, function (req, res, next) {
     /* TODO: check if email is valid and if it already exist */
     var timeSpendPerWeek = req.body["timeSpendPerWeek"]
 
-    /* Hash password using bcrypt */
-    hashPassword(req.body["password"], function(err, passHash)
-    {
-        if(err)
-        {
-            res.status(500).json({  error: err });
+    getAuthData(req.headers.authorization, function (err, email, password) {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
             return;
         }
-        
-        /* Insert new user into DB */
-        connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
-        VALUES ("${req.body["email"]}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
-            if(err)
-            {
-                res.status(500).json({ error: err });
+
+        connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row){
+            if (err) {
+                res.status(500).json({
+                    error: err
+                });
                 return;
             }
-            
-            res.json({ message: "User created"});
-        })
-    })
+
+
+
+        });
+
+        /* Hash password using bcrypt */
+        hashPassword(password, function (err, passHash) {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                });
+                return;
+            }
+
+            /* Insert new user into DB */
+            connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
+            VALUES ("${email}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
+                if (err) {
+                    res.status(500).json({
+                        error: err
+                    });
+                    return;
+                }
+
+                /* Get all data of user */
+                connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row) {
+                    if (err) {
+                        res.status(500).json({
+                            error: err
+                        });
+                        return;
+                    }
+                    req.session.user = row[0];
+                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+                    res.json(req.session.user);
+                });
+            });
+        });
+    });
 });
 
 /* POST - login */
-router.get('/login', sessionChecker, function(req, res, err)
-{
-    /* Get rows from DB where the email is requested */
-    connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){
-        if(err)
-        {
-            res.status(500).json({ error: err });
+router.get('/login', sessionChecker, function (req, res, err) {
+
+    getAuthData(req.headers.authorization, function (err, email, password) {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
             return;
         }
-        else
-        {
-            /* Check a row is found (User found in DB) */
-            if(row["length"] == 1)
-            {
-                /* Compare hash from DB with received plain password */
-                comparePassword(req.body["password"], row["0"]["password"], function(err, match)
-                {
-                    if(err)
-                    {
-                        res.status(500).json({ error: err });
-                        return;
-                    }
-                    /* email and password match */
-                    if(match)
-                    {
-                        //res.json({ message: "Login successful"});
-                        req.session.user=row["0"]
-                        res.json(ReturnUser(row["0"]));
-                    }
-                    /* Incorrect password */
-                    else
-                    {
-                        res.json({ message: "Incorrect password"});
-                    }
+        /* Get rows from DB where the email is requested */
+        connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row) {
+            if (err) {
+                res.status(500).json({
+                    error: err
                 });
+                return;
+            } else {
+                /* Check a row is found (User found in DB) */
+                if (row["length"] == 1) {
+                    var CurrentRow = row["0"];
+                    /* Compare hash from DB with received plain password */
+                    comparePassword(password, CurrentRow["password"], function (err, match) {
+                        if (err) {
+                            res.status(500).json({
+                                error: err
+                            });
+                            return;
+                        }
+                        /* email and password match */
+                        if (match) {
+                            req.session.user = CurrentRow;
+                            req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+                            res.json(req.session.user);
+                        }
+                        /* Incorrect password */
+                        else {
+                            res.json({
+                                message: "Incorrect password"
+                            });
+                        }
+                    });
+                }
+                /* User not found */
+                else {
+                    res.json({
+                        message: "User not found"
+                    });
+                }
             }
-            /* User not found */
-            else
-            {
-                res.json({ message: "User not found"});
-            }
+        });
+    });
+});
+
+router.get('/logout', sessionChecker, function (req, res) {
+    req.session.destroy(function (err) {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
+        } else {
+            res.clearCookie('connect.sid')
+            res.json({
+                message: "Logout success"
+            });
         }
     });
 });
 
-
-router.post('/CurrentUser', function(req, res, err)
-{  
-    connection.query(`SELECT * FROM users.users WHERE email="${req.body["email"]}"`, function (err, row){
-        if(err)
-        {
-            res.status(500).json({ error: err });
+/* Function - Check if user is authenticated */
+function sessionChecker(req, res, next) {
+    //If user has a session (logged in)
+    if (typeof req.session.user !== "undefined") {
+        //If user attemp to create or login, return user data.
+        if (req.path == "/create" || req.path == "/login") {
+            res.json(req.session.user);
             return;
         }
-        else
-        {
-            /* Check a row is found (User found in DB) */
-            if(row["length"] == 1)
-            {
-                delete row["0"]["password"];
-                res.json(ReturnUser(row["0"]));
-                
-            }
-            /* User not found */
-            else
-            {
-                res.json({ message: "User not found"});
-            }
+        // else, continue to requested function
+        else {
+            next();
         }
-    });
-});
-
-router.get('/logout',function(req,res){
-    req.session.destroy(function(err){
-        if(err){
-            console.log(err);
-        } 
-        else
-        {
-            res.clearCookie('connect.sid')
-            res.redirect('/'); 
+        //If user has no session
+    } else {
+        //If user attemp to create or login, continue
+        if (req.path == "/create" || req.path == "/login") {
+            next();
         }
-    });
-});
-
-
-
-function ReturnUser(id ,email, timeSpendPerWeek) {
-    // Define desired object
-    var obj = {
-        id: id,
-        Email:  email,
-        TimeSpend: timeSpendPerWeek
-    };
-    // Return it
-    return obj;
-  }
+        // else, access denied 
+        else {
+            res.status(403).json({
+                message: "Access denied"
+            });
+        }
+    }
+};
 
 /* Function - Hash password when a new user is created */
 function hashPassword(password, callback) {
     /* Generate 10 round salt for the new user */
-    bcrypt.genSalt(10, function(err, salt) {
-        if (err) 
-        {
+    bcrypt.genSalt(10, function (err, salt) {
+        if (err) {
             return callback(err);
         }
         /* Hash the password */
-        bcrypt.hash(password, salt, null, function(err, hash) {
+        bcrypt.hash(password, salt, null, function (err, hash) {
             return callback(err, hash);
         });
-   });
- };
+    });
+};
 
- /* Function - Compare plain password and hashed password */
- function comparePassword(plainPass, hashword, callback) {
+/* Function - Compare plain password and hashed password */
+function comparePassword(plainPass, hashword, callback) {
     /* Check if the passwords match */
-    bcrypt.compare(plainPass, hashword, function(err, isPasswordMatch) {   
-        if (err)
-        {
+    bcrypt.compare(plainPass, hashword, function (err, isPasswordMatch) {
+        if (err) {
             callback(err);
-        }
-        else
-        {
+        } else {
             callback(null, isPasswordMatch)
         }
     });
- };
+};
+
+function getAuthData(authorizationData, callback) {
+    if (typeof authorizationData === "undefined") {
+        callback("No authorization data received");
+
+    } else {
+        token = authorizationData.split(/\s+/).pop() || '', // and the encoded auth token
+            auth = new Buffer.from(token, 'base64').toString(), // convert from base64
+            parts = auth.split(/:/), // split on colon
+            callback(null, parts[0], parts[1])
+    }
+}
 
 module.exports = router;

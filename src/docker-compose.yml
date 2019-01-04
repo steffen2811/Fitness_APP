@@ -5,6 +5,8 @@ services:
     image: node
     build: ./API/Fitness_APP
     command: npm start
+    environment:
+      APP_MODE: PRODUCTION
     depends_on: 
       db:
         condition: service_healthy
@@ -35,7 +37,9 @@ services:
   #Redis is used for session store (persistent cookies)    
   redis:
     image: redis:4.0.5-alpine
-    command: ["redis-server", "--appendonly", "yes"]
+    environment:
+      REDIS_PASSWORD: Password1
+    command: redis-server --requirepass Password1 --appendonly yes
     hostname: redis
     ports:
     - 6379:6379/tcp
