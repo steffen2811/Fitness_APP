@@ -153,6 +153,28 @@ router.get('/logout', sessionChecker, function (req, res) {
     });
 });
 
+router.get('/getUserInfo', sessionChecker, function (req, res) {
+    var email = req.query.user;
+
+    connection.query(`SELECT users.email, users.timeSpendPerWeek FROM users.users WHERE email="${email}"`, function (err, row) {
+        if (err) {
+            res.status(500).json({
+                error: err
+            });
+            return;
+        } else {
+            if (row["length"] == 1) {
+                res.json(row["0"]);
+            } else {
+                res.status(404).json({
+                    message: "User not found"
+                });
+            }
+        }
+
+    });
+});
+
 /* Function - Check if user is authenticated */
 function sessionChecker(req, res, next) {
     //If user has a session (logged in)
