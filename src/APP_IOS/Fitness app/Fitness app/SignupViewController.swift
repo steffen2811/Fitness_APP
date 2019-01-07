@@ -14,60 +14,37 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var EmailTxtField: UITextField!
     @IBOutlet weak var PasswordTxtFIeld: UITextField!
     
+    
+    var base64SignupString = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
     }
-    @IBAction func SignupButton(_ sender: Any) {
-        Signup()
+
+    @IBAction func Continue(_ sender: Any) {
+        Continuestep()
+        
     }
     
-    func Signup() {
-        let parameters = ["email": EmailTxtField.text, "password": PasswordTxtFIeld.text] as [String : Any]
+    func Continuestep() {
+        let username = EmailTxtField.text!
+        let password = PasswordTxtFIeld.text!
+        let SignUpString = String(format: "%@:%@", username, password)
+        let SignupData = SignUpString.data(using: String.Encoding.utf8)!
+        base64SignupString = SignupData.base64EncodedString()
         
-        //Create the url
-        let url = URL(string: "http://localhost:3333/users/create")
-        
-        //Create the session object
-        let session = URLSession.shared
-        
-        //Create the UrlRequest object using the url object
-        var request = URLRequest(url: url!)
-        request.httpMethod = "POST" // set request to POST
-        
-        do{
-            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-        } catch let error {
-            print(error.localizedDescription)
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "Continue", sender: self)
         }
-        
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
-        
-        //Create dataTask using the session object to send data to the server
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
-            
-            guard error == nil else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            let datastring = String(data: data, encoding: String.Encoding.utf8)
-            print(datastring)
-            
-            let defaults = UserDefaults.standard
-            
-            defaults.set(self.EmailTxtField.text, forKey: "email")
-            defaults.synchronize()
-            
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "SignedUp", sender: self)
-            }
-        })
-        task.resume()
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if let vc = segue.destination as? Signup2Viewcontroller
+        {
+            vc.base64SignupString = base64SignupString
+        }
     }
 }
