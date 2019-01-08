@@ -22,8 +22,11 @@ class UserViewController: UIViewController {
     @IBOutlet weak var MobileLabel: UILabel!
     @IBOutlet weak var CityLabel: UILabel!
     
+    let defaults = UserDefaults.standard
+    
+    var jsonlement:NSDictionary = [:]
+    
     @IBAction func LogudButton(_ sender: Any) {
-        let defaults = UserDefaults.standard
         defaults.removeObject(forKey: "email")
         defaults.synchronize()
         
@@ -32,18 +35,54 @@ class UserViewController: UIViewController {
     
     @IBAction func Menu(_ sender: Any) {
         // open menu
-        //present(SideMenuManager.default.menuLeftNavigationController!, animated: true, completion: nil)
+        present(SideMenuManager.default.menuLeftNavigationController!, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        Getuser()
+        getRequest(params: ["user": defaults.object(forKey: "email") as! String])
         
     }
     
-    func Getuser() {
-        
+    func getRequest(params: [String:String]) {
+            
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getUserInfo")!
+            
+        var items = [URLQueryItem]()
+            
+        for (key,value) in params {
+            items.append(URLQueryItem(name: key, value: value))
+        }
+            
+        items = items.filter{!$0.name.isEmpty}
+            
+        if !items.isEmpty {
+            urlComp.queryItems = items
+        }
+            
+        var urlRequest = URLRequest(url: urlComp.url!)
+        urlRequest.httpMethod = "GET"
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+            
+        let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+            
+            //print(response)
+            
+            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                print(responseJSON)
+                self.jsonlement = responseJSON as NSDictionary
+                
+                DispatchQueue.main.async { // Correct
+                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
+                    self.TimeLabel.text = "Time spend: \(responseJSON["timeSpendPerWeek"] as! String)"
+                }
+            }
+            
+        })
+        task.resume()
     }
     
 }
