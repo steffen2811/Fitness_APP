@@ -24,9 +24,9 @@ PODS:
     - Bolts (~> 1.9)
     - FacebookSDK/CoreKit
     - FBSDKMarketingKit
-  - FBSDKCoreKit (4.38.1):
+  - FBSDKCoreKit (4.39.0):
     - Bolts (~> 1.9)
-  - FBSDKLoginKit (4.38.1):
+  - FBSDKLoginKit (4.39.0):
     - FBSDKCoreKit
   - FBSDKMarketingKit (4.38.0):
     - FBSDKCoreKit
@@ -53,8 +53,8 @@ SPEC CHECKSUMS:
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
   FacebookSDK: 73f54b8b94e09b05647cdef0af147f470cd3edc6
-  FBSDKCoreKit: 8d47857400e2f5bdea697a80daff882e91c84ef6
-  FBSDKLoginKit: 4621c690d9dd8628031a4791497062183ea34b0d
+  FBSDKCoreKit: 1e3981faefab8c88edfaa9eecd94aab02d99a9bc
+  FBSDKLoginKit: 30ba5039a2c53d65a75103889bc2deebdacd5a1f
   FBSDKMarketingKit: e609f39d74ab273cf52e2f8b7e8829ed412b2827
   SideMenu: 1dcaabce84538c53325c287f7fe62999379a641c
 

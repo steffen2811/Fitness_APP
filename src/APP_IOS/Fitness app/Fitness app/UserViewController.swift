@@ -35,14 +35,13 @@ class UserViewController: UIViewController {
     
     @IBAction func Menu(_ sender: Any) {
         // open menu
-        present(SideMenuManager.default.menuLeftNavigationController!, animated: true, completion: nil)
+        //present(SideMenuManager.default.menuLeftNavigationController!, animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         getRequest(params: ["user": defaults.object(forKey: "email") as! String])
-        
     }
     
     func getRequest(params: [String:String]) {
@@ -70,16 +69,16 @@ class UserViewController: UIViewController {
             
             //print(response)
             
-            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-                self.jsonlement = responseJSON as NSDictionary
-                
-                DispatchQueue.main.async { // Correct
-                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
-                    self.TimeLabel.text = "Time spend: \(responseJSON["timeSpendPerWeek"] as! String)"
-                }
-            }
+//            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+//            if let responseJSON = responseJSON as? [String: Any] {
+//                print(responseJSON)
+//                self.jsonlement = responseJSON as NSDictionary
+//
+//                DispatchQueue.main.async { // Correct
+//                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
+//                    self.TimeLabel.text = "Time spend: \(responseJSON["timeSpendPerWeek"] as! String)"
+//                }
+//            }
             
         })
         task.resume()

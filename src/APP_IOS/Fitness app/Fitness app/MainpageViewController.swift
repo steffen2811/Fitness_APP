@@ -17,4 +17,9 @@ class MainpageViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib.
     }
     
+    @IBAction func Menu(_ sender: Any) {
+        present(SideMenuManager.default.menuLeftNavigationController!, animated: true, completion: nil)
+    }
+    
+    
 }
