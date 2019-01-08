@@ -4,6 +4,7 @@
 var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
 var mysql = require('mysql');
+var validator = require("email-validator");
 var router = express.Router();
 
 /* connection to DB */
@@ -19,7 +20,6 @@ connection.connect()
 
 /* POST - Create user */
 router.post('/create', sessionChecker, function (req, res, next) {
-    /* TODO: check if email is valid */
     var timeSpendPerWeek = req.body["timeSpendPerWeek"]
 
     /* Get data from authorization header */
@@ -27,6 +27,13 @@ router.post('/create', sessionChecker, function (req, res, next) {
         if (err) {
             res.status(500).json({
                 error: err
+            });
+            return;
+        }
+        //validate email
+        if (!validator.validate(email)) {
+            res.status(400).json({
+                message: "Wrong email format"
             });
             return;
         }
@@ -84,13 +91,20 @@ router.post('/create', sessionChecker, function (req, res, next) {
     });
 });
 
-/* POST - login */
+/* GET - login */
 router.get('/login', sessionChecker, function (req, res, err) {
 
     getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
             res.status(500).json({
                 error: err
+            });
+            return;
+        }
+        //validate email
+        if (!validator.validate(email)) {
+            res.status(400).json({
+                message: "Wrong email format"
             });
             return;
         }
@@ -138,6 +152,7 @@ router.get('/login', sessionChecker, function (req, res, err) {
     });
 });
 
+/* GET - logout */
 router.get('/logout', sessionChecker, function (req, res) {
     req.session.destroy(function (err) {
         if (err) {
@@ -153,25 +168,46 @@ router.get('/logout', sessionChecker, function (req, res) {
     });
 });
 
+/* GET - getUserInfo */
 router.get('/getUserInfo', sessionChecker, function (req, res) {
     var email = req.query.user;
 
-    connection.query(`SELECT users.email, users.timeSpendPerWeek FROM users.users WHERE email="${email}"`, function (err, row) {
+    //validate email
+    if (!validator.validate(email)) {
+        res.status(400).json({
+            message: "Wrong email format"
+        });
+        return;
+    } else {
+        connection.query(`SELECT users.email, users.timeSpendPerWeek FROM users.users WHERE email="${email}"`, function (err, row) {
+            if (err) {
+                res.status(500).json({
+                    error: err
+                });
+                return;
+            } else {
+                if (row["length"] == 1) {
+                    res.json(row["0"]);
+                } else {
+                    res.status(404).json({
+                        message: "User not found"
+                    });
+                }
+            }
+        });
+    }
+});
+
+/* PUT - changePassword */
+router.put('/changePassword', sessionChecker, function (req, res) {
+    /* Get data from authorization header */
+    getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
             res.status(500).json({
                 error: err
             });
             return;
-        } else {
-            if (row["length"] == 1) {
-                res.json(row["0"]);
-            } else {
-                res.status(404).json({
-                    message: "User not found"
-                });
-            }
         }
-
     });
 });
 
@@ -229,6 +265,7 @@ function comparePassword(plainPass, hashword, callback) {
     });
 };
 
+/* Function - Get authorization data from object */
 function getAuthData(authorizationData, callback) {
     if (typeof authorizationData === "undefined") {
         callback("No authorization data received");
