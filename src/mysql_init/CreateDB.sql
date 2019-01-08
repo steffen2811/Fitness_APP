@@ -157,17 +157,17 @@ CREATE TABLE `users` (
   `used_facebook_login` tinyint(4) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
   `Facebook_token` varchar(100) DEFAULT NULL,
-  `Full_name` varchar(100) NOT NULL,
-  `Age` int(11) NOT NULL,
+  `full_name` varchar(100) NOT NULL,
+  `age` int(11) NOT NULL,
   `mobile` int(11) NOT NULL,
-  `Primary_Sports` varchar(50) NOT NULL,
-  `Profile_img_path` varchar(200) NOT NULL,
-  `timeSpendPerWeek` int(11) NOT NULL,
-  `Sport_level` int(11) NOT NULL,
-  `Location_long` float NOT NULL,
-  `Location_Lat` float NOT NULL,
+  `primary_sports` varchar(50) NOT NULL,
+  `profile_img_path` varchar(200) NOT NULL,
+  `time_spend_per_week` int(11) NOT NULL,
+  `sport_level` int(11) NOT NULL,
+  `location_long` float NOT NULL,
+  `location_Lat` float NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -176,6 +176,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (3,'steffen2811@live.dk',0,'$2a$10$Wt3qzrxTYH5x4RbjaAp/KOaDYVlJ4ABRLD6X5uR72yHU7fWBPnOAa',NULL,'Steffen Thomsen',22,26357820,'running','path',5,5,5.55,6.66);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -185,19 +186,19 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `users`.`users_AFTER_INSERT` AFTER INSERT ON `users` FOR EACH ROW
 BEGIN
 INSERT INTO users.users_relations (idusers_1, idusers_2, differentInTime) 
 SELECT 	NEW.id as idusers_1,
 		userTable.id as idusers_2, 
-		CONCAT(CalculateTimeDifferent(NEW.timeSpendPerWeek, userTable.timeSpendPerWeek), " hour") AS differentInTime 
+		CONCAT(CalculateTimeDifferent(NEW.time_spend_per_week, userTable.time_spend_per_week), " hour") AS differentInTime 
         
 FROM 	users.users AS userTable
 
-where 	userTable.timeSpendPerWeek > NEW.timeSpendPerWeek * 0.6 and 
-		userTable.timeSpendPerWeek < NEW.timeSpendPerWeek * 1.4 and 
+where 	userTable.time_spend_per_week > NEW.time_spend_per_week * 0.6 and 
+		userTable.time_spend_per_week < NEW.time_spend_per_week * 1.4 and 
         userTable.id <> NEW.id;
 END */;;
 DELIMITER ;
@@ -326,4 +327,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-08 11:12:42
+-- Dump completed on 2019-01-08 12:48:49

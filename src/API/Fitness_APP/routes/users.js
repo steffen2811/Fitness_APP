@@ -20,7 +20,16 @@ connection.connect()
 
 /* POST - Create user */
 router.post('/create', sessionChecker, function (req, res, next) {
+    var usedFacebookLogin = req.body["usedFacebookLogin"]
+    var fullName = req.body["fullName"]
+    var age = req.body["age"]
+    var mobile = req.body["mobile"]
+    var primarySports = req.body["primarySports"]
+    var profileImgPath = req.body["profileImgPath"]
     var timeSpendPerWeek = req.body["timeSpendPerWeek"]
+    var sportLevel = req.body["sportLevel"]
+    var locationLong = req.body["locationLong"]
+    var locationLat = req.body["locationLat"]
 
     /* Get data from authorization header */
     getAuthData(req.headers.authorization, function (err, email, password) {
@@ -30,7 +39,8 @@ router.post('/create', sessionChecker, function (req, res, next) {
             });
             return;
         }
-        //validate email
+
+        /* validate email */
         if (!validator.validate(email)) {
             res.status(400).json({
                 message: "Wrong email format"
@@ -64,8 +74,8 @@ router.post('/create', sessionChecker, function (req, res, next) {
                 }
 
                 /* Insert new user into DB */
-                connection.query(`INSERT INTO users.users (email, password, timeSpendPerWeek) 
-                VALUES ("${email}", "${passHash}", "${timeSpendPerWeek}")`, function (err) {
+                connection.query(`INSERT INTO users.users (email, used_facebook_login, password, full_name, age, mobile, primary_sports, profile_img_path, time_spend_per_week, sport_level, location_long, location_lat) 
+                VALUES ("${email}", "${usedFacebookLogin}", "${passHash}", "${fullName}", "${age}", "${mobile}", "${primarySports}", "${profileImgPath}", "${timeSpendPerWeek}", "${sportLevel}", "${locationLong}", "${locationLat}")`, function (err) {
                     if (err) {
                         res.status(500).json({
                             error: err
