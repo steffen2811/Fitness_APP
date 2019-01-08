@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `users`;
 -- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: users
@@ -324,4 +326,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-08 10:49:14
+-- Dump completed on 2019-01-08 11:12:42
