@@ -32,6 +32,7 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
         // Do any additional setup after loading the view, typically from a nib.
         print(base64SignupString)
         
+        
         if (CLLocationManager.locationServicesEnabled())
         {
             locationManager = CLLocationManager()
@@ -51,14 +52,54 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
         print(center.longitude)
     }
     
+    var CheckisCompleate = false
     
     @IBAction func Signup(_ sender: Any) {
-        Signup()
+        Checkfields()
+        if CheckisCompleate == true {
+            Signup()
+        }
+    }
+    
+    func Checkfields() {
+        guard let NameTxt = NameText.text, !NameTxt.isEmpty else {
+            print("no text in name")
+            return
+        }
+        
+        guard let TimeSpend = TimeSpendText.text, !TimeSpend.isEmpty else {
+            print("no text in time spend")
+            return
+        }
+        
+        guard let Age = AgeText.text, !Age.isEmpty else {
+            print("no text in age")
+            return
+        }
+        
+        guard let Mobile = MobileText.text, !Mobile.isEmpty else {
+            print("no mobile number")
+            return
+        }
+        
+        guard let PrimarySports = Primary_Sports.text, !PrimarySports.isEmpty else {
+            print("no sport")
+            return
+        }
+        
+        guard let SportLevel = Sport_Level.text, !SportLevel.isEmpty else {
+            print("not Sport level")
+            return
+        }
+        
+        //do something if it's not empty
+        CheckisCompleate = true
+        print("name: \(NameTxt) \nTime spend: \(TimeSpend) \nage: \(Age) \nmobile: \(Mobile) \nPrimarySport : \(PrimarySports) \nSport level: \(SportLevel)")
     }
     
     func Signup() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "used_facebook_login": 0, "Full_name": NameText.text, "Location_long": center.longitude, "Location_Lat": center.latitude, "Age": AgeText.text, "mobile": MobileText.text, "Primary_Sports": Primary_Sports.text, "Sport_Level": Sport_Level.text ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "usedFacebookLogin": 0, "fullName": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text ] as [String : Any]
         
         //Create the url
         let url = URL(string: "http://localhost:3333/users/create")
@@ -91,17 +132,25 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
                 return
             }
             
-            let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
-            if let responseJSON = responseJSON as? [String: Any] {
-                print(responseJSON)
-                
-                let defaults = UserDefaults.standard
-                
-                defaults.set(responseJSON["email"], forKey: "email")
-                defaults.synchronize()
-                
-                DispatchQueue.main.async {
-                    self.performSegue(withIdentifier: "SignedUp", sender: self)
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                        let defaults = UserDefaults.standard
+                        
+                        defaults.set(responseJSON["email"], forKey: "email")
+                        defaults.synchronize()
+                        
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "SignedUp", sender: self)
+                        }
+                        
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
                 }
                 
             }
