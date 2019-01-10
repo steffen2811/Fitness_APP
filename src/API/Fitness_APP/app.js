@@ -16,11 +16,13 @@ var session = require('express-session');
 var redisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var passport = require('passport');
 var client = redis.createClient('redis://' + process.env.REDIS_SERVER_ADR + ':6379');
 
 /* use index and users from routes */
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var facebookRouter = require('./routes/facebook');
 
 /* Set app as express */
 var app = express();
@@ -44,8 +46,11 @@ app.use(express.urlencoded({
 }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/users', usersRouter.router);
+app.use('/users/facebook', facebookRouter);
 
 module.exports = app;
