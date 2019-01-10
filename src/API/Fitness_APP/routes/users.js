@@ -149,7 +149,7 @@ router.get('/getUserInfo', sessionChecker, function (req, res) {
         });
         return;
     } else {
-        connection.query(`SELECT users.email, users.timeSpendPerWeek FROM users.users WHERE email="${email}"`, function (err, row) {
+        connection.query(`SELECT users.email, users.full_name, users.age, users.mobile, users.primary_sports, users.profile_img_path, users.time_spend_per_week, users.sport_level FROM users.users WHERE email="${email}"`, function (err, row) {
             if (err) {
                 res.status(500).json({
                     error: err

@@ -27,10 +27,7 @@ class UserViewController: UIViewController {
     var jsonlement:NSDictionary = [:]
     
     @IBAction func LogudButton(_ sender: Any) {
-        defaults.removeObject(forKey: "email")
-        defaults.synchronize()
-        
-        FBSDKLoginManager().logOut()
+        Logout()
     }
     
     @IBAction func Menu(_ sender: Any) {
@@ -69,16 +66,66 @@ class UserViewController: UIViewController {
             
             //print(response)
             
-//            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
-//            if let responseJSON = responseJSON as? [String: Any] {
-//                print(responseJSON)
-//                self.jsonlement = responseJSON as NSDictionary
-//
+            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
+            if let responseJSON = responseJSON as? [String: Any] {
+                print(responseJSON)
+                self.jsonlement = responseJSON as NSDictionary
+
 //                DispatchQueue.main.async { // Correct
 //                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
-//                    self.TimeLabel.text = "Time spend: \(responseJSON["timeSpendPerWeek"] as! String)"
+//                    self.TimeLabel.text = "Time spend: \(responseJSON["time_spend_per_week"])"
+//                    self.AgeLabel.text = "Age: \(responseJSON["age"])"
+//                    self.LevelLabel.text = "Level: \(responseJSON["sport_level"])"
+//                    self.MobileLabel.text = "Mobile: \(String(describing: responseJSON["mobile"]))"
+//                    self.NameLabel.text = "Name: \(responseJSON["full_name"] as! String)"
+//                    self.SportLabel.text = "Sport: \(responseJSON["primary_sports"] as! String)"
 //                }
-//            }
+            }
+            
+        })
+        task.resume()
+    }
+    
+    func Logout() {
+        //Create the url
+        let url = URL(string: "http://localhost:3333/users/logout")
+        
+        //Create the session object
+        let session = URLSession.shared
+        
+        //Create the UrlRequest object using the url object
+        var request = URLRequest(url: url!)
+        request.httpMethod = "GET" // set request to POST
+    
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //Create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            let datastring = String(data: data, encoding: String.Encoding.utf8)
+            print(datastring)
+            
+            print(response)
+            
+            if(FBSDKAccessToken.current() != nil){
+            FBSDKLoginManager().logOut()
+            }
+            
+            self.defaults.removeObject(forKey: "email")
+            self.defaults.synchronize()
+            
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "Logud", sender: self)
+            }
             
         })
         task.resume()
