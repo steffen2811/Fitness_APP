@@ -3,33 +3,22 @@
 
 var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
-var mysql = require('mysql');
 var validator = require("email-validator");
+var connection = require('./../helpers/mysql');
 var router = express.Router();
-
-/* connection to DB */
-var connection = mysql.createConnection({
-    host: process.env.MYSQL_SERVER_ADR,
-    user: 'root',
-    password: 'Password1',
-    database: 'users',
-    insecureAuth: true
-});
-
-connection.connect()
 
 /* POST - Create user */
 router.post('/create', sessionChecker, function (req, res, next) {
-    var usedFacebookLogin = req.body["usedFacebookLogin"]
-    var fullName = req.body["fullName"]
-    var age = req.body["age"]
-    var mobile = req.body["mobile"]
-    var primarySports = req.body["primarySports"]
-    var profileImgPath = req.body["profileImgPath"]
-    var timeSpendPerWeek = req.body["timeSpendPerWeek"]
-    var sportLevel = req.body["sportLevel"]
-    var locationLong = req.body["locationLong"]
-    var locationLat = req.body["locationLat"]
+    var user = new User()
+    user.name = req.body["name"];
+    user.age = req.body["age"]
+    user.mobile = req.body["mobile"]
+    user.primarySports = req.body["primarySports"]
+    user.profileImgPath = req.body["profileImgPath"]
+    user.timeSpendPerWeek = req.body["timeSpendPerWeek"]
+    user.sportLevel = req.body["sportLevel"]
+    user.locationLong = req.body["locationLong"]
+    user.locationLat = req.body["locationLat"]
 
     /* Get data from authorization header */
     getAuthData(req.headers.authorization, function (err, email, password) {
@@ -39,17 +28,18 @@ router.post('/create', sessionChecker, function (req, res, next) {
             });
             return;
         }
+        user.email = email;
 
         /* validate email */
-        if (!validator.validate(email)) {
+        if (!validator.validate(user.email)) {
             res.status(400).json({
                 message: "Wrong email format"
             });
             return;
         }
 
-        /* Check if user already exist */
-        connection.query(`SELECT users.email FROM users.users WHERE email="${email}"`, function (err, row) {
+        /* Hash password using bcrypt */
+        hashPassword(password, user, function (err) {
             if (err) {
                 res.status(500).json({
                     error: err
@@ -57,45 +47,16 @@ router.post('/create', sessionChecker, function (req, res, next) {
                 return;
             }
 
-            if (row["length"] >= 1) {
-                res.status(409).json({
-                    message: "User already exist"
-                });
-                return;
-            }
-
-            /* Hash password using bcrypt */
-            hashPassword(password, function (err, passHash) {
+            createUser(user, function (err) {
                 if (err) {
                     res.status(500).json({
                         error: err
                     });
                     return;
                 }
-
-                /* Insert new user into DB */
-                connection.query(`INSERT INTO users.users (email, used_facebook_login, password, full_name, age, mobile, primary_sports, profile_img_path, time_spend_per_week, sport_level, location_long, location_lat) 
-                VALUES ("${email}", "${usedFacebookLogin}", "${passHash}", "${fullName}", "${age}", "${mobile}", "${primarySports}", "${profileImgPath}", "${timeSpendPerWeek}", "${sportLevel}", "${locationLong}", "${locationLat}")`, function (err) {
-                    if (err) {
-                        res.status(500).json({
-                            error: err
-                        });
-                        return;
-                    }
-
-                    /* Get all data of user */
-                    connection.query(`SELECT * FROM users.users WHERE email="${email}"`, function (err, row) {
-                        if (err) {
-                            res.status(500).json({
-                                error: err
-                            });
-                            return;
-                        }
-                        req.session.user = row[0];
-                        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
-                        res.json(req.session.user);
-                    });
-                });
+                req.session.user = user;
+                req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+                res.json(user)
             });
         });
     });
@@ -103,7 +64,6 @@ router.post('/create', sessionChecker, function (req, res, next) {
 
 /* GET - login */
 router.get('/login', sessionChecker, function (req, res, err) {
-
     getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
             res.status(500).json({
@@ -208,6 +168,10 @@ router.get('/getUserInfo', sessionChecker, function (req, res) {
     }
 });
 
+router.get('/getCurrentUser', function (req, res) {
+    res.json(req.session.user)
+});
+
 /* PUT - changePassword */
 router.put('/changePassword', sessionChecker, function (req, res) {
     /* Get data from authorization header */
@@ -250,7 +214,7 @@ function sessionChecker(req, res, next) {
 };
 
 /* Function - Hash password when a new user is created */
-function hashPassword(password, callback) {
+function hashPassword(password, user, callback) {
     /* Generate 10 round salt for the new user */
     bcrypt.genSalt(10, function (err, salt) {
         if (err) {
@@ -258,7 +222,11 @@ function hashPassword(password, callback) {
         }
         /* Hash the password */
         bcrypt.hash(password, salt, null, function (err, hash) {
-            return callback(err, hash);
+            if (err) {
+                return callback(err);
+            }
+            user.password = hash;
+            return callback(null);
         });
     });
 };
@@ -288,4 +256,63 @@ function getAuthData(authorizationData, callback) {
     }
 }
 
-module.exports = router;
+function createUser(user, callback) {
+    /* Check if user already exist */
+    connection.query(`SELECT users.email FROM users.users WHERE email="${user.email}"`, function (err, row) {
+        if (err) {
+            callback(err);
+            return;
+        }
+
+        if (row["length"] >= 1) {
+            callback("User already exist");
+            return;
+        }
+
+        /* Insert new user into DB */
+        connection.query(`INSERT INTO users.users (email, password, name, age, mobile, primarySports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) 
+                    VALUES ("${user.email}", 
+                            "${user.password}", 
+                            "${user.name}", 
+                            "${user.age}", 
+                            "${user.mobile}", 
+                            "${user.primarySports}", 
+                            "${user.profileImgPath}", 
+                            "${user.timeSpendPerWeek}", 
+                            "${user.sportLevel}", 
+                            "${user.locationLong}", 
+                            "${user.locationLat}")`, function (err) {
+            if (err) {
+                callback(err);
+                return;
+            }
+            callback(null);
+        });
+    });
+}
+
+class User {
+    constructor(email, password, name, age, mobile, sports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.age = age;
+        this.mobile = mobile;
+        this.sports = sports;
+        this.profileImgPath = profileImgPath;
+        this.timeSpendPerWeek = timeSpendPerWeek;
+        this.sportLevel = sportLevel;
+        this.locationLong = locationLong;
+        this.locationLat = locationLat;
+    }
+}
+
+module.exports = {
+    router,
+    User,
+    createUser,
+    sessionChecker
+}
+
+// App ID: 663291517402375
+// App Secret: 14d2fa999a3769a15c695b65becc0d38

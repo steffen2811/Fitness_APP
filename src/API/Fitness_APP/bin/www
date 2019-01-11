@@ -94,8 +94,7 @@ function onListening() {
  * Event to be called every time a request to the server completes
  */
 requestStats(server, function (stats) {
-  if (process.env.APP_MODE != "PRODUCTION")
-  {
+  if (process.env.APP_MODE != "PRODUCTION") {
     console.log(stats);
   }
 })

@@ -16,6 +16,8 @@
     "express-session": "^1.15.6",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
+    "passport": "^0.4.0",
+    "passport-facebook-token": "^3.3.0",
     "request-stats": "^3.0.0"
   }
 }
