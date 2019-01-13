@@ -1,4 +1,4 @@
-if (process.env.APP_MODE == "PRODUCTION") {
+if (process.env.NODE_ENV == "production") {
     process.env.MYSQL_SERVER_ADR = 'db';
     process.env.REDIS_SERVER_ADR = 'redis';
 } else {
@@ -19,10 +19,13 @@ var logger = require('morgan');
 var passport = require('passport');
 var client = redis.createClient('redis://' + process.env.REDIS_SERVER_ADR + ':6379');
 
-/* use index and users from routes */
-var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var facebookRouter = require('./routes/facebook');
+var communityRouter = require('./routes/community');
+var sportsRouter = require('./routes/sports');
+var runningRouter = require('./routes/running');
+var fitnessRouter = require('./routes/fitness');
+var sessionChecker = require('./middlewares/sessionCheck');
 
 /* Set app as express */
 var app = express();
@@ -32,7 +35,7 @@ app.use(session({
     // create new redis store.
     store: new redisStore({
         host: process.env.REDIS_SERVER_ADR,
-        pass: "Password1",
+        pass: process.env.REDIS_PASSWORD,
         port: 6379,
         client: client
     }),
@@ -48,9 +51,13 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(sessionChecker);
 
-app.use('/', indexRouter);
 app.use('/users', usersRouter.router);
 app.use('/users/facebook', facebookRouter);
+app.use('/users/community', communityRouter);
+app.use('/sports', sportsRouter);
+app.use('/sports/running', runningRouter);
+app.use('/sports/fitness', fitnessRouter);
 
 module.exports = app;

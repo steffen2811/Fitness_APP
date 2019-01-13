@@ -5,20 +5,16 @@ var express = require('express');
 var bcrypt = require('bcrypt-nodejs');
 var validator = require("email-validator");
 var connection = require('./../helpers/mysql');
+var userModel = require("./../models/user")
 var router = express.Router();
 
 /* POST - Create user */
-router.post('/create', sessionChecker, function (req, res, next) {
-    var user = new User()
-    user.name = req.body["name"];
-    user.age = req.body["age"]
-    user.mobile = req.body["mobile"]
-    user.primarySports = req.body["primarySports"]
-    user.profileImgPath = req.body["profileImgPath"]
-    user.timeSpendPerWeek = req.body["timeSpendPerWeek"]
-    user.sportLevel = req.body["sportLevel"]
-    user.locationLong = req.body["locationLong"]
-    user.locationLat = req.body["locationLat"]
+router.post('/create', function (req, res, next) {
+    var user = new userModel();
+    //Fill all information from body
+    Object.keys(user).forEach(function (key) {
+        user[key] = req.body[key]
+    });
 
     /* Get data from authorization header */
     getAuthData(req.headers.authorization, function (err, email, password) {
@@ -52,18 +48,18 @@ router.post('/create', sessionChecker, function (req, res, next) {
                     res.status(500).json({
                         error: err
                     });
-                    return;
+                } else {
+                    req.session.user = user;
+                    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+                    res.json(user)
                 }
-                req.session.user = user;
-                req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
-                res.json(user)
             });
         });
     });
 });
 
 /* GET - login */
-router.get('/login', sessionChecker, function (req, res, err) {
+router.get('/login', function (req, res, err) {
     getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
             res.status(500).json({
@@ -123,7 +119,7 @@ router.get('/login', sessionChecker, function (req, res, err) {
 });
 
 /* GET - logout */
-router.get('/logout', sessionChecker, function (req, res) {
+router.get('/logout', function (req, res) {
     req.session.destroy(function (err) {
         if (err) {
             res.status(500).json({
@@ -139,7 +135,7 @@ router.get('/logout', sessionChecker, function (req, res) {
 });
 
 /* GET - getUserInfo */
-router.get('/getUserInfo', sessionChecker, function (req, res) {
+router.get('/getUserInfo', function (req, res) {
     var email = req.query.user;
 
     //validate email
@@ -149,7 +145,7 @@ router.get('/getUserInfo', sessionChecker, function (req, res) {
         });
         return;
     } else {
-        connection.query(`SELECT users.email, users.full_name, users.age, users.mobile, users.primary_sports, users.profile_img_path, users.time_spend_per_week, users.sport_level FROM users.users WHERE email="${email}"`, function (err, row) {
+        connection.query(`SELECT users.email, users.name, users.age, users.mobile, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel FROM users.users WHERE email="${email}"`, function (err, row) {
             if (err) {
                 res.status(500).json({
                     error: err
@@ -173,7 +169,7 @@ router.get('/getCurrentUser', function (req, res) {
 });
 
 /* PUT - changePassword */
-router.put('/changePassword', sessionChecker, function (req, res) {
+router.put('/changePassword', function (req, res) {
     /* Get data from authorization header */
     getAuthData(req.headers.authorization, function (err, email, password) {
         if (err) {
@@ -184,34 +180,6 @@ router.put('/changePassword', sessionChecker, function (req, res) {
         }
     });
 });
-
-/* Function - Check if user is authenticated */
-function sessionChecker(req, res, next) {
-    //If user has a session (logged in)
-    if (typeof req.session.user !== "undefined") {
-        //If user attemp to create or login, return user data.
-        if (req.path == "/create" || req.path == "/login") {
-            res.json(req.session.user);
-            return;
-        }
-        // else, continue to requested function
-        else {
-            next();
-        }
-        //If user has no session
-    } else {
-        //If user attemp to create or login, continue
-        if (req.path == "/create" || req.path == "/login") {
-            next();
-        }
-        // else, access denied 
-        else {
-            res.status(403).json({
-                message: "Access denied"
-            });
-        }
-    }
-};
 
 /* Function - Hash password when a new user is created */
 function hashPassword(password, user, callback) {
@@ -259,13 +227,31 @@ function getAuthData(authorizationData, callback) {
 function createUser(user, callback) {
     /* Check if user already exist */
     connection.query(`SELECT users.email FROM users.users WHERE email="${user.email}"`, function (err, row) {
+        var error;
+        
         if (err) {
             callback(err);
-            return;
+            error = true;
         }
 
         if (row["length"] >= 1) {
             callback("User already exist");
+            error = true;
+        }
+
+        var error;
+        Object.keys(user).some(function (key) {
+            if (typeof user[key] === "undefined") {
+                callback(key + " in user is undefined");
+                error = true;
+                /* break loop */
+                return true;
+            }
+        });
+
+        if(error)
+        {
+            /* return for this function */
             return;
         }
 
@@ -291,27 +277,9 @@ function createUser(user, callback) {
     });
 }
 
-class User {
-    constructor(email, password, name, age, mobile, sports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) {
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.age = age;
-        this.mobile = mobile;
-        this.sports = sports;
-        this.profileImgPath = profileImgPath;
-        this.timeSpendPerWeek = timeSpendPerWeek;
-        this.sportLevel = sportLevel;
-        this.locationLong = locationLong;
-        this.locationLat = locationLat;
-    }
-}
-
 module.exports = {
     router,
-    User,
-    createUser,
-    sessionChecker
+    createUser
 }
 
 // App ID: 663291517402375
