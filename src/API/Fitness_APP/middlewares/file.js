@@ -1,31 +1,23 @@
-function fileUpload(path, fileKey) {
-    return function (req, res, next) {
-        if (typeof req.files === "undefined") {
-            return res.status(400).json({
-                error: 'No files were uploaded.'
+function fileUpload(req, res, next) {
+    if (typeof req.files === "undefined") {
+        if (typeof req.files["profilePicture"] !== "undefined") {
+            var fileRef = req.files["profilePicture"];
+            var filePath = process.env.PROFILE_PICTURE_PATH + ".jpg"
+
+            // Use the mv() method to place the file somewhere on your server
+            fileRef.mv(filePath, function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: err
+                    });
+                }
+                req.body.profileImgPath = filePath;
+                next();
             });
         }
-
-        if (typeof req.files[fileKey] === "undefined") {
-            return res.status(400).json({
-                error: 'No files with key ' + fileKey + ' were uploaded'
-            });
-        }
-        var fileRef = req.files[fileKey];
-        var filePath = path + req.body.email + ".jpg"
-
-
-        // Use the mv() method to place the file somewhere on your server
-        fileRef.mv(filePath, function (err) {
-            if (err) {
-                return res.status(500).json({
-                    error: err
-                });
-            }
-
-            req.body.profileImgPath = filePath;
-            next();
-        });
+    } else {
+        req.body.profileImgPath = process.env.PROFILE_PICTURE_PATH + "standartProfilePicture.jpg";
+        next();
     }
 };
 

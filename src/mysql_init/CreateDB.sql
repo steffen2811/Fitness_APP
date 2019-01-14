@@ -99,11 +99,13 @@ DROP TABLE IF EXISTS `running`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `running` (
-  `id_running` int(11) NOT NULL,
-  `route` longtext NOT NULL,
-  `timeSecound` int(11) NOT NULL,
-  `startTime` datetime NOT NULL,
-  `distance` int(11) NOT NULL,
+  `id_running` int(11) NOT NULL AUTO_INCREMENT,
+  `distance` double NOT NULL,
+  `startTime` varchar(45) NOT NULL,
+  `timeSecound` double NOT NULL,
+  `route_lat` longtext NOT NULL,
+  `route_long` longtext NOT NULL,
+  `route_time` longtext NOT NULL,
   PRIMARY KEY (`id_running`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -128,11 +130,11 @@ CREATE TABLE `user_activity` (
   `id_users` int(11) NOT NULL,
   `id_running` int(11) DEFAULT NULL,
   `id_fitness_plan` int(11) DEFAULT NULL,
-  KEY `fk_running_id_idx` (`id_running`),
   KEY `fk_fitness_id_idx` (`id_fitness_plan`),
   KEY `id_users_fk_idx` (`id_users`),
+  KEY `id_running_fk_idx` (`id_running`),
   CONSTRAINT `id_fitness_plan_fk` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`),
-  CONSTRAINT `id_running_fk` FOREIGN KEY (`id_running`) REFERENCES `running` (`id_running`),
+  CONSTRAINT `id_running_fk` FOREIGN KEY (`id_running`) REFERENCES `running` (`id_running`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `id_users_fk` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -299,7 +301,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Truncate`()
 BEGIN
@@ -307,6 +309,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE users.users;
 TRUNCATE users.users_relations;
+TRUNCATE users.running;
 
 SET FOREIGN_KEY_CHECKS = 1;
 END ;;
@@ -325,4 +328,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-13 22:57:09
+-- Dump completed on 2019-01-14 23:06:57

@@ -2,6 +2,7 @@
 /* TODO: Error messages in static file */
 
 var express = require('express');
+var passport = require('passport');
 var connection = require('./../helpers/mysql');
 var userModel = require("./../models/user")
 var fileUpload = require("./../middlewares/file")
@@ -10,7 +11,7 @@ var auth = require('./../middlewares/auth');
 var router = express.Router();
 
 /* POST - Create user */
-router.post('/create', auth.getAuthData, checks.checkIfUserExist, fileUpload("C:/Users/54409/OneDrive - Grundfos/Final/", "profilePicture"),
+router.post('/create', auth.getAuthData, checks.checkIfUserExist, fileUpload,
     checks.checkBodyCreateUser, auth.hashPassword,
     function (req, res, next) {
         var user = new userModel();
@@ -34,49 +35,12 @@ router.post('/create', auth.getAuthData, checks.checkIfUserExist, fileUpload("C:
     });
 
 /* GET - login */
-router.get('/login', auth.getAuthData, function (req, res, err) {
-    /* Get rows from DB where the email is requested */
-    connection.query(`SELECT * FROM users.users WHERE email="${req.body.email}"`, function (err, row) {
-        if (err) {
-            res.status(500).json({
-                error: err
-            });
-            return;
-        } else {
-            /* Check a row is found (User found in DB) */
-            if (row["length"] == 1) {
-                var CurrentRow = row["0"];
-                /* Compare hash from DB with received plain password */
-                auth.comparePassword(req.body.password, CurrentRow["password"], function (err, match) {
-                    if (err) {
-                        res.status(500).json({
-                            error: err
-                        });
-                        return;
-                    }
-                    /* email and password match */
-                    if (match) {
-                        req.session.user = CurrentRow;
-                        req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
-                        res.json(req.session.user);
-                    }
-                    /* Incorrect password */
-                    else {
-                        res.status(401).json({
-                            message: "Incorrect password"
-                        });
-                    }
-                });
-            }
-            /* User not found */
-            else {
-                res.status(401).json({
-                    message: "User not found"
-                });
-            }
-        }
-
-    });
+router.get('/login', auth.getAuthData, passport.authenticate('basic', {
+    session: false
+}), function (req, res) {
+    req.session.user = req.user;
+    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
+    res.json(req.user)
 });
 
 /* GET - logout */
