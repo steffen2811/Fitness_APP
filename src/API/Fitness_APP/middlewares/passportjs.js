@@ -21,4 +21,12 @@ passport.use(new FacebookTokenStrategy({
     });
 }));
 
+passport.serializeUser(function (user, done) {
+    done(null, user);
+});
+
+passport.deserializeUser(function (user, done) {
+    done(null, user);
+});
+
 module.exports = passport

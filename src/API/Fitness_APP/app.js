@@ -17,6 +17,7 @@ var redisStore = require('connect-redis')(session);
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var passport = require('passport');
+var fileUpload = require('express-fileupload');
 var client = redis.createClient('redis://' + process.env.REDIS_SERVER_ADR + ':6379');
 
 var usersRouter = require('./routes/users');
@@ -25,7 +26,7 @@ var communityRouter = require('./routes/community');
 var sportsRouter = require('./routes/sports');
 var runningRouter = require('./routes/running');
 var fitnessRouter = require('./routes/fitness');
-var sessionChecker = require('./middlewares/sessionCheck');
+var Checks = require('./middlewares/checks');
 
 /* Set app as express */
 var app = express();
@@ -51,7 +52,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(sessionChecker);
+app.use(fileUpload())
+app.use(Checks.sessionChecker);
 
 app.use('/users', usersRouter.router);
 app.use('/users/facebook', facebookRouter);
