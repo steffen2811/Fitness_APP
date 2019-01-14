@@ -100,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				54DD9FB72181B4830043FC3A /* Fitness app */,
+				54F6D22221ECC3AC00D7FBEA /* FitnessSection */,
 				542FA3BA21E75F400080F254 /* RuningSection */,
 				542FA3B121E7568A0080F254 /* CoreData */,
 				542FA3BF21E7740E0080F254 /* Suportfiles */,
@@ -132,6 +133,13 @@
 				54B25BCB21C3E38100656F1F /* MainpageViewController.swift */,
 			);
 			path = "Fitness app";
+			sourceTree = "<group>";
+		};
+		54F6D22221ECC3AC00D7FBEA /* FitnessSection */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = FitnessSection;
 			sourceTree = "<group>";
 		};
 		AB73BBEC7A9B01435BAB4A50 /* Frameworks */ = {

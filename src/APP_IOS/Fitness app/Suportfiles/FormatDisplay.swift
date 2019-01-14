@@ -47,4 +47,10 @@ struct FormatDisplay {
         formatter.dateStyle = .medium
         return formatter.string(from: timestamp)
     }
+    
+    static func datejson(_ timestamp: Date?) -> String {
+        guard let timestamp = timestamp as Date? else { return "" }
+        let formatter = DateFormatter()
+        return formatter.string(from: timestamp)
+    }
 }
