@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `users`;
--- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: users
+-- Host: localhost    Database: users
 -- ------------------------------------------------------
--- Server version	5.7.24-log
+-- Server version	5.7.24
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -25,11 +25,11 @@ DROP TABLE IF EXISTS `fitness_exercises`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fitness_exercises` (
-  `idfitness_exercises` int(11) NOT NULL,
-  `Execise_name` varchar(100) NOT NULL,
-  `Repeats` int(11) NOT NULL,
-  `Weight_or_level` varchar(10) NOT NULL,
-  PRIMARY KEY (`idfitness_exercises`)
+  `id_fitness_exercises` int(11) NOT NULL,
+  `execiseName` varchar(100) NOT NULL,
+  `repeats` int(11) NOT NULL,
+  `weightOrLevel` varchar(10) NOT NULL,
+  PRIMARY KEY (`id_fitness_exercises`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,12 +50,12 @@ DROP TABLE IF EXISTS `fitness_exercises_in_plan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fitness_exercises_in_plan` (
-  `fitness_exercise_id` int(11) NOT NULL,
-  `fitness_plan_id` int(11) NOT NULL,
-  KEY `fk_fitness_exercise_id_idx` (`fitness_exercise_id`),
-  KEY `fk_fitness_plan_id_idx` (`fitness_plan_id`),
-  CONSTRAINT `fk_fitness_exercise_id` FOREIGN KEY (`fitness_exercise_id`) REFERENCES `fitness_exercises` (`idfitness_exercises`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_fitness_plan_id` FOREIGN KEY (`fitness_plan_id`) REFERENCES `fitness_plan` (`idFitness`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `id_fitness_exercises` int(11) NOT NULL,
+  `id_fitness_plan` int(11) NOT NULL,
+  KEY `fk_fitness_exercise_id_idx` (`id_fitness_exercises`),
+  KEY `fk_fitness_plan_id_idx` (`id_fitness_plan`),
+  CONSTRAINT `id_fitness_exercises_fk` FOREIGN KEY (`id_fitness_exercises`) REFERENCES `fitness_exercises` (`id_fitness_exercises`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `id_fitness_plan_fk2` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -76,9 +76,9 @@ DROP TABLE IF EXISTS `fitness_plan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fitness_plan` (
-  `idFitness` int(11) NOT NULL,
-  `Fitness_plan_name` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idFitness`)
+  `id_fitness_plan` int(11) NOT NULL,
+  `FitnessPlanName` varchar(45) DEFAULT NULL,
+  PRIMARY KEY (`id_fitness_plan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -99,12 +99,12 @@ DROP TABLE IF EXISTS `running`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `running` (
-  `id` int(11) NOT NULL,
-  `Route` longtext NOT NULL,
-  `Time_secound` int(11) NOT NULL,
-  `Start_time` datetime NOT NULL,
-  `Distance` int(11) NOT NULL,
-  PRIMARY KEY (`id`)
+  `id_running` int(11) NOT NULL,
+  `route` longtext NOT NULL,
+  `timeSecound` int(11) NOT NULL,
+  `startTime` datetime NOT NULL,
+  `distance` int(11) NOT NULL,
+  PRIMARY KEY (`id_running`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -125,13 +125,15 @@ DROP TABLE IF EXISTS `user_activity`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_activity` (
-  `user_id` int(11) NOT NULL,
-  `running_id` int(11) DEFAULT NULL,
-  `fitness_id` int(11) DEFAULT NULL,
-  KEY `fk_running_id_idx` (`running_id`),
-  KEY `fk_fitness_id_idx` (`fitness_id`),
-  CONSTRAINT `fk_fitness_id` FOREIGN KEY (`fitness_id`) REFERENCES `fitness_plan` (`idFitness`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_running_id` FOREIGN KEY (`running_id`) REFERENCES `running` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  `id_users` int(11) NOT NULL,
+  `id_running` int(11) DEFAULT NULL,
+  `id_fitness_plan` int(11) DEFAULT NULL,
+  KEY `fk_running_id_idx` (`id_running`),
+  KEY `fk_fitness_id_idx` (`id_fitness_plan`),
+  KEY `id_users_fk_idx` (`id_users`),
+  CONSTRAINT `id_fitness_plan_fk` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`),
+  CONSTRAINT `id_running_fk` FOREIGN KEY (`id_running`) REFERENCES `running` (`id_running`),
+  CONSTRAINT `id_users_fk` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -152,7 +154,7 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_users` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(45) NOT NULL,
   `password` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
@@ -164,8 +166,8 @@ CREATE TABLE `users` (
   `sportLevel` int(11) NOT NULL,
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id_users`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -174,7 +176,6 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'steffen2811@live.dk','$2a$10$3Xv5strcOIdm2D6Eh47MMO6/Tsupmz0j7A/7/hohg244HfOwTchXm','Steffen Thomsen',22,26357820,'running','path',5,5,5.55,6.66);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -184,20 +185,20 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `users`.`users_AFTER_INSERT` AFTER INSERT ON `users` FOR EACH ROW
 BEGIN
-INSERT INTO users.users_relations (idusers_1, idusers_2, differentInTime) 
-SELECT 	NEW.id as idusers_1,
-		userTable.id as idusers_2, 
+INSERT INTO users.users_relations (id_users_1, id_users_2, differentInTime) 
+SELECT 	NEW.id_users as id_users_1,
+		userTable.id_users as id_users_2, 
 		CONCAT(CalculateTimeDifferent(NEW.timeSpendPerWeek, userTable.timeSpendPerWeek), " hour") AS differentInTime 
         
 FROM 	users.users AS userTable
 
 where 	userTable.timeSpendPerWeek > NEW.timeSpendPerWeek * 0.6 and 
 		userTable.timeSpendPerWeek < NEW.timeSpendPerWeek * 1.4 and 
-        userTable.id <> NEW.id;
+        userTable.id_users <> NEW.id_users;
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -213,16 +214,15 @@ DROP TABLE IF EXISTS `users_relations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users_relations` (
-  `idusers_1` int(11) NOT NULL,
-  `idusers_2` int(11) NOT NULL,
+  `id_users_1` int(11) NOT NULL,
+  `id_users_2` int(11) NOT NULL,
   `differentInTime` varchar(45) NOT NULL,
-  `Relations_accepted_user1` tinyint(4) DEFAULT NULL,
-  `Relations_accepted_user2` tinyint(4) DEFAULT NULL,
-  UNIQUE KEY `idusers_unique_combinations` (`idusers_1`,`idusers_2`),
-  KEY `idusers_1_fk_idx` (`idusers_1`),
-  KEY `idusers_2_fk_idx` (`idusers_2`),
-  CONSTRAINT `idusers_1_fk` FOREIGN KEY (`idusers_1`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT `idusers_2_fk` FOREIGN KEY (`idusers_2`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+  `RelationsAcceptedUser2` tinyint(4) DEFAULT NULL,
+  `RelationsAcceptedUser1` tinyint(4) DEFAULT NULL,
+  KEY `idusers_1_fk_idx` (`id_users_1`),
+  KEY `id_users_2_fk_idx` (`id_users_2`),
+  CONSTRAINT `id_users_1_fk` FOREIGN KEY (`id_users_1`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id_users_2_fk` FOREIGN KEY (`id_users_2`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -325,4 +325,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-09 23:25:30
+-- Dump completed on 2019-01-13 22:57:09
