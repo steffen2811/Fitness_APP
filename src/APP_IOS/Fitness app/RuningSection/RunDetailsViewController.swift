@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 class RunDetailsViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -19,11 +20,76 @@ class RunDetailsViewController: UIViewController {
     
     //contains the hole run, and all the locations.
     var run: Run!
+    var Lat = [Double]()
+    var long = [Double]()
+    var timestamp = [Int]()
+    var runtimestamp: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        print(run)
+        //print(run)
+        print(timestamp)
+        // convert Date to TimeInterval (typealias for Double)
+        let timeInterval = run.timestamp!.timeIntervalSince1970
+        
+        // convert to Integer
+        let myInt = Int(timeInterval)
+        runtimestamp = myInt
+    }
+    @IBAction func SaveBtn(_ sender: Any) {
+        SendRun()
+    }
+    
+    func SendRun() {
+        let locations = run.locations
+        let parameters = ["distance": run.distance,"startTime": runtimestamp  , "duration": run.duration, "lat": Lat, "long": long, "locationTime": timestamp ] as [String : Any]
+        //Create the url
+        let url = URL(string: "http://localhost:3333/users/create")
+        
+        //Create the session object
+        let session = URLSession.shared
+        
+        //Create the UrlRequest object using the url object
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST" // set request to POST
+        
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //Create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                    print(error)
+                }
+                
+            }
+        })
+        task.resume()
     }
     
     private func configureView() {
@@ -59,11 +125,20 @@ class RunDetailsViewController: UIViewController {
         
         let latitudes = locations.map { location -> Double in
             let location = location as! Location
+            Lat.append(location.latitude)
+            
+            // convert Date to TimeInterval (typealias for Double)
+            let timeInterval = location.timestamp!.timeIntervalSince1970
+            
+            // convert to Integer
+            let myInt = Int(timeInterval)
+            timestamp.append(myInt)
             return location.latitude
         }
         
         let longitudes = locations.map { location -> Double in
             let location = location as! Location
+            long.append(location.longitude)
             return location.longitude
         }
         

@@ -99,7 +99,7 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
     
     func Signup() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "usedFacebookLogin": 0, "fullName": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text ] as [String : Any]
         
         //Create the url
         let url = URL(string: "http://localhost:3333/users/create")
