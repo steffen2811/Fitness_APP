@@ -21,7 +21,7 @@ router.get('/getSuggestedMatches', function (req, res) {
             });
         } else if (row.length == 0) {
             return res.status(404).json({
-                message: "No runs registered for user"
+                message: "No suggested matches for you :("
             });
         } else {
             res.json(row);
@@ -37,7 +37,7 @@ router.get('/searchForUsers', function (req, res) {
     UNION
     SELECT users.id_users, users.name, users.gender, users.age, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel 
     FROM users.users 
-    WHERE users.name REGEXP '^${search}'`, function (err, row) {    
+    WHERE users.name REGEXP '^${search}'`, function (err, row) {
         if (err) {
             return res.status(500).json({
                 error: err
@@ -52,26 +52,17 @@ router.get('/searchForUsers', function (req, res) {
     })
 })
 
-/* router.put('/sendRequest', function (req, res) {
-    var search = req.query.search;
-    connection.query(`SELECT users.id_users, users.name, users.gender, users.age, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel 
-    FROM users.users
-    WHERE users.email REGEXP '^${search}'
-    UNION
-    SELECT users.id_users, users.name, users.gender, users.age, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel 
-    FROM users.users 
-    WHERE users.name REGEXP '^${search}'`, function (err, row) {    
+router.post('/sendRequest', function (req, res) {
+    var userToInvite = req.query.userToInvite;
+    connection.query(`INSERT INTO users.friend_relationship (requestByUser, relatedUser) VALUES (${req.session.user.id_users}, ${userToInvite});`, function (err) {
         if (err) {
             return res.status(500).json({
                 error: err
             });
-        } else if (row.length == 0) {
-            return res.status(404).json({
-                message: "No users found"
-            });
-        } else {
-            res.json(row);
-        }
+        } 
+        res.json({
+            message: "Request sent"
+        });
     })
-}) */
+})
 module.exports = router;
