@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 
+
 class RunDetailsViewController: UIViewController {
     
     @IBOutlet weak var mapView: MKMapView!
@@ -21,12 +22,20 @@ class RunDetailsViewController: UIViewController {
     var run: Run!
     var Lat = [Double]()
     var long = [Double]()
-    var timestamp = [String]()
+    var timestamp = [Int]()
+    var runtimestamp: Int = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
         //print(run)
+        print(timestamp)
+        // convert Date to TimeInterval (typealias for Double)
+        let timeInterval = run.timestamp!.timeIntervalSince1970
+        
+        // convert to Integer
+        let myInt = Int(timeInterval)
+        runtimestamp = myInt
     }
     @IBAction func SaveBtn(_ sender: Any) {
         SendRun()
@@ -34,7 +43,7 @@ class RunDetailsViewController: UIViewController {
     
     func SendRun() {
         let locations = run.locations
-        let parameters = ["Distance": run.distance,"Starttime": FormatDisplay.datejson(run.timestamp)  , "Duration": run.duration, "Lat": Lat, "Long": long, "locationTime": timestamp ] as [String : Any]
+        let parameters = ["distance": run.distance,"startTime": runtimestamp  , "duration": run.duration, "lat": Lat, "long": long, "locationTime": timestamp ] as [String : Any]
         //Create the url
         let url = URL(string: "http://localhost:3333/users/create")
         
@@ -47,7 +56,6 @@ class RunDetailsViewController: UIViewController {
         
         do{
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
-            print(request.httpBody)
         } catch let error {
             print(error.localizedDescription)
         }
@@ -71,11 +79,12 @@ class RunDetailsViewController: UIViewController {
                     
                     let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
-                        //print(responseJSON)
+                        print(responseJSON)
                         
                     }
                 } else {
                     print("statusCode: \(httpResponse.statusCode)")
+                    print(error)
                 }
                 
             }
@@ -117,7 +126,13 @@ class RunDetailsViewController: UIViewController {
         let latitudes = locations.map { location -> Double in
             let location = location as! Location
             Lat.append(location.latitude)
-            timestamp.append(FormatDisplay.datejson(location.timestamp))
+            
+            // convert Date to TimeInterval (typealias for Double)
+            let timeInterval = location.timestamp!.timeIntervalSince1970
+            
+            // convert to Integer
+            let myInt = Int(timeInterval)
+            timestamp.append(myInt)
             return location.latitude
         }
         

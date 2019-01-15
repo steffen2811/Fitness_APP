@@ -31,6 +31,7 @@ class ViewController: UIViewController {
             }
         }
         
+        //Check cookie insted
         if(defaults.object(forKey: "email") == nil){
             print("Not loged ind with email")
         }else{
