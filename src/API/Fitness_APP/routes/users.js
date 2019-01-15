@@ -21,13 +21,14 @@ router.post('/create', auth.getAuthData, checks.checkIfUserExist, fileUpload,
             user[key] = req.body[key]
         });
 
-        createUser(user, function (err) {
+        createUser(user, function (err, userid) {
             if (err) {
                 res.status(500).json({
                     error: err
                 });
             } else {
                 req.session.user = user;
+                req.session.user.id_users = userid;
                 req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
                 res.json(user)
             }
@@ -69,7 +70,7 @@ router.get('/getUserInfo', function (req, res) {
                 error: err
             });
         } else {
-            connection.query(`SELECT users.email, users.name, users.age, users.mobile, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel FROM users.users WHERE email="${email}"`, function (err, row) {
+            connection.query(`SELECT users.email, users.name, users.gender, users.age, users.mobile, users.primarySports, users.profileImgPath, users.timeSpendPerWeek, users.sportLevel FROM users.users WHERE email="${email}"`, function (err, row) {
                 if (err) {
                     res.status(500).json({
                         error: err
@@ -100,10 +101,11 @@ router.put('/changePassword', function (req, res) {
 
 function createUser(user, callback) {
     /* Insert new user into DB */
-    connection.query(`INSERT INTO users.users (email, password, name, age, mobile, primarySports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) 
+    connection.query(`INSERT INTO users.users (email, password, name, gender, age, mobile, primarySports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) 
                     VALUES ("${user.email}", 
                             "${user.password}", 
                             "${user.name}", 
+                            "${user.gender}", 
                             "${user.age}", 
                             "${user.mobile}", 
                             "${user.primarySports}", 
@@ -111,12 +113,12 @@ function createUser(user, callback) {
                             "${user.timeSpendPerWeek}", 
                             "${user.sportLevel}", 
                             "${user.locationLong}", 
-                            "${user.locationLat}")`, function (err) {
+                            "${user.locationLat}")`, function (err, result) {
         if (err) {
             callback(err);
             return;
         }
-        callback(null);
+        callback(null, result.insertId);
     });
 }
 
