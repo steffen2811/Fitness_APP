@@ -19,11 +19,68 @@ class RunDetailsViewController: UIViewController {
     
     //contains the hole run, and all the locations.
     var run: Run!
+    var Lat = [Double]()
+    var long = [Double]()
+    var timestamp = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        print(run)
+        //print(run)
+    }
+    @IBAction func SaveBtn(_ sender: Any) {
+        SendRun()
+    }
+    
+    func SendRun() {
+        let locations = run.locations
+        let parameters = ["Distance": run.distance,"Starttime": FormatDisplay.datejson(run.timestamp)  , "Duration": run.duration, "Lat": Lat, "Long": long, "locationTime": timestamp ] as [String : Any]
+        //Create the url
+        let url = URL(string: "http://localhost:3333/users/create")
+        
+        //Create the session object
+        let session = URLSession.shared
+        
+        //Create the UrlRequest object using the url object
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST" // set request to POST
+        
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+            print(request.httpBody)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //Create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        //print(responseJSON)
+                        
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                }
+                
+            }
+        })
+        task.resume()
     }
     
     private func configureView() {
@@ -59,11 +116,14 @@ class RunDetailsViewController: UIViewController {
         
         let latitudes = locations.map { location -> Double in
             let location = location as! Location
+            Lat.append(location.latitude)
+            timestamp.append(FormatDisplay.datejson(location.timestamp))
             return location.latitude
         }
         
         let longitudes = locations.map { location -> Double in
             let location = location as! Location
+            long.append(location.longitude)
             return location.longitude
         }
         
