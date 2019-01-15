@@ -10,11 +10,12 @@ import Foundation
 import UIKit
 import MapKit
 
-class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
+class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     var base64SignupString = ""
+    var base64StringImage = ""
     
-    var locationManager: CLLocationManager!
+    let imagePicker = UIImagePickerController()
     
     @IBOutlet weak var NameText: UITextField!
     @IBOutlet weak var TimeSpendText: UITextField!
@@ -22,25 +23,34 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var MobileText: UITextField!
     @IBOutlet weak var Primary_Sports: UITextField!
     @IBOutlet weak var Sport_Level: UITextField!
+    @IBOutlet weak var ImageView: UIImageView!
     
-    
-    
-    
+    private let locationManager = LocationManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        print(base64SignupString)
+        NameText.delegate = self
+        TimeSpendText.delegate = self
+        AgeText.delegate = self
+        MobileText.delegate = self
+        Primary_Sports.delegate = self
+        Sport_Level.delegate = self
         
+        //print(base64SignupString)
+        imagePicker.delegate = self
         
-        if (CLLocationManager.locationServicesEnabled())
-        {
-            locationManager = CLLocationManager()
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyBest
-            locationManager.requestAlwaysAuthorization()
-            locationManager.startUpdatingLocation()
-        }
+    }
+    
+    //timer and locationManager stops when view is closed. to save energy and process speed.
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        locationManager.stopUpdatingLocation()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     var center = CLLocationCoordinate2D(latitude: 0, longitude: 0)
@@ -59,6 +69,44 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
         if CheckisCompleate == true {
             Signup()
         }
+    }
+    
+    @IBAction func upLoadPicBtn(_ sender: Any) {
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.allowsEditing = true
+        present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        
+        guard let image = info[.editedImage] as? UIImage else {
+            print("No image found")
+            return
+        }
+        
+        // print out the image size as a test
+        ImageView.image = image
+        if (image == nil){
+            print("no image")
+        }else {
+            base64StringImage = convertImageTobase64(format: .png, image: image)!
+            print(base64StringImage)
+        }
+    }
+    
+    public enum ImageFormat {
+        case png
+        case jpeg(CGFloat)
+    }
+    
+    func convertImageTobase64(format: ImageFormat, image:UIImage) -> String? {
+        var imageData: Data?
+        switch format {
+        case .png: imageData = image.pngData()
+        case .jpeg(let compression): imageData = image.jpegData(compressionQuality: compression)
+        }
+        return imageData?.base64EncodedString()
     }
     
     func Checkfields() {
@@ -99,7 +147,7 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
     
     func Signup() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text, "profilepictur": base64StringImage ] as [String : Any]
         
         //Create the url
         let url = URL(string: "http://localhost:3333/users/create")
@@ -158,3 +206,4 @@ class Signup2Viewcontroller: UIViewController, CLLocationManagerDelegate {
         task.resume()
     }
 }
+

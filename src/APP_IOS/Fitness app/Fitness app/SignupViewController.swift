@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class SignupViewController: UIViewController {
+class SignupViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var EmailTxtField: UITextField!
     @IBOutlet weak var PasswordTxtFIeld: UITextField!
@@ -20,9 +20,16 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        EmailTxtField.delegate = self
+        PasswordTxtFIeld.delegate = self
         
     }
 
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    
     @IBAction func Continue(_ sender: Any) {
         Continuestep()
         

@@ -44,6 +44,8 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Fitness app needs access to location to your location to make a acount and to track your run</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Fitness app needs access to location to your location to make a acount and to track your run</string>
 	<key>UIBackgroundModes</key>

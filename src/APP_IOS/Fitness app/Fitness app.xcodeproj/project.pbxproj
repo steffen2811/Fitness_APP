@@ -16,6 +16,10 @@
 		543AB4C021BAAA74001F64FA /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543AB4BF21BAAA74001F64FA /* UserViewController.swift */; };
 		5470DF9621B2FD1D0010B9FB /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5470DF9521B2FD1D0010B9FB /* SignupViewController.swift */; };
 		5484160421E3E71A005436E2 /* Signup2Viewcontroller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5484160321E3E71A005436E2 /* Signup2Viewcontroller.swift */; };
+		54841F0A21EE2E4900654795 /* FindPotentielleUsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0921EE2E4900654795 /* FindPotentielleUsers.swift */; };
+		54841F0C21EE2FD500654795 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0B21EE2FD500654795 /* Cell.swift */; };
+		54841F0E21EE300000654795 /* FindPotentielleUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */; };
+		54841F1021EE32C200654795 /* PotentielleUsersDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */; };
 		54A3D12A21E78DBE005ECAFB /* MulticolorPolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */; };
 		54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */; };
 		54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */; };
@@ -40,6 +44,10 @@
 		543AB4BF21BAAA74001F64FA /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		5470DF9521B2FD1D0010B9FB /* SignupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupViewController.swift; sourceTree = "<group>"; };
 		5484160321E3E71A005436E2 /* Signup2Viewcontroller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Signup2Viewcontroller.swift; sourceTree = "<group>"; };
+		54841F0921EE2E4900654795 /* FindPotentielleUsers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPotentielleUsers.swift; sourceTree = "<group>"; };
+		54841F0B21EE2FD500654795 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
+		54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPotentielleUsersCell.swift; sourceTree = "<group>"; };
+		54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotentielleUsersDetail.swift; sourceTree = "<group>"; };
 		54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticolorPolyLine.swift; sourceTree = "<group>"; };
 		54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardSupport.swift; sourceTree = "<group>"; };
@@ -130,6 +138,10 @@
 				54DD9FC42181B4830043FC3A /* LaunchScreen.storyboard */,
 				54DD9FC72181B4830043FC3A /* Info.plist */,
 				54B25BCB21C3E38100656F1F /* MainpageViewController.swift */,
+				54841F0921EE2E4900654795 /* FindPotentielleUsers.swift */,
+				54841F0B21EE2FD500654795 /* Cell.swift */,
+				54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */,
+				54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */,
 			);
 			path = "Fitness app";
 			sourceTree = "<group>";
@@ -291,14 +303,18 @@
 				54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */,
 				5484160421E3E71A005436E2 /* Signup2Viewcontroller.swift in Sources */,
 				54DD9FBB2181B4830043FC3A /* ViewController.swift in Sources */,
+				54841F0C21EE2FD500654795 /* Cell.swift in Sources */,
 				542FA3BC21E75FC60080F254 /* RunDetailsViewController.swift in Sources */,
 				5470DF9621B2FD1D0010B9FB /* SignupViewController.swift in Sources */,
 				54B25BCC21C3E38100656F1F /* MainpageViewController.swift in Sources */,
+				54841F0A21EE2E4900654795 /* FindPotentielleUsers.swift in Sources */,
 				54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */,
 				54A3D12A21E78DBE005ECAFB /* MulticolorPolyLine.swift in Sources */,
 				54DD9FB92181B4830043FC3A /* AppDelegate.swift in Sources */,
+				54841F0E21EE300000654795 /* FindPotentielleUsersCell.swift in Sources */,
 				542FA3C521E777F60080F254 /* LocationManager.swift in Sources */,
 				542FA3BE21E760400080F254 /* NewRunViewController.swift in Sources */,
+				54841F1021EE32C200654795 /* PotentielleUsersDetail.swift in Sources */,
 				542FA3B921E75D040080F254 /* Fitness_app.xcdatamodeld in Sources */,
 				542FA3C321E7774C0080F254 /* FormatDisplay.swift in Sources */,
 			);
