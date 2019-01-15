@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "base64-img": "^1.0.4",
     "bcrypt-nodejs": "0.0.3",
     "connect-redis": "^3.4.0",
     "cookie-parser": "~1.4.3",
@@ -13,7 +14,6 @@
     "email-validator": "^2.0.4",
     "email-verification": "^0.4.6",
     "express": "~4.16.0",
-    "express-fileupload": "^1.1.1-alpha.1",
     "express-session": "^1.15.6",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
