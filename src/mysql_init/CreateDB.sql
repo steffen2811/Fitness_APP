@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `users`;
--- MySQL dump 10.13  Distrib 5.7.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
 --
--- Host: localhost    Database: users
+-- Host: 127.0.0.1    Database: users
 -- ------------------------------------------------------
--- Server version	5.7.24
+-- Server version	5.7.24-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -103,9 +103,9 @@ CREATE TABLE `running` (
   `distance` double NOT NULL,
   `startTime` varchar(45) NOT NULL,
   `timeSecound` double NOT NULL,
-  `route_lat` longtext NOT NULL,
-  `route_long` longtext NOT NULL,
-  `route_time` longtext NOT NULL,
+  `routeLat` longtext NOT NULL,
+  `routeLong` longtext NOT NULL,
+  `routeTime` longtext NOT NULL,
   PRIMARY KEY (`id_running`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -160,6 +160,7 @@ CREATE TABLE `users` (
   `email` varchar(45) NOT NULL,
   `password` varchar(100) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `gender` varchar(45) NOT NULL,
   `age` int(11) NOT NULL,
   `mobile` int(11) NOT NULL,
   `primarySports` varchar(50) NOT NULL,
@@ -169,7 +170,7 @@ CREATE TABLE `users` (
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -178,6 +179,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'steffenq91111@live.dk','$2a$10$JZ4vlOz/dJplDixRUsHJSe1Z.9yGkGlAhzBrcZdVwmYIdN7IuLNeq','steffen thomsen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/steffenq91111@live.dk.png',5,5,55.55,55.55),(2,'steffenq2@live.dk','$2a$10$.4EfvSxpp8XKw4U0mX9eguilbga6uxhPOYpXe3sJIArX2ANop8dSO','steffen andersen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffenq3@live.dk','$2a$10$/sTYJHuwbt.zw5blNcmOSuGR7yqoZHFwn86h96tczNXTmBzJD6G8i','steffen brammer','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -187,7 +189,7 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `users`.`users_AFTER_INSERT` AFTER INSERT ON `users` FOR EACH ROW
 BEGIN
@@ -216,16 +218,18 @@ DROP TABLE IF EXISTS `users_relations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `users_relations` (
+  `id_users_relationscol` int(11) NOT NULL AUTO_INCREMENT,
   `id_users_1` int(11) NOT NULL,
   `id_users_2` int(11) NOT NULL,
   `differentInTime` varchar(45) NOT NULL,
-  `RelationsAcceptedUser2` tinyint(4) DEFAULT NULL,
-  `RelationsAcceptedUser1` tinyint(4) DEFAULT NULL,
+  `RelationsAcceptedUser2` tinyint(4) NOT NULL DEFAULT '0',
+  `RelationsAcceptedUser1` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_users_relationscol`),
   KEY `idusers_1_fk_idx` (`id_users_1`),
   KEY `id_users_2_fk_idx` (`id_users_2`),
   CONSTRAINT `id_users_1_fk` FOREIGN KEY (`id_users_1`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `id_users_2_fk` FOREIGN KEY (`id_users_2`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,6 +238,7 @@ CREATE TABLE `users_relations` (
 
 LOCK TABLES `users_relations` WRITE;
 /*!40000 ALTER TABLE `users_relations` DISABLE KEYS */;
+INSERT INTO `users_relations` VALUES (1,2,1,'0 hour',0,0),(2,3,1,'0 hour',0,0),(3,3,2,'0 hour',0,0);
 /*!40000 ALTER TABLE `users_relations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -301,7 +306,7 @@ DELIMITER ;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Truncate`()
 BEGIN
@@ -310,6 +315,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE users.users;
 TRUNCATE users.users_relations;
 TRUNCATE users.running;
+TRUNCATE users.user_activity;
 
 SET FOREIGN_KEY_CHECKS = 1;
 END ;;
@@ -328,4 +334,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-14 23:06:57
+-- Dump completed on 2019-01-15 15:57:41
