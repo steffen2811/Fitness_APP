@@ -139,9 +139,9 @@
 				54DD9FC72181B4830043FC3A /* Info.plist */,
 				54B25BCB21C3E38100656F1F /* MainpageViewController.swift */,
 				54841F0921EE2E4900654795 /* FindPotentielleUsers.swift */,
+				54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */,
 				54841F0B21EE2FD500654795 /* Cell.swift */,
 				54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */,
-				54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */,
 			);
 			path = "Fitness app";
 			sourceTree = "<group>";

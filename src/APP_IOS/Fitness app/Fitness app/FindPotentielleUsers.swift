@@ -14,8 +14,6 @@ class FindPotentielleUsers: UITableViewController {
     
     
     var tableData: NSArray = NSArray()
-    var UID:Int = 0
-    var origin:String = ""
     var element:NSDictionary = [:]
     
     override func viewDidLoad() {
@@ -27,9 +25,6 @@ class FindPotentielleUsers: UITableViewController {
     func getRequest() {
         
         let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getSuggestedMatches")!
-        print("-----------------------------")
-        print("-----------------------------")
-        print("-----------------------------")
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -40,7 +35,6 @@ class FindPotentielleUsers: UITableViewController {
             
             
         print(response)
-            print("-----------------------------")
             
             guard let data = data, error == nil else { return }
             
@@ -97,17 +91,6 @@ class FindPotentielleUsers: UITableViewController {
         return 130.0;//Choose your custom row height
     }
     
-    
-    /*override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
-     
-     /*tableObject = tableData[indexPath.row]
-     cell.textLabel?.text = "\(tableObject?.tempString["order_id"])"*/
-     let item: Cell = tableData[indexPath.row] as! Cell
-     cell.textLabel?.text = "\(item.ID!)"
-     return cell
-     }*/
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> FindPotentielleUsersCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! FindPotentielleUsersCell
         
@@ -118,8 +101,10 @@ class FindPotentielleUsers: UITableViewController {
         let item: Cell = tableData[indexPath.row] as! Cell
 //        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
         cell.Name.text = item.object!["name"] as! String
+        
         var age = item.object!["age"] as! Int
         cell.Age.text = String(age)
+        
         return cell
     }
     
