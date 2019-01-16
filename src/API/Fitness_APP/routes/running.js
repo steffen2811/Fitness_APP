@@ -1,10 +1,36 @@
 var express = require('express');
 var connection = require('./../helpers/mysql');
+var checks = require('../middlewares/checks');
 var router = express.Router();
 
+/**
+ * @api {post} /sports/running/registerRun/ Save run
+ * @apiVersion 1.0.0
+ * @apiName registerRun
+ * @apiGroup Running
+ * 
+ * @apiParam (Request body) {Double} Distance .
+ * @apiParam (Request body) {Int} Starttime Secound since 1970
+ * @apiParam (Request body) {Double} Duration .
+ * @apiParam (Request body) {Array} Lat Array of all latitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Array} Long Array of all longitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Array} locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
+ * 
+ * @apiSuccess {String} message Run registered
+ *
+ * @apiError (Error 400) message Param is missing. Check docs.
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 500) unspecifiedError Please report
+ */
 router.post('/registerRun', function (req, res) {
+    if (checks.checkUndefinedOrNull([req.body.distance, req.body.startTime, req.body.duration, req.body.lat, req.body.long, req.body.locationTime]))
+    {
+        return res.status(400).json({
+            message: "Param is missing. Check docs"
+        });
+    }
     /* Insert new user into DB */
-    connection.query(`INSERT INTO users.running (distance, startTime, timeSecound, routeLat, routeLong, routeTime) 
+    connection.query(`INSERT INTO users.running (distance, startTime, duration, routeLat, routeLong, routeTime) 
         VALUES ("${req.body.distance}", 
                 "${req.body.startTime}", 
                 "${req.body.duration}", 
@@ -31,8 +57,26 @@ router.post('/registerRun', function (req, res) {
     });
 })
 
+/**
+ * @api {get} /sports/running/getRuns/ Get user runs
+ * @apiVersion 1.0.0
+ * @apiName getRuns
+ * @apiGroup Running
+ * 
+ * @apiSuccess {Array[]} Runs Array of elements in run (see registerRun)
+ * @apiSuccess {Double} Runs.Distance .
+ * @apiSuccess {Int} Runs.Starttime Secound since 1970
+ * @apiSuccess {Double} Runs.Duration .
+ * @apiSuccess {Array} Runs.Lat Array of all latitude coordinated e.g. 22.23, 22.24
+ * @apiSuccess {Array} Runs.Long Array of all longitude coordinated e.g. 22.23, 22.24
+ * @apiSuccess {Array} Runs.locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
+ *
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 404) message No runs registered for user
+ * @apiError (Error 500) unspecifiedError Please report
+ */
 router.get('/getRuns', function (req, res) {
-    connection.query(`select run.distance, run.distance, run.timeSecound, run.route_lat, run.route_long, run.route_time
+    connection.query(`select run.distance, run.duration, run.startTime, run.routeLat, run.routeLong, run.routeTime
         from users.running run
         inner join users.user_activity activity
         where activity.id_users = ${req.session.user.id_users} and activity.id_running = run.id_running`, function (err, row) {
@@ -42,7 +86,7 @@ router.get('/getRuns', function (req, res) {
                 error: err
             });
         } else if (row.length == 0) {
-            return res.json({
+            return res.status(404).json({
                 message: "No runs registered for user"
             });
         } else {

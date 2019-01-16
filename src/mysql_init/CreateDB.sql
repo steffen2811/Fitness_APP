@@ -108,7 +108,7 @@ CREATE TABLE `friend_relationship` (
   KEY `relatedUser_fk_idx` (`relatedUser`),
   CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +117,6 @@ CREATE TABLE `friend_relationship` (
 
 LOCK TABLES `friend_relationship` WRITE;
 /*!40000 ALTER TABLE `friend_relationship` DISABLE KEYS */;
-INSERT INTO `friend_relationship` VALUES (11,3,1,0);
 /*!40000 ALTER TABLE `friend_relationship` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -156,8 +155,8 @@ DROP TABLE IF EXISTS `running`;
 CREATE TABLE `running` (
   `id_running` int(11) NOT NULL AUTO_INCREMENT,
   `distance` double NOT NULL,
-  `startTime` varchar(45) NOT NULL,
-  `timeSecound` double NOT NULL,
+  `startTime` int(11) NOT NULL,
+  `duration` double NOT NULL,
   `routeLat` longtext NOT NULL,
   `routeLong` longtext NOT NULL,
   `routeTime` longtext NOT NULL,
@@ -188,9 +187,9 @@ CREATE TABLE `user_activity` (
   KEY `fk_fitness_id_idx` (`id_fitness_plan`),
   KEY `id_users_fk_idx` (`id_users`),
   KEY `id_running_fk_idx` (`id_running`),
-  CONSTRAINT `id_fitness_plan_fk` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`),
-  CONSTRAINT `id_running_fk` FOREIGN KEY (`id_running`) REFERENCES `running` (`id_running`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `id_users_fk` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`)
+  CONSTRAINT `id_fitness_plan_fk` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id_running_fk` FOREIGN KEY (`id_running`) REFERENCES `running` (`id_running`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id_users_fk` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -225,7 +224,7 @@ CREATE TABLE `users` (
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -234,7 +233,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'steffenq91111@live.dk','$2a$10$JZ4vlOz/dJplDixRUsHJSe1Z.9yGkGlAhzBrcZdVwmYIdN7IuLNeq','steffen thomsen','male',56,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/steffenq91111@live.dk.png',5,5,55.55,55.55),(2,'steffenq2@live.dk','$2a$10$.4EfvSxpp8XKw4U0mX9eguilbga6uxhPOYpXe3sJIArX2ANop8dSO','steffen andersen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffenq3@live.dk','$2a$10$/sTYJHuwbt.zw5blNcmOSuGR7yqoZHFwn86h96tczNXTmBzJD6G8i','steffen brammer','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
+INSERT INTO `users` VALUES (1,'steffenq5@l5ive11.dk','$2a$10$dagUgUdsBMROcFQXzhobG.rkbVlVMPPS77lbe8EXYaSdf1jsuzJBi','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(2,'steffen@live.dk','$2a$10$u9E3DWqkgp0xYOWU1u19feM2aPUtTE2bzwkmhaooeemCNDE21M4mm','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -244,11 +243,11 @@ UNLOCK TABLES;
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `users`.`users_AFTER_INSERT` AFTER INSERT ON `users` FOR EACH ROW
 BEGIN
-INSERT INTO users.users_relations (id_users_1, id_users_2, differentInTime) 
+INSERT INTO users.users_suggested_matches (id_users_1, id_users_2, differentInTime) 
 SELECT 	NEW.id_users as id_users_1,
 		userTable.id_users as id_users_2, 
 		CONCAT(CalculateTimeDifferent(NEW.timeSpendPerWeek, userTable.timeSpendPerWeek), " hour") AS differentInTime 
@@ -289,7 +288,7 @@ CREATE TABLE `users_suggested_matches` (
 
 LOCK TABLES `users_suggested_matches` WRITE;
 /*!40000 ALTER TABLE `users_suggested_matches` DISABLE KEYS */;
-INSERT INTO `users_suggested_matches` VALUES (2,1,'0 hour'),(3,1,'0 hour'),(3,2,'0 hour');
+INSERT INTO `users_suggested_matches` VALUES (2,1,'0 hour');
 /*!40000 ALTER TABLE `users_suggested_matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -364,9 +363,13 @@ BEGIN
 SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE users.users;
-TRUNCATE users.users_relations;
+TRUNCATE users.users_suggested_matches;
 TRUNCATE users.running;
 TRUNCATE users.user_activity;
+TRUNCATE users.fitness_exercises;
+TRUNCATE users.fitness_exercises_in_plan;
+TRUNCATE users.fitness_plan;
+TRUNCATE users.friend_relationship;
 
 SET FOREIGN_KEY_CHECKS = 1;
 END ;;
@@ -385,4 +388,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-15 18:07:03
+-- Dump completed on 2019-01-16 13:13:00
