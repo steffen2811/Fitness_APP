@@ -92,6 +92,61 @@ LOCK TABLES `fitness_plan` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `friend_relationship`
+--
+
+DROP TABLE IF EXISTS `friend_relationship`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `friend_relationship` (
+  `id_friend_relationship` int(11) NOT NULL AUTO_INCREMENT,
+  `requestByUser` int(11) NOT NULL,
+  `relatedUser` int(11) NOT NULL,
+  `status` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id_friend_relationship`),
+  KEY `requestByUser_idx` (`requestByUser`),
+  KEY `relatedUser_fk_idx` (`relatedUser`),
+  CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `friend_relationship`
+--
+
+LOCK TABLES `friend_relationship` WRITE;
+/*!40000 ALTER TABLE `friend_relationship` DISABLE KEYS */;
+INSERT INTO `friend_relationship` VALUES (11,3,1,0);
+/*!40000 ALTER TABLE `friend_relationship` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `users`.`friend_relationship_BEFORE_INSERT` BEFORE INSERT ON `friend_relationship` FOR EACH ROW
+BEGIN
+	IF (EXISTS(SELECT 1 FROM friend_relationship WHERE new.requestByUser = relatedUser and new.relatedUser = requestByUser)) THEN
+		SIGNAL SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'Requested user has already sent an invite';
+	ELSEIF (EXISTS(SELECT 1 FROM friend_relationship WHERE new.requestByUser = requestByUser and new.relatedUser = relatedUser)) THEN
+		SIGNAL SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'Request already exist';
+	ELSEIF (new.requestByUser = new.relatedUser) THEN
+		SIGNAL SQLSTATE VALUE '45000' SET MESSAGE_TEXT = 'same user as requester and related';
+    END IF; 
+
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
 -- Table structure for table `running`
 --
 
@@ -179,7 +234,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'steffenq91111@live.dk','$2a$10$JZ4vlOz/dJplDixRUsHJSe1Z.9yGkGlAhzBrcZdVwmYIdN7IuLNeq','steffen thomsen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/steffenq91111@live.dk.png',5,5,55.55,55.55),(2,'steffenq2@live.dk','$2a$10$.4EfvSxpp8XKw4U0mX9eguilbga6uxhPOYpXe3sJIArX2ANop8dSO','steffen andersen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffenq3@live.dk','$2a$10$/sTYJHuwbt.zw5blNcmOSuGR7yqoZHFwn86h96tczNXTmBzJD6G8i','steffen brammer','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
+INSERT INTO `users` VALUES (1,'steffenq91111@live.dk','$2a$10$JZ4vlOz/dJplDixRUsHJSe1Z.9yGkGlAhzBrcZdVwmYIdN7IuLNeq','steffen thomsen','male',56,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/steffenq91111@live.dk.png',5,5,55.55,55.55),(2,'steffenq2@live.dk','$2a$10$.4EfvSxpp8XKw4U0mX9eguilbga6uxhPOYpXe3sJIArX2ANop8dSO','steffen andersen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffenq3@live.dk','$2a$10$/sTYJHuwbt.zw5blNcmOSuGR7yqoZHFwn86h96tczNXTmBzJD6G8i','steffen brammer','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -211,35 +266,31 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `users_relations`
+-- Table structure for table `users_suggested_matches`
 --
 
-DROP TABLE IF EXISTS `users_relations`;
+DROP TABLE IF EXISTS `users_suggested_matches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_relations` (
-  `id_users_relationscol` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `users_suggested_matches` (
   `id_users_1` int(11) NOT NULL,
   `id_users_2` int(11) NOT NULL,
   `differentInTime` varchar(45) NOT NULL,
-  `RelationsAcceptedUser2` tinyint(4) NOT NULL DEFAULT '0',
-  `RelationsAcceptedUser1` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id_users_relationscol`),
   KEY `idusers_1_fk_idx` (`id_users_1`),
   KEY `id_users_2_fk_idx` (`id_users_2`),
   CONSTRAINT `id_users_1_fk` FOREIGN KEY (`id_users_1`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `id_users_2_fk` FOREIGN KEY (`id_users_2`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users_relations`
+-- Dumping data for table `users_suggested_matches`
 --
 
-LOCK TABLES `users_relations` WRITE;
-/*!40000 ALTER TABLE `users_relations` DISABLE KEYS */;
-INSERT INTO `users_relations` VALUES (1,2,1,'0 hour',0,0),(2,3,1,'0 hour',0,0),(3,3,2,'0 hour',0,0);
-/*!40000 ALTER TABLE `users_relations` ENABLE KEYS */;
+LOCK TABLES `users_suggested_matches` WRITE;
+/*!40000 ALTER TABLE `users_suggested_matches` DISABLE KEYS */;
+INSERT INTO `users_suggested_matches` VALUES (2,1,'0 hour'),(3,1,'0 hour'),(3,2,'0 hour');
+/*!40000 ALTER TABLE `users_suggested_matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -334,4 +385,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-15 15:57:41
+-- Dump completed on 2019-01-15 18:07:03
