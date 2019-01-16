@@ -10,7 +10,7 @@ import UIKit
 import FBSDKCoreKit
 import FBSDKLoginKit
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UITextFieldDelegate {
 
     @IBOutlet weak var EmailTxtField: UITextField!
     @IBOutlet weak var PasswordTxtField: UITextField!
@@ -19,6 +19,9 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        EmailTxtField.delegate = self
+        PasswordTxtField.delegate = self
+        
         if(FBSDKAccessToken.current() == nil){
             print("Not logged in with facebook ")
         }else{
@@ -31,6 +34,7 @@ class ViewController: UIViewController {
             }
         }
         
+        
         //Check cookie insted
         if(defaults.object(forKey: "email") == nil){
             print("Not loged ind with email")
@@ -40,6 +44,11 @@ class ViewController: UIViewController {
                 self.performSegue(withIdentifier: "Login", sender: self)
             }
         }
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
     }
     
     func viewDidAppear() {

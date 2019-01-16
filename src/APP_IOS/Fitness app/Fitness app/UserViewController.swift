@@ -43,7 +43,7 @@ class UserViewController: UIViewController {
     
     func getRequest(params: [String:String]) {
             
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getUserInfo")!
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getCurrentUser")!
             
         var items = [URLQueryItem]()
             
@@ -71,15 +71,15 @@ class UserViewController: UIViewController {
                 print(responseJSON)
                 self.jsonlement = responseJSON as NSDictionary
 
-//                DispatchQueue.main.async { // Correct
-//                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
-//                    self.TimeLabel.text = "Time spend: \(responseJSON["time_spend_per_week"])"
+                DispatchQueue.main.async { // Correct
+                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
+                    //self.TimeLabel.text = "Time spend: \(responseJSON["time_spend_per_week"])"
 //                    self.AgeLabel.text = "Age: \(responseJSON["age"])"
 //                    self.LevelLabel.text = "Level: \(responseJSON["sport_level"])"
 //                    self.MobileLabel.text = "Mobile: \(String(describing: responseJSON["mobile"]))"
 //                    self.NameLabel.text = "Name: \(responseJSON["full_name"] as! String)"
 //                    self.SportLabel.text = "Sport: \(responseJSON["primary_sports"] as! String)"
-//                }
+                }
             }
             
         })

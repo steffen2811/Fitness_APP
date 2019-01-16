@@ -10,18 +10,37 @@ import Foundation
 import UIKit
 
 
-class FindPotentielleUsers: UITableViewController{
+class FindPotentielleUsers: UITableViewController {
     
-    //var tableData = Array<JSONTableData>()
+    
     var tableData: NSArray = NSArray()
+    var UID:Int = 0
+    var origin:String = ""
     var element:NSDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let url = URL(string: "")
+        getRequest()
+    }
+    
+    func getRequest() {
         
-        let task = URLSession.shared.dataTask(with: url! as URL) { data, response, error in
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getSuggestedMatches")!
+        print("-----------------------------")
+        print("-----------------------------")
+        print("-----------------------------")
+        
+        var urlRequest = URLRequest(url: urlComp.url!)
+        urlRequest.httpMethod = "GET"
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+            
+            
+        print(response)
+            print("-----------------------------")
             
             guard let data = data, error == nil else { return }
             
@@ -38,8 +57,8 @@ class FindPotentielleUsers: UITableViewController{
                         print(json[i])
                         let cell = Cell()
                         cell.object = jsonElement
-                        print(cell)
                         Data.add(cell)
+                        
                         
                     }
                     
@@ -48,17 +67,18 @@ class FindPotentielleUsers: UITableViewController{
                         self.itemsDownloaded(items: Data)
                         
                     })
+                    
                 } else {
                     print(NSString(data: data, encoding: String.Encoding.utf8.rawValue))
                 }
             } catch let error {
                 print(error.localizedDescription)
             }
-        }
-        
+            
+        })
         task.resume()
-        
     }
+    
     
     func itemsDownloaded(items: NSArray) {
         
@@ -74,7 +94,7 @@ class FindPotentielleUsers: UITableViewController{
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 100.0;//Choose your custom row height
+        return 130.0;//Choose your custom row height
     }
     
     
@@ -93,13 +113,13 @@ class FindPotentielleUsers: UITableViewController{
         
         if cell == nil {
             cell = FindPotentielleUsersCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
+            print("cant find cell")
         }
         let item: Cell = tableData[indexPath.row] as! Cell
 //        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
-        cell.Name.text = item.object["Name"]!
-        print(item)
-        
-        
+        cell.Name.text = item.object!["name"] as! String
+        var age = item.object!["age"] as! Int
+        cell.Age.text = String(age)
         return cell
     }
     
