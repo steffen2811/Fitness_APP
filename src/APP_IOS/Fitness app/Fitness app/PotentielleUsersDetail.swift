@@ -37,11 +37,54 @@ class PotentielleUsersDetail: UIViewController{
     
     
     @IBAction func requestButton(_ sender: Any) {
+        if let quantity = jsonlement["id_users"] as? NSNumber {
+            SendRequest(ID : quantity.stringValue)
+        }
         
     }
     
-    func sendRequest() {
+    func SendRequest(ID: String) {
         
+        //Create the url
+        let url = URL(string: "http://localhost:3333/users/community/sendRequest/?userToInvite=\(ID)")
+        print(url)
+        
+        //Create the session object
+        let session = URLSession.shared
+        
+        //Create the UrlRequest object using the url object
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST" // set request to POST
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //Create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                }
+                
+            }
+        })
+        task.resume()
     }
     
     

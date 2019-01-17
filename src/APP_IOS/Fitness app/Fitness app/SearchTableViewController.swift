@@ -1,8 +1,8 @@
 //
-//  FindPotentielleUsers.swift
+//  SearchTableViewController.swift
 //  Fitness app
 //
-//  Created by Tobias Brammer Fredriksen on 15/01/2019.
+//  Created by Tobias Brammer Fredriksen on 17/01/2019.
 //  Copyright © 2019 Tobias Brammer Fredriksen. All rights reserved.
 //
 
@@ -10,9 +10,9 @@ import Foundation
 import UIKit
 import AvatarImageView
 
-
-class FindPotentielleUsers: UITableViewController {
+class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     
+    @IBOutlet var SearchBar: UISearchBar!
     
     var tableData: NSArray = NSArray()
     var element:NSDictionary = [:]
@@ -22,12 +22,28 @@ class FindPotentielleUsers: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        getRequest()
+        /* Setup delegates */
+        tableView.delegate = self
+        tableView.dataSource = self
+        SearchBar.delegate = self
+        
     }
     
-    func getRequest() {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getSuggestedMatches")!
+        getRequest(Search: SearchBar.text!)
+        searchBar.endEditing(true)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    func getRequest(Search: String) {
+        
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/searchForUsers/?search=\(Search)")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -37,7 +53,7 @@ class FindPotentielleUsers: UITableViewController {
         let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             
             
-        print(response)
+            print(response)
             
             guard let data = data, error == nil else { return }
             
@@ -76,7 +92,6 @@ class FindPotentielleUsers: UITableViewController {
         task.resume()
     }
     
-    
     func itemsDownloaded(items: NSArray) {
         
         tableData = items
@@ -102,20 +117,20 @@ class FindPotentielleUsers: UITableViewController {
             print("cant find cell")
         }
         let item: Cell = tableData[indexPath.row] as! Cell
-//        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
+        //        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
         cell.Name.text = "Name: " + (item.object!["name"] as! String)
         
         var age = "Age: \(item.object!["age"] as! Int)"
         cell.Age.text = String(age)
         
         cell.Fitness.text = "Sport: " + (item.object!["primarySports"] as! String)
-    
+        
         
         var data = PictureData()
         let url = URL(string: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_1280.png")
         let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         
-    
+        
         data.avatar = UIImage(data: data1!)
         cell.Profilepic.dataSource = data
         
@@ -144,3 +159,4 @@ class FindPotentielleUsers: UITableViewController {
         }
     }
 }
+

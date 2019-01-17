@@ -20,6 +20,8 @@ class FindPotentielleUsersCell: UITableViewCell {
         }
     }
     
+    @IBOutlet var Fitness: UILabel!
+    
     
     @IBOutlet weak var Name: UILabel!
     
