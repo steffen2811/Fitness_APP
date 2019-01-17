@@ -1,6 +1,113 @@
 define({ "api": [
   {
     "type": "get",
+    "url": "/users/community/getFriends/",
+    "title": "Get list of friends",
+    "version": "1.0.0",
+    "name": "getFriends",
+    "group": "Community",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array[]",
+            "optional": false,
+            "field": "Request",
+            "description": "<p>List of Requests</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Request.id_users",
+            "description": "<p>Id of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Request.name",
+            "description": "<p>Name of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Request.gender",
+            "description": "<p>Gender of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Request.age",
+            "description": "<p>Age of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Request.primarySports",
+            "description": "<p>Primary Sports of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Request.profileImgPath",
+            "description": "<p>Url to profile picture of user.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Request.timeSpendPerWeek",
+            "description": "<p>Time spend per week.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Request.sportLevel",
+            "description": "<p>Sport level of user.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 404": [
+          {
+            "group": "Error 404",
+            "optional": false,
+            "field": "message",
+            "description": "<p>No friends found</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/community.js",
+    "groupTitle": "Community"
+  },
+  {
+    "type": "get",
     "url": "/users/community/getPendingRequest/",
     "title": "Get pending request",
     "version": "1.0.0",
@@ -215,10 +322,10 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "/users/community/responseRequest/",
-    "title": "Send response to friend request",
+    "url": "/users/community/responseRequestAccept/",
+    "title": "Send accept to friend request",
     "version": "1.0.0",
-    "name": "responseRequest",
+    "name": "responseRequestAccept",
     "group": "Community",
     "parameter": {
       "fields": {
@@ -229,13 +336,6 @@ define({ "api": [
             "optional": false,
             "field": "responseToUserid",
             "description": "<p>User ID of friend request</p>"
-          },
-          {
-            "group": "Param",
-            "type": "Int",
-            "optional": false,
-            "field": "requestAnswer",
-            "description": "<p>request answer. 1 = accept, 2 = deny</p>"
           }
         ]
       }
@@ -248,21 +348,13 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "message",
-            "description": "<p>Response sent</p>"
+            "description": "<p>Response sent. User added to friendlist</p>"
           }
         ]
       }
     },
     "error": {
       "fields": {
-        "Error 304": [
-          {
-            "group": "Error 304",
-            "optional": false,
-            "field": "message",
-            "description": "<p>Request wasn´t updated because it does not exist</p>"
-          }
-        ],
         "Error 400": [
           {
             "group": "Error 400",
@@ -277,6 +369,86 @@ define({ "api": [
             "optional": false,
             "field": "AccessDenied",
             "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 406": [
+          {
+            "group": "Error 406",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Request wasn´t updated because it does not exist</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/community.js",
+    "groupTitle": "Community"
+  },
+  {
+    "type": "delete",
+    "url": "/users/community/responseRequestDeny/",
+    "title": "Send deny to friend request",
+    "version": "1.0.0",
+    "name": "responseRequestDeny",
+    "group": "Community",
+    "parameter": {
+      "fields": {
+        "Param": [
+          {
+            "group": "Param",
+            "type": "Int",
+            "optional": false,
+            "field": "responseToUserid",
+            "description": "<p>User ID of friend request</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Response sent and request removed.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "message",
+            "description": "<p>responseToUserid param is missing</p>"
+          }
+        ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 406": [
+          {
+            "group": "Error 406",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Request wasn´t updated because it does not exist</p>"
           }
         ],
         "Error 500": [
@@ -299,7 +471,7 @@ define({ "api": [
     "version": "1.0.0",
     "name": "searchForUsers",
     "group": "Community",
-    "description": "<p>Search for user name or email. Uses regex to search. Search from start of name and email</p>",
+    "description": "<p>Search for user name. Uses regex to search. Search from start of name</p>",
     "parameter": {
       "fields": {
         "Param": [
@@ -428,7 +600,7 @@ define({ "api": [
     "version": "1.0.0",
     "name": "sendRequest",
     "group": "Community",
-    "description": "<p>It is not possible to: Send a request to yourself. Send a request to a user of a pending request. Send a request that already exist.</p>",
+    "description": "<p>If the requested user is a suggested match, the match will not show as suggested match again</p>",
     "parameter": {
       "fields": {
         "Param": [
@@ -477,6 +649,30 @@ define({ "api": [
           {
             "group": "Error 500",
             "optional": false,
+            "field": "AlreadySentByRequestedUser",
+            "description": "<p>Requested user has already sent an invite</p>"
+          },
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "AlreadyExist",
+            "description": "<p>Request already exist</p>"
+          },
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "AlreadyFriend",
+            "description": "<p>Users already friends</p>"
+          },
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "SentToYouself",
+            "description": "<p>same user as requester and related</p>"
+          },
+          {
+            "group": "Error 500",
+            "optional": false,
             "field": "unspecifiedError",
             "description": "<p>Please report</p>"
           }
@@ -485,6 +681,396 @@ define({ "api": [
     },
     "filename": "routes/community.js",
     "groupTitle": "Community"
+  },
+  {
+    "type": "post",
+    "url": "/users/facebook/create",
+    "title": "Create user with Facebook",
+    "version": "1.0.0",
+    "name": "Facebook_create",
+    "group": "Facebook",
+    "description": "<p>Suggested matches will be found in DB</p>",
+    "parameter": {
+      "fields": {
+        "Request body": [
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"male\"",
+              "\"female\""
+            ],
+            "optional": false,
+            "field": "gender",
+            "description": "<p>Gender</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": false,
+            "field": "age",
+            "description": "<p>Age</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": false,
+            "field": "mobile",
+            "description": "<p>Mobile number</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"Run\"",
+              "\"Fitness\""
+            ],
+            "optional": false,
+            "field": "primarySports",
+            "description": "<p>Primary sport</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": false,
+            "field": "timeSpendPerWeek",
+            "description": "<p>Time spend per week.</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "size": "1-10",
+            "optional": false,
+            "field": "sportLevel",
+            "description": "<p>Sport level. 1 is beginner, 10 is very experienced.</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLong",
+            "description": "<p>Longitude (north/south)</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLat",
+            "description": "<p>Latitude (west/east)</p>"
+          }
+        ],
+        "Authorization - Bearer Token": [
+          {
+            "group": "Authorization - Bearer Token",
+            "type": "Token",
+            "optional": false,
+            "field": "FBUserToken",
+            "description": "<p>Facebook user token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>Username (email)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>Always null when facebook login is used</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Full name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "gender",
+            "description": "<p>Gender</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "age",
+            "description": "<p>Age</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "mobile",
+            "description": "<p>Mobile number</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "primarySports",
+            "description": "<p>Primary sport</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "profileImgPath",
+            "description": "<p>Path to profile picture</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "timeSpendPerWeek",
+            "description": "<p>Time spend per week.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "sportLevel",
+            "description": "<p>Sport level. 1 is beginner, 10 is very experienced.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLong",
+            "description": "<p>Longitude (north/south)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLat",
+            "description": "<p>Latitude (west/east)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "id_users",
+            "description": "<p>user ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Cookie",
+            "optional": false,
+            "field": "Session",
+            "description": "<p>Session cookie</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "Auth",
+            "description": "<p>Auth failed</p>"
+          }
+        ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "UserExist",
+            "description": "<p>User already exist.</p>"
+          },
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "MissingData",
+            "description": "<p><code>DATA</code> is missing from body.</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/facebook.js",
+    "groupTitle": "Facebook"
+  },
+  {
+    "type": "get",
+    "url": "/users/facebook/login",
+    "title": "Login user with Facebook",
+    "version": "1.0.0",
+    "name": "Facebook_login",
+    "group": "Facebook",
+    "parameter": {
+      "fields": {
+        "Authorization - Bearer Token": [
+          {
+            "group": "Authorization - Bearer Token",
+            "type": "Token",
+            "optional": false,
+            "field": "FBUserToken",
+            "description": "<p>Facebook user token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "id_users",
+            "description": "<p>user ID</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "email",
+            "description": "<p>Username (email)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "password",
+            "description": "<p>Always null when facebook login is used</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "name",
+            "description": "<p>Full name</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "gender",
+            "description": "<p>Gender</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "age",
+            "description": "<p>Age</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "mobile",
+            "description": "<p>Mobile number</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "primarySports",
+            "description": "<p>Primary sport</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "profileImgPath",
+            "description": "<p>Path to profile picture</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "timeSpendPerWeek",
+            "description": "<p>Time spend per week.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Number",
+            "optional": false,
+            "field": "sportLevel",
+            "description": "<p>Sport level. 1 is beginner, 10 is very experienced.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLong",
+            "description": "<p>Longitude (north/south)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Float",
+            "optional": false,
+            "field": "locationLat",
+            "description": "<p>Latitude (west/east)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Cookie",
+            "optional": false,
+            "field": "Session",
+            "description": "<p>Session cookie</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "Auth",
+            "description": "<p>Auth failed</p>"
+          }
+        ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "UserNotFound",
+            "description": "<p>User not found in db</p>"
+          },
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "MissingData",
+            "description": "<p><code>DATA</code> is missing from body.</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/facebook.js",
+    "groupTitle": "Facebook"
   },
   {
     "type": "get",
@@ -612,24 +1198,38 @@ define({ "api": [
           },
           {
             "group": "Request body",
-            "type": "Array",
+            "type": "Array[]",
             "optional": false,
             "field": "Lat",
             "description": "<p>Array of all latitude coordinated e.g. 22.23, 22.24</p>"
           },
           {
             "group": "Request body",
-            "type": "Array",
+            "type": "Array[]",
             "optional": false,
             "field": "Long",
             "description": "<p>Array of all longitude coordinated e.g. 22.23, 22.24</p>"
           },
           {
             "group": "Request body",
-            "type": "Array",
+            "type": "Array[]",
             "optional": false,
             "field": "locationTime",
             "description": "<p>Secound since 1970 for each coordinat-set e.g. 555555, 555556</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Array[]",
+            "optional": true,
+            "field": "perticipatingUsers",
+            "description": "<p>Users perticipated in run</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Int",
+            "optional": true,
+            "field": "perticipatingUsers.id_users",
+            "description": "<p>id of user</p>"
           }
         ]
       }
@@ -718,8 +1318,8 @@ define({ "api": [
           {
             "group": "Error 400",
             "optional": false,
-            "field": "Email",
-            "description": "<p>Wrong email format</p>"
+            "field": "Message",
+            "description": "<p>param is missing. Check doc</p>"
           }
         ],
         "Error 403": [

@@ -24,7 +24,6 @@ var client = redis.createClient('redis://' + process.env.REDIS_SERVER_ADR + ':63
 var usersRouter = require('./routes/users');
 var facebookRouter = require('./routes/facebook');
 var communityRouter = require('./routes/community');
-var sportsRouter = require('./routes/sports');
 var runningRouter = require('./routes/running');
 var fitnessRouter = require('./routes/fitness');
 var Checks = require('./middlewares/checks');
@@ -58,7 +57,6 @@ app.use(Checks.sessionChecker);
 app.use('/users', usersRouter.router);
 app.use('/users/facebook', facebookRouter);
 app.use('/users/community', communityRouter);
-app.use('/sports', sportsRouter);
 app.use('/sports/running', runningRouter);
 app.use('/sports/fitness', fitnessRouter);
 

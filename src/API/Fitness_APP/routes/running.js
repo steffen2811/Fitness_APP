@@ -12,9 +12,11 @@ var router = express.Router();
  * @apiParam (Request body) {Double} Distance .
  * @apiParam (Request body) {Int} Starttime Secound since 1970
  * @apiParam (Request body) {Double} Duration .
- * @apiParam (Request body) {Array} Lat Array of all latitude coordinated e.g. 22.23, 22.24
- * @apiParam (Request body) {Array} Long Array of all longitude coordinated e.g. 22.23, 22.24
- * @apiParam (Request body) {Array} locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
+ * @apiParam (Request body) {Array[]} Lat Array of all latitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Array[]} Long Array of all longitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Array[]} locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
+ * @apiParam (Request body) {Array[]} [perticipatingUsers] Users perticipated in run
+ * @apiParam (Request body) {Int} [perticipatingUsers.id_users] id of user
  * 
  * @apiSuccess {String} message Run registered
  *
@@ -23,12 +25,19 @@ var router = express.Router();
  * @apiError (Error 500) unspecifiedError Please report
  */
 router.post('/registerRun', function (req, res) {
-    if (checks.checkUndefinedOrNull([req.body.distance, req.body.startTime, req.body.duration, req.body.lat, req.body.long, req.body.locationTime]))
-    {
+    if (checks.checkUndefinedOrNull([req.body.distance, req.body.startTime, req.body.duration, req.body.lat, req.body.long, req.body.locationTime])) {
         return res.status(400).json({
             message: "Param is missing. Check docs"
         });
     }
+
+    //Add current user to perticipating users
+    if (checks.checkUndefinedOrNull([req.body.perticipatingUsers])) {
+        req.body.perticipatingUsers = [req.session.user.id_users]
+    } else {
+        req.body.perticipatingUsers.push(req.session.user.id_users)
+    }
+
     /* Insert new user into DB */
     connection.query(`INSERT INTO users.running (distance, startTime, duration, routeLat, routeLong, routeTime) 
         VALUES ("${req.body.distance}", 
@@ -42,9 +51,18 @@ router.post('/registerRun', function (req, res) {
                 error: err
             });
         }
-        connection.query(`INSERT INTO users.user_activity (id_users, id_running)
-            VALUES ("${req.session.user.id_users}",
-                    "${result.insertId}")`, function (err) {
+        /* generate query to insert all perticipating users. */
+        var query = `INSERT INTO users.user_activity (id_users, id_running) VALUES `;
+        for(var i = 0; i < req.body.perticipatingUsers.length; i++)
+        {
+            query += `("${req.body.perticipatingUsers[i]}", "${result.insertId}")`
+            if (i + 1 != req.body.perticipatingUsers.length)
+            {
+                query += `, `
+            }
+        }
+
+        connection.query(query, function (err) {
             if (err) {
                 return res.status(500).json({
                     error: err
