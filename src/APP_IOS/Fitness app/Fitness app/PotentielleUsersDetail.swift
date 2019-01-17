@@ -8,15 +8,66 @@
 
 import Foundation
 import UIKit
+import AvatarImageView
 
 class PotentielleUsersDetail: UIViewController{
+    
+    @IBOutlet var Profilepic: AvatarImageView!{
+        didSet {
+            configureRoundAvatar() // Comment this line for a square avatar as that is the default.
+            //showProfilePicture()
+        }
+    }
+    
+    @IBOutlet var NameLabel: UILabel!
+    @IBOutlet var genderLabel: UILabel!
+    @IBOutlet var ageLabel: UILabel!
+    @IBOutlet var primarySportsLabel: UILabel!
+    @IBOutlet var timeSpendPerWeekLabel: UILabel!
+    @IBOutlet var sportLevelLabel: UILabel!
     
     var jsonlement:NSDictionary = [:]
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(jsonlement)
+        configureView()
         
+    }
+    
+    
+    @IBAction func requestButton(_ sender: Any) {
+        
+    }
+    
+    func sendRequest() {
+        
+    }
+    
+    
+    private func configureView() {
+        NameLabel.text =  "Name: " + (jsonlement["name"] as? String ?? "")
+        genderLabel.text = "Gender: " + (jsonlement["gender"] as? String ?? "")
+        ageLabel.text = "Age: \(jsonlement["age"] as? Int ?? 0)"
+        primarySportsLabel.text = "Sports: " + (jsonlement["primarySports"] as? String ?? "")
+        timeSpendPerWeekLabel.text = "Time per week:  \(jsonlement["timeSpendPerWeek"] as? Int ?? 0)"
+        sportLevelLabel.text = "Sport level: \(jsonlement["sportLevel"] as? Int ?? 0)"
+        showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
+    }
+    
+    func configureRoundAvatar() {
+        struct Config: AvatarImageViewConfiguration { var shape: Shape = .circle }
+        Profilepic.configuration = Config()
+    }
+    
+    func showProfilePicture(Url: String) {
+        var data = PictureData()
+        let url = URL(string: Url)
+        let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+        
+        
+        data.avatar = UIImage(data: data1!)
+        Profilepic.dataSource = data
     }
     
 }

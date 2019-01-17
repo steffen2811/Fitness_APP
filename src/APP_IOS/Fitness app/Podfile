@@ -9,5 +9,6 @@ target 'Fitness app' do
   pod 'SideMenu'
   pod 'FacebookSDK'
   pod 'FacebookLogin'
+  pod 'AvatarImageView', '~> 2.2.0'
 
 end

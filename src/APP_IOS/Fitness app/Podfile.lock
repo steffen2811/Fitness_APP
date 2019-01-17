@@ -1,4 +1,5 @@
 PODS:
+  - AvatarImageView (2.2.0)
   - Bolts (1.9.0):
     - Bolts/AppLinks (= 1.9.0)
     - Bolts/Tasks (= 1.9.0)
@@ -33,12 +34,14 @@ PODS:
   - SideMenu (5.0.3)
 
 DEPENDENCIES:
+  - AvatarImageView (~> 2.2.0)
   - FacebookLogin
   - FacebookSDK
   - SideMenu
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - AvatarImageView
     - Bolts
     - FacebookCore
     - FacebookLogin
@@ -49,6 +52,7 @@ SPEC REPOS:
     - SideMenu
 
 SPEC CHECKSUMS:
+  AvatarImageView: afe8e7eb50181ca3f095e21034f245676b535c55
   Bolts: ac6567323eac61e203f6a9763667d0f711be34c8
   FacebookCore: 74288d0add931d361b1596beae787ab72c438249
   FacebookLogin: ebcf34714a1cb9f0759d9f071cfb01ed500996cf
@@ -58,6 +62,6 @@ SPEC CHECKSUMS:
   FBSDKMarketingKit: e609f39d74ab273cf52e2f8b7e8829ed412b2827
   SideMenu: 1dcaabce84538c53325c287f7fe62999379a641c
 
-PODFILE CHECKSUM: eb7116072f42526f8925e9bfc3429ee68a1af447
+PODFILE CHECKSUM: 6ac9ffb0eb0aac8804c20f74964f0c87fe914528
 
 COCOAPODS: 1.5.3

@@ -20,6 +20,7 @@
 		54841F0C21EE2FD500654795 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0B21EE2FD500654795 /* Cell.swift */; };
 		54841F0E21EE300000654795 /* FindPotentielleUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */; };
 		54841F1021EE32C200654795 /* PotentielleUsersDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */; };
+		54841F1621EF718800654795 /* ProfilePicstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1521EF718800654795 /* ProfilePicstruct.swift */; };
 		54A3D12A21E78DBE005ECAFB /* MulticolorPolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */; };
 		54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */; };
 		54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */; };
@@ -48,6 +49,7 @@
 		54841F0B21EE2FD500654795 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindPotentielleUsersCell.swift; sourceTree = "<group>"; };
 		54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotentielleUsersDetail.swift; sourceTree = "<group>"; };
+		54841F1521EF718800654795 /* ProfilePicstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicstruct.swift; sourceTree = "<group>"; };
 		54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticolorPolyLine.swift; sourceTree = "<group>"; };
 		54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardSupport.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				542FA3C421E777F60080F254 /* LocationManager.swift */,
 				54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */,
 				54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */,
+				54841F1521EF718800654795 /* ProfilePicstruct.swift */,
 			);
 			path = Suportfiles;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Fitness app/Pods-Fitness app-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AvatarImageView/AvatarImageView.framework",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
@@ -279,6 +283,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AvatarImageView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
@@ -305,6 +310,7 @@
 				54DD9FBB2181B4830043FC3A /* ViewController.swift in Sources */,
 				54841F0C21EE2FD500654795 /* Cell.swift in Sources */,
 				542FA3BC21E75FC60080F254 /* RunDetailsViewController.swift in Sources */,
+				54841F1621EF718800654795 /* ProfilePicstruct.swift in Sources */,
 				5470DF9621B2FD1D0010B9FB /* SignupViewController.swift in Sources */,
 				54B25BCC21C3E38100656F1F /* MainpageViewController.swift in Sources */,
 				54841F0A21EE2E4900654795 /* FindPotentielleUsers.swift in Sources */,

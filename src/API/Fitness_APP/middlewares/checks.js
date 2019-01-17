@@ -52,7 +52,7 @@ function checkBodyCreateUser(req, res, next) {
     var failureKey;
 
     Object.keys(user).some(function (key) {
-        if (typeof req.body[key] === "undefined") {
+        if (checkUndefinedOrNull([req.body[key]])) {
             /* If key is missing, set variables and break loop */
             failureKey = key;
             error = true;
@@ -73,8 +73,19 @@ function checkBodyCreateUser(req, res, next) {
     next();
 }
 
+function checkUndefinedOrNull(variables) {
+    for (i = 0; i < variables.length; i++) {
+        if (typeof variables[i] === "undefined" || variables[i] === null)
+        {
+            return true;
+        }
+    }
+    return;
+} 
+
 module.exports = {
     sessionChecker,
     checkIfUserExist,
-    checkBodyCreateUser
+    checkBodyCreateUser,
+    checkUndefinedOrNull
 };

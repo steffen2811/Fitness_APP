@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import AvatarImageView
 
 
 class FindPotentielleUsers: UITableViewController {
@@ -15,6 +16,8 @@ class FindPotentielleUsers: UITableViewController {
     
     var tableData: NSArray = NSArray()
     var element:NSDictionary = [:]
+    
+    var data: [PictureData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,6 +107,19 @@ class FindPotentielleUsers: UITableViewController {
         
         var age = item.object!["age"] as! Int
         cell.Age.text = String(age)
+        
+//        let url = URL(string: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_1280.png")
+//        let data = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+//        cell.Profilepic.dataSource = UIImage(data: data!) as! AvatarImageViewDataSource
+//
+        
+        var data = PictureData()
+        let url = URL(string: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_1280.png")
+        let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+        
+    
+        data.avatar = UIImage(data: data1!)
+        cell.Profilepic.dataSource = data
         
         return cell
     }

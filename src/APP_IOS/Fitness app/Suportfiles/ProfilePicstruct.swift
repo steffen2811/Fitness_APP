@@ -7,3 +7,8 @@
 //
 
 import Foundation
+import AvatarImageView
+
+struct PictureData: AvatarImageViewDataSource {
+    var avatar: UIImage?
+}

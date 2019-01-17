@@ -6,10 +6,20 @@
 //  Copyright © 2019 Tobias Brammer Fredriksen. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import AvatarImageView
+
+struct TableAvatarImageConfig: AvatarImageViewConfiguration {
+    let shape: Shape = .circle
+}
 
 class FindPotentielleUsersCell: UITableViewCell {
+    @IBOutlet var Profilepic: AvatarImageView!{
+        didSet{
+            Profilepic.configuration = TableAvatarImageConfig()
+        }
+    }
+    
     
     @IBOutlet weak var Name: UILabel!
     
