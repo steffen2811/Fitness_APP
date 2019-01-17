@@ -177,30 +177,39 @@ router.get('/getCurrentUser', function (req, res) {
  * @apiParam (Request body) {String} newPassword .
  * @apiParam (Request body) {String} reTypeNewPassword .
  *
- * @apiError (Error 400) Message param is missing. Check doc
+ * @apiError (Error 400) Message Param is missing. Check doc
+ * @apiError (Error 400) NewPasswordError newPassword and reTypeNewPassword does not match
  * @apiError (Error 403) AccessDenied Access denied (No session)
- * @apiError (Error 404) UserNotFound User not found
+ * @apiError (Error 403) incorrectPassword Old password is incorrect password
  * @apiError (Error 500) unspecifiedError Please report
  */
 router.put('/changePassword', function (req, res) {
     /* Get encrypted password for user */
-    var oldPassword = req.query.oldPassword;
-    var newPassword = req.query.newPassword;
-    var reTypeNewPassword = req.query.reTypeNewPassword
+    var oldPassword = req.body.oldPassword;
+    var newPassword = req.body.newPassword;
+    var reTypeNewPassword = req.body.reTypeNewPassword
 
     if (checks.checkUndefinedOrNull([oldPassword, newPassword, reTypeNewPassword])) {
         return res.status(400).json({
-            message: "param is missing. Check doc"
+            message: "Param is missing. Check doc"
         });
     }
-    connection.query(`SELECT * FROM users.users WHERE id_users="${req.session.user.id_users}"`, function (err, row) {
+    /* Check if newPassword is equals to reTypeNewPassword */
+    if (newPassword != reTypeNewPassword)
+    {
+        return res.status(400).json({
+            message: "newPassword and reTypeNewPassword does not match"
+        });
+    }
+
+    connection.query(`SELECT password FROM users.users WHERE id_users="${req.session.user.id_users}"`, function (err, row) {
         if (err) {
             res.status(500).json({
                 error: err
             });
         }
         /* Compare hash from DB with received plain password */
-        auth.comparePassword(password, CurrentRow["password"], function (err, match) {
+        auth.comparePassword(password, row[0].password, function (err, match) {
             if (err) {
                 res.status(500).json({
                     error: err
@@ -209,10 +218,11 @@ router.put('/changePassword', function (req, res) {
                 return done(null, CurrentRow);
             } else {
                 res.status(403).json({
-                    message: "Incorrect password"
+                    message: "Old password is incorrect password"
                 });
             }
         })
+    })
 });
 
 function createUser(user, callback) {
