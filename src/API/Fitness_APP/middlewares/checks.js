@@ -4,7 +4,7 @@ var userModel = require("./../models/user")
 
 /* Standart password requirements */
 var schema = new passwordValidator();
-if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV == "production1") {
     schema
         .is().min(8) // Minimum length 8
         .is().max(100) // Maximum length 100
