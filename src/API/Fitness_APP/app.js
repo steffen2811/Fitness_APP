@@ -1,13 +1,13 @@
 if (process.env.NODE_ENV == "production") {
     process.env.MYSQL_SERVER_ADR = 'db';
     process.env.REDIS_SERVER_ADR = 'redis';
-    process.env.PROFILE_PICTURE_PATH = 'C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/';
+    process.env.PROFILE_PICTURE_PATH = 'http://localhost/profilePictures/';
 } else {
     process.env.MYSQL_SERVER_ADR = '127.0.0.1';
     process.env.MYSQL_ROOT_PASSWORD = 'Password1';
     process.env.REDIS_SERVER_ADR = '127.0.0.1';
     process.env.REDIS_PASSWORD = 'Password1';
-    process.env.PROFILE_PICTURE_PATH = 'C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/';
+    process.env.PROFILE_PICTURE_PATH = 'http://localhost/profilePictures/';
 }
 
 /* use express, path, cookie-parser and morgan */
@@ -49,6 +49,7 @@ app.use(express.urlencoded({
     extended: false
 }));
 app.use(cookieParser());
+app.use('/profilePictures', express.static(__dirname + '/profilePictures'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(passport.initialize());
 app.use(passport.session());

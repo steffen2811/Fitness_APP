@@ -29,7 +29,14 @@ var router = express.Router();
  * @apiParam (Request body) {String} [profilePicture] Profile picture as Base64 string.
  * 
  * @apiParam (Authorization - Basic authentication) {Email} Username Username
- * @apiParam (Authorization - Basic authentication) {Password} Password Password
+ * @apiParam (Authorization - Basic authentication) {Password} Password Password (Rules below)
+ * 
+ * @apiParam (Password requirements) {Rule} min8 Minimum length 8
+ * @apiParam (Password requirements) {Rule} max100 Maximum length 100
+ * @apiParam (Password requirements) {Rule} uppercase Must have uppercase letters
+ * @apiParam (Password requirements) {Rule} lowercase Must have lowercase letters
+ * @apiParam (Password requirements) {Rule} digits Must have digits
+ * @apiParam (Password requirements) {Rule} notSpaces Should not have spaces
  * 
  * @apiSuccess {String} email Username (email)
  * @apiSuccess {String} password Encrypted password
@@ -47,11 +54,12 @@ var router = express.Router();
  * @apiSuccess {Cookie} Session Session cookie
  *
  * @apiError (Error 400) Email Wrong email format.
+ * @apiError (Error 400) PasswordRules Return broken rules.
  * @apiError (Error 403) UserExist User already exist.
  * @apiError (Error 403) MissingData <code>DATA</code> is missing from body.
  * @apiError (Error 500) unspecifiedError Please report
  */
-router.post('/create', auth.getAuthData, checks.checkIfUserExist, fileUpload,
+router.post('/create', auth.getAuthData, checks.checkIfUserExist, checks.checkPassword, fileUpload,
     checks.checkBodyCreateUser, auth.hashPassword,
     function (req, res, next) {
         var user = new userModel();
@@ -172,56 +180,97 @@ router.get('/getCurrentUser', function (req, res) {
  * @apiVersion 1.0.0
  * @apiName changePassword
  * @apiGroup Users
+ * @apiDescription User will be logged out and have to login with new password.
  * 
  * @apiParam (Request body) {String} oldPassword .
- * @apiParam (Request body) {String} newPassword .
- * @apiParam (Request body) {String} reTypeNewPassword .
+ * @apiParam (Request body) {String} password (See rules for password below)
+ * @apiParam (Request body) {String} reTypePassword .
+ * 
+ * @apiParam (Password requirements) {Rule} min8 Minimum length 8
+ * @apiParam (Password requirements) {Rule} max100 Maximum length 100
+ * @apiParam (Password requirements) {Rule} uppercase Must have uppercase letters
+ * @apiParam (Password requirements) {Rule} lowercase Must have lowercase letters
+ * @apiParam (Password requirements) {Rule} digits Must have digits
+ * @apiParam (Password requirements) {Rule} notSpaces Should not have spaces
+ * 
+ * @apiSuccess {String} message Password updated and logout success
  *
  * @apiError (Error 400) Message Param is missing. Check doc
+ * @apiError (Error 400) PasswordRules Return broken rules.
  * @apiError (Error 400) NewPasswordError newPassword and reTypeNewPassword does not match
  * @apiError (Error 403) AccessDenied Access denied (No session)
  * @apiError (Error 403) incorrectPassword Old password is incorrect password
+ * @apiError (Error 403) Facebook User is created using Facebook and have no password to change
  * @apiError (Error 500) unspecifiedError Please report
  */
-router.put('/changePassword', function (req, res) {
+router.put('/changePassword', checks.checkPassword, function (req, res, next) {
     /* Get encrypted password for user */
-    var oldPassword = req.body.oldPassword;
-    var newPassword = req.body.newPassword;
-    var reTypeNewPassword = req.body.reTypeNewPassword
-
-    if (checks.checkUndefinedOrNull([oldPassword, newPassword, reTypeNewPassword])) {
+    var oldPassword = req.body.oldPassword
+    var password = req.body.password
+    var reTypePassword = req.body.reTypePassword
+    /* Check if used body elements exist */
+    if (checks.checkUndefinedOrNull([oldPassword, password, reTypePassword])) {
         return res.status(400).json({
             message: "Param is missing. Check doc"
         });
     }
     /* Check if newPassword is equals to reTypeNewPassword */
-    if (newPassword != reTypeNewPassword)
-    {
+    if (password != reTypePassword) {
         return res.status(400).json({
             message: "newPassword and reTypeNewPassword does not match"
         });
     }
 
+    /* Get password for logged in user */
     connection.query(`SELECT password FROM users.users WHERE id_users="${req.session.user.id_users}"`, function (err, row) {
         if (err) {
             res.status(500).json({
                 error: err
             });
+        } else if (row["0"].password = "null")
+        {
+            return res.status(403).json({
+                message: "User is created using Facebook and have no password to change"
+            });
         }
         /* Compare hash from DB with received plain password */
-        auth.comparePassword(password, row[0].password, function (err, match) {
+        auth.comparePassword(oldPassword, row["0"].password, function (err, match) {
             if (err) {
-                res.status(500).json({
+                return res.status(500).json({
                     error: err
                 });
             } else if (match) {
-                return done(null, CurrentRow);
+                next();
             } else {
-                res.status(403).json({
+                return res.status(403).json({
                     message: "Old password is incorrect password"
                 });
             }
         })
+    })
+}, auth.hashPassword, function (req, res) {
+    /* Update password for user and logout */
+    connection.query(`UPDATE users.users
+        SET password = "${req.body.password}"
+        WHERE id_users="${req.session.user.id_users}"`, function (err) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        } else {
+            req.session.destroy(function (err) {
+                if (err) {
+                    return res.status(500).json({
+                        error: err
+                    });
+                } else {
+                    res.clearCookie('connect.sid')
+                    return res.json({
+                        message: "Password updated and logout success"
+                    });
+                }
+            });
+        }
     })
 });
 

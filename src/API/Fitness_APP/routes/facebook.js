@@ -111,7 +111,7 @@ router.post('/create',
         req.body.name = req.user._json["name"]
         req.body.profileImgPath = req.user.photos[0].value;
         next();
-    }, checks.checkBodyCreateUser, 
+    }, checks.checkBodyCreateUser,
     function (req, res) {
         var user = new userModel();
         //Fill all information from body

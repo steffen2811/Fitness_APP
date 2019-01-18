@@ -1285,6 +1285,7 @@ define({ "api": [
     "version": "1.0.0",
     "name": "changePassword",
     "group": "Users",
+    "description": "<p>User will be logged out and have to login with new password.</p>",
     "parameter": {
       "fields": {
         "Request body": [
@@ -1299,15 +1300,72 @@ define({ "api": [
             "group": "Request body",
             "type": "String",
             "optional": false,
-            "field": "newPassword",
-            "description": "<p>.</p>"
+            "field": "password",
+            "description": "<p>(See rules for password below)</p>"
           },
           {
             "group": "Request body",
             "type": "String",
             "optional": false,
-            "field": "reTypeNewPassword",
+            "field": "reTypePassword",
             "description": "<p>.</p>"
+          }
+        ],
+        "Password requirements": [
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "min8",
+            "description": "<p>Minimum length 8</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "max100",
+            "description": "<p>Maximum length 100</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "uppercase",
+            "description": "<p>Must have uppercase letters</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "lowercase",
+            "description": "<p>Must have lowercase letters</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "digits",
+            "description": "<p>Must have digits</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "notSpaces",
+            "description": "<p>Should not have spaces</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Password updated and logout success</p>"
           }
         ]
       }
@@ -1319,7 +1377,19 @@ define({ "api": [
             "group": "Error 400",
             "optional": false,
             "field": "Message",
-            "description": "<p>param is missing. Check doc</p>"
+            "description": "<p>Param is missing. Check doc</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "PasswordRules",
+            "description": "<p>Return broken rules.</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "NewPasswordError",
+            "description": "<p>newPassword and reTypeNewPassword does not match</p>"
           }
         ],
         "Error 403": [
@@ -1328,14 +1398,18 @@ define({ "api": [
             "optional": false,
             "field": "AccessDenied",
             "description": "<p>Access denied (No session)</p>"
-          }
-        ],
-        "Error 404": [
+          },
           {
-            "group": "Error 404",
+            "group": "Error 403",
             "optional": false,
-            "field": "UserNotFound",
-            "description": "<p>User not found</p>"
+            "field": "incorrectPassword",
+            "description": "<p>Old password is incorrect password</p>"
+          },
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "Facebook",
+            "description": "<p>User is created using Facebook and have no password to change</p>"
           }
         ],
         "Error 500": [
@@ -1455,7 +1529,51 @@ define({ "api": [
             "type": "Password",
             "optional": false,
             "field": "Password",
-            "description": "<p>Password</p>"
+            "description": "<p>Password (Rules below)</p>"
+          }
+        ],
+        "Password requirements": [
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "min8",
+            "description": "<p>Minimum length 8</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "max100",
+            "description": "<p>Maximum length 100</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "uppercase",
+            "description": "<p>Must have uppercase letters</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "lowercase",
+            "description": "<p>Must have lowercase letters</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "digits",
+            "description": "<p>Must have digits</p>"
+          },
+          {
+            "group": "Password requirements",
+            "type": "Rule",
+            "optional": false,
+            "field": "notSpaces",
+            "description": "<p>Should not have spaces</p>"
           }
         ]
       }
@@ -1572,6 +1690,12 @@ define({ "api": [
             "optional": false,
             "field": "Email",
             "description": "<p>Wrong email format.</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "PasswordRules",
+            "description": "<p>Return broken rules.</p>"
           }
         ],
         "Error 403": [

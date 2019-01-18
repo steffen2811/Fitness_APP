@@ -1,5 +1,18 @@
+var passwordValidator = require('password-validator');
 var connection = require('../helpers/mysql');
 var userModel = require("./../models/user")
+
+/* Standart password requirements */
+var schema = new passwordValidator();
+if (process.env.NODE_ENV == "production") {
+    schema
+        .is().min(8) // Minimum length 8
+        .is().max(100) // Maximum length 100
+        .has().uppercase() // Must have uppercase letters
+        .has().lowercase() // Must have lowercase letters
+        .has().digits() // Must have digits
+        .has().not().spaces() // Should not have spaces
+}
 
 /* Function - Check if user is authenticated */
 function sessionChecker(req, res, next) {
@@ -73,19 +86,41 @@ function checkBodyCreateUser(req, res, next) {
     next();
 }
 
+function checkPassword(req, res, next) {
+    if (checkUndefinedOrNull([req.body.password])) {
+        return res.status(400).json({
+            message: "Param is missing. Check doc"
+        });
+    }
+    var brokenPasswordRules = schema.validate(req.body.password, {
+        list: true
+    })
+
+    if (brokenPasswordRules.length != 0) {
+        return res.status(400).json({
+            error: "Password is not strong enough",
+            listOfBrokenRules: brokenPasswordRules
+        });
+    }
+    next();
+
+}
+
 function checkUndefinedOrNull(variables) {
     for (i = 0; i < variables.length; i++) {
-        if (typeof variables[i] === "undefined" || variables[i] === null)
-        {
+        if (typeof variables[i] === "undefined" || variables[i] === null) {
             return true;
         }
     }
     return;
-} 
+}
+
+
 
 module.exports = {
     sessionChecker,
     checkIfUserExist,
     checkBodyCreateUser,
-    checkUndefinedOrNull
+    checkUndefinedOrNull,
+    checkPassword
 };
