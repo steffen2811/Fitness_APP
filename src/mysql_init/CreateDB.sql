@@ -25,12 +25,13 @@ DROP TABLE IF EXISTS `fitness_exercises`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fitness_exercises` (
-  `id_fitness_exercises` int(11) NOT NULL,
+  `id_fitness_exercises` int(11) NOT NULL AUTO_INCREMENT,
   `execiseName` varchar(100) NOT NULL,
   `repeats` int(11) NOT NULL,
-  `weightOrLevel` varchar(10) NOT NULL,
+  `sets` varchar(45) NOT NULL,
+  `howToVideo` varchar(500) NOT NULL,
   PRIMARY KEY (`id_fitness_exercises`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -39,6 +40,7 @@ CREATE TABLE `fitness_exercises` (
 
 LOCK TABLES `fitness_exercises` WRITE;
 /*!40000 ALTER TABLE `fitness_exercises` DISABLE KEYS */;
+INSERT INTO `fitness_exercises` VALUES (1,'Leg Press',10,'3','https://www.youtube.com/watch?v=qxRlIA0JU2A'),(3,'Lying Leg Curls',12,'3','https://www.youtube.com/watch?v=dBo-Pw2a2h8'),(4,'Wide-Grip Lat Pulldown',8,'3','https://www.youtube.com/watch?v=lueEJGjTuPQ'),(5,'Butterfly',10,'2','https://www.youtube.com/watch?v=oGxc2ph8Fnw'),(6,'Triceps pulldown',10,'3','https://www.youtube.com/watch?v=q25J5FYxcYU'),(7,'Machine Biceps Curl',8,'3','https://www.youtube.com/watch?v=uO_CNYidOw0'),(8,'Machine shoulder Press',12,'2','https://www.youtube.com/watch?v=qEwKCR5JCog'),(9,'Ab Crunch Machine',10,'3','https://www.youtube.com/watch?v=KNgfBz_u9LU');
 /*!40000 ALTER TABLE `fitness_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,10 +54,10 @@ DROP TABLE IF EXISTS `fitness_exercises_in_plan`;
 CREATE TABLE `fitness_exercises_in_plan` (
   `id_fitness_exercises` int(11) NOT NULL,
   `id_fitness_plan` int(11) NOT NULL,
-  KEY `fk_fitness_exercise_id_idx` (`id_fitness_exercises`),
   KEY `fk_fitness_plan_id_idx` (`id_fitness_plan`),
-  CONSTRAINT `id_fitness_exercises_fk` FOREIGN KEY (`id_fitness_exercises`) REFERENCES `fitness_exercises` (`id_fitness_exercises`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `id_fitness_plan_fk2` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `id_fitness_exercises_fk_idx` (`id_fitness_exercises`),
+  CONSTRAINT `id_fitness_exercises_fk` FOREIGN KEY (`id_fitness_exercises`) REFERENCES `fitness_exercises` (`id_fitness_exercises`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `id_fitness_plan_fk2` FOREIGN KEY (`id_fitness_plan`) REFERENCES `fitness_plan` (`id_fitness_plan`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -65,6 +67,7 @@ CREATE TABLE `fitness_exercises_in_plan` (
 
 LOCK TABLES `fitness_exercises_in_plan` WRITE;
 /*!40000 ALTER TABLE `fitness_exercises_in_plan` DISABLE KEYS */;
+INSERT INTO `fitness_exercises_in_plan` VALUES (1,4),(3,4),(1,5),(3,5),(4,5),(1,13),(3,13),(4,13),(1,14),(3,14),(4,14);
 /*!40000 ALTER TABLE `fitness_exercises_in_plan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -76,10 +79,10 @@ DROP TABLE IF EXISTS `fitness_plan`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `fitness_plan` (
-  `id_fitness_plan` int(11) NOT NULL,
+  `id_fitness_plan` int(11) NOT NULL AUTO_INCREMENT,
   `FitnessPlanName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_fitness_plan`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -88,6 +91,7 @@ CREATE TABLE `fitness_plan` (
 
 LOCK TABLES `fitness_plan` WRITE;
 /*!40000 ALTER TABLE `fitness_plan` DISABLE KEYS */;
+INSERT INTO `fitness_plan` VALUES (4,'steffen1'),(5,'steffen1'),(6,'steffen1'),(7,'steffen1'),(8,'steffen1'),(9,'steffen1'),(10,'steffen1'),(11,'steffen1'),(12,'steffen1'),(13,'steffen1'),(14,'steffen1');
 /*!40000 ALTER TABLE `fitness_plan` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,8 +110,8 @@ CREATE TABLE `friend_relationship` (
   PRIMARY KEY (`id_friend_relationship`),
   KEY `requestByUser_idx` (`requestByUser`),
   KEY `relatedUser_fk_idx` (`relatedUser`),
-  CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -226,7 +230,7 @@ CREATE TABLE `user_activity` (
 
 LOCK TABLES `user_activity` WRITE;
 /*!40000 ALTER TABLE `user_activity` DISABLE KEYS */;
-INSERT INTO `user_activity` VALUES (3,1,NULL),(8,2,NULL),(1,11,NULL),(2,11,NULL),(3,11,NULL),(8,11,NULL);
+INSERT INTO `user_activity` VALUES (3,1,NULL),(8,2,NULL),(1,11,NULL),(2,11,NULL),(3,11,NULL),(8,11,NULL),(9,NULL,4),(9,NULL,5),(9,NULL,6),(9,NULL,7),(9,NULL,8),(9,NULL,9),(9,NULL,10),(9,NULL,11),(9,NULL,14),(1,NULL,5),(2,NULL,5),(1,NULL,5),(2,NULL,5);
 /*!40000 ALTER TABLE `user_activity` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +256,7 @@ CREATE TABLE `users` (
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,7 +265,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'steffenq5@l5ive11.dk','$2a$10$dagUgUdsBMROcFQXzhobG.rkbVlVMPPS77lbe8EXYaSdf1jsuzJBi','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(2,'steffen@live.dk','$2a$10$u9E3DWqkgp0xYOWU1u19feM2aPUtTE2bzwkmhaooeemCNDE21M4mm','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffen1@live.dk','$2a$10$yyc513wA0bu7pA5zqOE1geS0ye5eHKom8BqEq/s0pfYlIJxIUOT6y','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(6,'steffen2811@live.dk','null','Steffen Kjær Thomsen','male',55,26357820,'running','https://graph.facebook.com/v2.6/2006345182734802/picture?type=large',5,5,55.55,55.55),(7,'steffenq55@l5ive11.dk','$2a$10$gzbXhtccozqX8m.TMvEQr.pWf8umzPZh1bDpbrinnqYlGAUvyasKq','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(8,'steffenq555@l5ive11.dk','$2a$10$dwyXtGgFW/aVQxP39X5BKeOZTN9Nhnv.4.rjUmYvYr8QsEYooMxFm','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
+INSERT INTO `users` VALUES (1,'steffenq5@l5ive11.dk','$2a$10$dagUgUdsBMROcFQXzhobG.rkbVlVMPPS77lbe8EXYaSdf1jsuzJBi','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(2,'steffen@live.dk','$2a$10$u9E3DWqkgp0xYOWU1u19feM2aPUtTE2bzwkmhaooeemCNDE21M4mm','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(3,'steffen1@live.dk','$2a$10$yyc513wA0bu7pA5zqOE1geS0ye5eHKom8BqEq/s0pfYlIJxIUOT6y','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(6,'steffen2811@live.dk','null','Steffen Kjær Thomsen','male',55,26357820,'running','https://graph.facebook.com/v2.6/2006345182734802/picture?type=large',5,5,55.55,55.55),(7,'steffenq55@l5ive11.dk','$2a$10$gzbXhtccozqX8m.TMvEQr.pWf8umzPZh1bDpbrinnqYlGAUvyasKq','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(8,'steffenq555@l5ive11.dk','$2a$10$dwyXtGgFW/aVQxP39X5BKeOZTN9Nhnv.4.rjUmYvYr8QsEYooMxFm','steffen','male',55,26357820,'running','C:/Users/54409/OneDrive - Grundfos/Final/Fitness_APP/src/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55),(9,'steffen@l5ive11.dk','$2a$10$kutAg3OTh4Pr2Hr2VAwsTOyddAQigOiqWu5XWoS2hZQnvPTkOBbA.','steffen1','male',55,26357820,'running','http://localhost/profilePictures/standartProfilePicture.jpg',5,5,55.55,55.55);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -316,7 +320,7 @@ CREATE TABLE `users_suggested_matches` (
 
 LOCK TABLES `users_suggested_matches` WRITE;
 /*!40000 ALTER TABLE `users_suggested_matches` DISABLE KEYS */;
-INSERT INTO `users_suggested_matches` VALUES (2,1,'0 hour'),(3,1,'0 hour'),(3,2,'0 hour'),(6,1,'0 hour'),(6,2,'0 hour'),(6,3,'0 hour'),(7,1,'0 hour'),(7,2,'0 hour'),(7,3,'0 hour'),(7,6,'0 hour'),(8,6,'0 hour'),(8,7,'0 hour');
+INSERT INTO `users_suggested_matches` VALUES (2,1,'0 hour'),(3,1,'0 hour'),(3,2,'0 hour'),(6,1,'0 hour'),(6,2,'0 hour'),(6,3,'0 hour'),(7,1,'0 hour'),(7,2,'0 hour'),(7,3,'0 hour'),(7,6,'0 hour'),(8,6,'0 hour'),(8,7,'0 hour'),(9,1,'0 hour'),(9,2,'0 hour'),(9,3,'0 hour'),(9,6,'0 hour'),(9,7,'0 hour'),(9,8,'0 hour');
 /*!40000 ALTER TABLE `users_suggested_matches` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,4 +420,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-17 14:45:11
+-- Dump completed on 2019-01-22 20:31:39
