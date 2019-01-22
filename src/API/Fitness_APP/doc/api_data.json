@@ -1073,6 +1073,395 @@
     "groupTitle": "Facebook"
   },
   {
+    "type": "post",
+    "url": "/sports/running/createFitnessPlan/",
+    "title": "Create fitness plan",
+    "version": "1.0.0",
+    "name": "createFitnessPlan",
+    "group": "Fitness",
+    "parameter": {
+      "fields": {
+        "Request body": [
+          {
+            "group": "Request body",
+            "type": "String",
+            "optional": false,
+            "field": "FitnessPlanName",
+            "description": "<p>Name of plan</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Array[]",
+            "optional": true,
+            "field": "Execises",
+            "description": "<p>Execises in plan</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Int",
+            "optional": true,
+            "field": "Execises.id_fitness_exercises",
+            "description": "<p>Id of execise.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Fitness plan created</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Param is missing. Check docs.</p>"
+          }
+        ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
+    "type": "get",
+    "url": "/sports/fitness/getAllExecises",
+    "title": "Get all execises",
+    "version": "1.0.0",
+    "name": "getAllExecises",
+    "group": "Fitness",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array[]",
+            "optional": false,
+            "field": "Execises",
+            "description": "<p>List of Execises.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Execises.id_fitness_execises",
+            "description": "<p>Id of execise.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.execiseName",
+            "description": "<p>Name of execise.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.repeats",
+            "description": "<p>Repeats.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Execises.sets",
+            "description": "<p>Sets.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.howToVideo",
+            "description": "<p>Link to youtube.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
+    "type": "get",
+    "url": "/sports/fitness/getExecisesInPlan/",
+    "title": "Get execises in fitness plan",
+    "version": "1.0.0",
+    "name": "getExecisesInPlan",
+    "group": "Fitness",
+    "parameter": {
+      "fields": {
+        "Param": [
+          {
+            "group": "Param",
+            "type": "Int",
+            "optional": false,
+            "field": "Id",
+            "description": "<p>of fitness plan to receive data from</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array[]",
+            "optional": false,
+            "field": "Execises",
+            "description": "<p>List of Execises.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.execiseName",
+            "description": "<p>Name of execise.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.repeats",
+            "description": "<p>Repeats.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Execises.sets",
+            "description": "<p>Sets.</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Execises.howToVideo",
+            "description": "<p>Link to youtube.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
+    "type": "get",
+    "url": "/sports/fitness/getFitnessPlans/",
+    "title": "Get user fitness plans",
+    "version": "1.0.0",
+    "name": "getFitnessPlans",
+    "group": "Fitness",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Array[]",
+            "optional": false,
+            "field": "Plans",
+            "description": "<p>Array of fitness plans</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "Plans.id_fitness_plan",
+            "description": "<p>Id of plan</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Plans.FitnessPlanName",
+            "description": "<p>Name of plan</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 404": [
+          {
+            "group": "Error 404",
+            "optional": false,
+            "field": "message",
+            "description": "<p>No fitness plans for user</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
+    "type": "post",
+    "url": "/sports/fitness/shareFitnessPlan/",
+    "title": "Share fitness plan",
+    "version": "1.0.0",
+    "name": "shareFitnessPlan",
+    "group": "Fitness",
+    "parameter": {
+      "fields": {
+        "Request body": [
+          {
+            "group": "Request body",
+            "type": "String",
+            "optional": false,
+            "field": "fitnessPlanId",
+            "description": "<p>Id of fitnessplan to share.</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Array[]",
+            "optional": false,
+            "field": "shareWithUsers",
+            "description": "<p>Users perticipated in run</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Int",
+            "optional": false,
+            "field": "shareWithUsers.id_users",
+            "description": "<p>id of user</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "Message",
+            "description": "<p>Name of execise.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "ParamMissing",
+            "description": "<p>Param is missing. Check doc.</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "NoUser",
+            "description": "<p>No user in shareWithUsers.</p>"
+          }
+        ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
     "type": "get",
     "url": "/sports/running/getRuns/",
     "title": "Get user runs",
@@ -2049,6 +2438,148 @@
     },
     "error": {
       "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/users.js",
+    "groupTitle": "Users"
+  },
+  {
+    "type": "put",
+    "url": "/users/updateInfo/",
+    "title": "Change user information",
+    "version": "1.0.0",
+    "name": "updateInfo",
+    "group": "Users",
+    "parameter": {
+      "fields": {
+        "Request body": [
+          {
+            "group": "Request body",
+            "type": "String",
+            "optional": true,
+            "field": "name",
+            "description": "<p>Full name</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"male\"",
+              "\"female\""
+            ],
+            "optional": true,
+            "field": "gender",
+            "description": "<p>Gender</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": true,
+            "field": "age",
+            "description": "<p>Age</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": true,
+            "field": "mobile",
+            "description": "<p>Mobile number</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "allowedValues": [
+              "\"Run\"",
+              "\"Fitness\""
+            ],
+            "optional": true,
+            "field": "primarySports",
+            "description": "<p>Primary sport</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "optional": true,
+            "field": "timeSpendPerWeek",
+            "description": "<p>Time spend per week.</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Number",
+            "size": "1-10",
+            "optional": true,
+            "field": "sportLevel",
+            "description": "<p>Sport level. 1 is beginner, 10 is very experienced.</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Float",
+            "optional": true,
+            "field": "locationLong",
+            "description": "<p>Longitude (north/south)</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "Float",
+            "optional": true,
+            "field": "locationLat",
+            "description": "<p>Latitude (west/east)</p>"
+          },
+          {
+            "group": "Request body",
+            "type": "String",
+            "optional": true,
+            "field": "profilePicture",
+            "description": "<p>Profile picture as Base64 string.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Profile updated</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 400": [
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "Message",
+            "description": "<p>It it not possible to update email, password and profileImgPath with updateInfo. Check doc</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "NothingToUpdate",
+            "description": "<p>Nothing to update</p>"
+          }
+        ],
         "Error 403": [
           {
             "group": "Error 403",

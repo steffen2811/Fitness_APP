@@ -59,7 +59,7 @@ var router = express.Router();
  * @apiError (Error 403) MissingData <code>DATA</code> is missing from body.
  * @apiError (Error 500) unspecifiedError Please report
  */
-router.post('/create', auth.getAuthData, checks.checkIfUserExist, checks.checkPassword, fileUpload,
+router.post('/create', auth.getAuthData, checks.checkIfUserExist, checks.checkPassword, fileUpload("create"),
     checks.checkBodyCreateUser, auth.hashPassword,
     function (req, res, next) {
         var user = new userModel();
@@ -227,8 +227,7 @@ router.put('/changePassword', checks.checkPassword, function (req, res, next) {
             res.status(500).json({
                 error: err
             });
-        } else if (row["0"].password = "null")
-        {
+        } else if (row["0"].password == "null") {
             return res.status(403).json({
                 message: "User is created using Facebook and have no password to change"
             });
@@ -273,6 +272,75 @@ router.put('/changePassword', checks.checkPassword, function (req, res, next) {
         }
     })
 });
+
+/**
+ * @api {put} /users/updateInfo/ Change user information
+ * @apiVersion 1.0.0
+ * @apiName updateInfo
+ * @apiGroup Users
+ * 
+ * @apiParam (Request body) {String} [name] Full name
+ * @apiParam (Request body) {String="male","female"} [gender] Gender
+ * @apiParam (Request body) {Number} [age] Age
+ * @apiParam (Request body) {Number} [mobile] Mobile number
+ * @apiParam (Request body) {String="Run","Fitness"} [primarySports] Primary sport
+ * @apiParam (Request body) {Number} [timeSpendPerWeek] Time spend per week.
+ * @apiParam (Request body) {Number{1-10}} [sportLevel] Sport level. 1 is beginner, 10 is very experienced.
+ * @apiParam (Request body) {Float} [locationLong] Longitude (north/south)
+ * @apiParam (Request body) {Float} [locationLat] Latitude (west/east)
+ * @apiParam (Request body) {String} [profilePicture] Profile picture as Base64 string.
+ * 
+ * @apiSuccess {String} message Profile updated
+ *
+ * @apiError (Error 400) Message It it not possible to update email, password and profileImgPath with updateInfo. Check doc
+ * @apiError (Error 400) NothingToUpdate Nothing to update
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 500) unspecifiedError Please report
+ */
+router.put('/updateInfo', function (req, res, next) {
+    /* It is not possible to update email, password and profileImgPath. Check if they are set to be updated in body */
+    if (typeof req.body.email !== "undefined" || typeof req.body.password !== "undefined" || typeof req.body.profileImgPath !== "undefined") {
+        return res.status(400).json({
+            message: "It it not possible to update email, password and profileImgPath with updateInfo. Check doc"
+        });
+    }
+    next();
+}, fileUpload("update"), function (req, res) {
+    var user = new userModel();
+    var fristItem = true;
+    var query = `UPDATE users.users SET `
+    Object.keys(user).some(function (key) {
+        if (!checks.checkUndefinedOrNull([req.body[key]])) {
+            if (!fristItem) {
+                query += " , "
+            }
+            query += key + ` = "` + req.body[key] + `"`
+            fristItem = false;
+        }
+    });
+    
+    if (query == `UPDATE users.users SET `)
+    {
+        return res.status(400).json({
+            message: "Nothing to update"
+        });  
+    }
+
+    query += ` WHERE id_users=${req.session.user.id_users}`
+
+    connection.query(query, function (err) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        } else {
+            return res.json({
+                message: "Profile updated"
+            });
+        }
+
+    })
+})
 
 function createUser(user, callback) {
     /* Insert new user into DB */
