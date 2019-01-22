@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import MapKit
 
-class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate, CLLocationManagerDelegate {
     
     var base64SignupString = ""
     var base64StringImage = ""
@@ -40,9 +40,15 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         //print(base64SignupString)
         imagePicker.delegate = self
         
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+        
     }
     
-    //timer and locationManager stops when view is closed. to save energy and process speed.
+    //locationManager stops when view is closed. to save energy and process speed.
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         locationManager.stopUpdatingLocation()

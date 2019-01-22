@@ -22,14 +22,20 @@
 		54841F1021EE32C200654795 /* PotentielleUsersDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */; };
 		54841F1621EF718800654795 /* ProfilePicstruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1521EF718800654795 /* ProfilePicstruct.swift */; };
 		54841F1821F0A33700654795 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1721F0A33700654795 /* SearchTableViewController.swift */; };
+		54841F1A21F0B48900654795 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54841F1921F0B48800654795 /* Assets.xcassets */; };
+		54841F1C21F0B77200654795 /* PendingRequestTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1B21F0B77200654795 /* PendingRequestTableViewController.swift */; };
+		54841F1E21F0BA1600654795 /* PendingRequestDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1D21F0BA1600654795 /* PendingRequestDetailViewController.swift */; };
+		54841F2021F22F2900654795 /* ShowFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54841F1F21F22F2900654795 /* ShowFriendsViewController.swift */; };
 		54A3D12A21E78DBE005ECAFB /* MulticolorPolyLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */; };
 		54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */; };
 		54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */; };
 		54B25BCC21C3E38100656F1F /* MainpageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B25BCB21C3E38100656F1F /* MainpageViewController.swift */; };
+		54D7E91B21F4BDFC000767CD /* UserStruckt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91A21F4BDFC000767CD /* UserStruckt.swift */; };
+		54D7E91D21F5DF69000767CD /* RunTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91C21F5DF69000767CD /* RunTableviewCell.swift */; };
+		54D7E91F21F5E0D8000767CD /* savedRunTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91E21F5E0D8000767CD /* savedRunTableViewController.swift */; };
 		54DD9FB92181B4830043FC3A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD9FB82181B4830043FC3A /* AppDelegate.swift */; };
 		54DD9FBB2181B4830043FC3A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54DD9FBA2181B4830043FC3A /* ViewController.swift */; };
 		54DD9FBE2181B4830043FC3A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54DD9FBC2181B4830043FC3A /* Main.storyboard */; };
-		54DD9FC32181B4830043FC3A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 54DD9FC22181B4830043FC3A /* Assets.xcassets */; };
 		54DD9FC62181B4830043FC3A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 54DD9FC42181B4830043FC3A /* LaunchScreen.storyboard */; };
 		6B7E76BE3DED2CD1DF1D7CD4 /* Pods_Fitness_app.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E08A286ED79BB1967BA18AD /* Pods_Fitness_app.framework */; };
 /* End PBXBuildFile section */
@@ -52,15 +58,21 @@
 		54841F0F21EE32C200654795 /* PotentielleUsersDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PotentielleUsersDetail.swift; sourceTree = "<group>"; };
 		54841F1521EF718800654795 /* ProfilePicstruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePicstruct.swift; sourceTree = "<group>"; };
 		54841F1721F0A33700654795 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
+		54841F1921F0B48800654795 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		54841F1B21F0B77200654795 /* PendingRequestTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingRequestTableViewController.swift; sourceTree = "<group>"; };
+		54841F1D21F0BA1600654795 /* PendingRequestDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingRequestDetailViewController.swift; sourceTree = "<group>"; };
+		54841F1F21F22F2900654795 /* ShowFriendsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShowFriendsViewController.swift; sourceTree = "<group>"; };
 		54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MulticolorPolyLine.swift; sourceTree = "<group>"; };
 		54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardSupport.swift; sourceTree = "<group>"; };
 		54B25BCB21C3E38100656F1F /* MainpageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainpageViewController.swift; sourceTree = "<group>"; };
+		54D7E91A21F4BDFC000767CD /* UserStruckt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStruckt.swift; sourceTree = "<group>"; };
+		54D7E91C21F5DF69000767CD /* RunTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunTableviewCell.swift; sourceTree = "<group>"; };
+		54D7E91E21F5E0D8000767CD /* savedRunTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savedRunTableViewController.swift; sourceTree = "<group>"; };
 		54DD9FB52181B4830043FC3A /* Fitness app.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Fitness app.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		54DD9FB82181B4830043FC3A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		54DD9FBA2181B4830043FC3A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		54DD9FBD2181B4830043FC3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		54DD9FC22181B4830043FC3A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		54DD9FC52181B4830043FC3A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		54DD9FC72181B4830043FC3A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6FE34AFC08AA0DC6CB703D1 /* Pods-Fitness app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Fitness app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Fitness app/Pods-Fitness app.debug.xcconfig"; sourceTree = "<group>"; };
@@ -90,8 +102,10 @@
 		542FA3BA21E75F400080F254 /* RuningSection */ = {
 			isa = PBXGroup;
 			children = (
+				54D7E91C21F5DF69000767CD /* RunTableviewCell.swift */,
 				542FA3BB21E75FC60080F254 /* RunDetailsViewController.swift */,
 				542FA3BD21E760400080F254 /* NewRunViewController.swift */,
+				54D7E91E21F5E0D8000767CD /* savedRunTableViewController.swift */,
 			);
 			path = RuningSection;
 			sourceTree = "<group>";
@@ -138,8 +152,8 @@
 				5470DF9521B2FD1D0010B9FB /* SignupViewController.swift */,
 				5484160321E3E71A005436E2 /* Signup2Viewcontroller.swift */,
 				543AB4BF21BAAA74001F64FA /* UserViewController.swift */,
+				54841F1921F0B48800654795 /* Assets.xcassets */,
 				54DD9FBC2181B4830043FC3A /* Main.storyboard */,
-				54DD9FC22181B4830043FC3A /* Assets.xcassets */,
 				54DD9FC42181B4830043FC3A /* LaunchScreen.storyboard */,
 				54DD9FC72181B4830043FC3A /* Info.plist */,
 				54B25BCB21C3E38100656F1F /* MainpageViewController.swift */,
@@ -148,6 +162,10 @@
 				54841F0B21EE2FD500654795 /* Cell.swift */,
 				54841F0D21EE300000654795 /* FindPotentielleUsersCell.swift */,
 				54841F1721F0A33700654795 /* SearchTableViewController.swift */,
+				54841F1B21F0B77200654795 /* PendingRequestTableViewController.swift */,
+				54841F1D21F0BA1600654795 /* PendingRequestDetailViewController.swift */,
+				54841F1F21F22F2900654795 /* ShowFriendsViewController.swift */,
+				54D7E91A21F4BDFC000767CD /* UserStruckt.swift */,
 			);
 			path = "Fitness app";
 			sourceTree = "<group>";
@@ -235,7 +253,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				54DD9FC62181B4830043FC3A /* LaunchScreen.storyboard in Resources */,
-				54DD9FC32181B4830043FC3A /* Assets.xcassets in Resources */,
+				54841F1A21F0B48900654795 /* Assets.xcassets in Resources */,
 				54DD9FBE2181B4830043FC3A /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -308,8 +326,12 @@
 			files = (
 				543AB4C021BAAA74001F64FA /* UserViewController.swift in Sources */,
 				542FA3C121E7742E0080F254 /* UnitExtensions.swift in Sources */,
+				54841F2021F22F2900654795 /* ShowFriendsViewController.swift in Sources */,
+				54D7E91D21F5DF69000767CD /* RunTableviewCell.swift in Sources */,
+				54D7E91B21F4BDFC000767CD /* UserStruckt.swift in Sources */,
 				54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */,
 				5484160421E3E71A005436E2 /* Signup2Viewcontroller.swift in Sources */,
+				54841F1E21F0BA1600654795 /* PendingRequestDetailViewController.swift in Sources */,
 				54DD9FBB2181B4830043FC3A /* ViewController.swift in Sources */,
 				54841F0C21EE2FD500654795 /* Cell.swift in Sources */,
 				542FA3BC21E75FC60080F254 /* RunDetailsViewController.swift in Sources */,
@@ -319,6 +341,7 @@
 				54841F1821F0A33700654795 /* SearchTableViewController.swift in Sources */,
 				54841F0A21EE2E4900654795 /* FindPotentielleUsers.swift in Sources */,
 				54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */,
+				54D7E91F21F5E0D8000767CD /* savedRunTableViewController.swift in Sources */,
 				54A3D12A21E78DBE005ECAFB /* MulticolorPolyLine.swift in Sources */,
 				54DD9FB92181B4830043FC3A /* AppDelegate.swift in Sources */,
 				54841F0E21EE300000654795 /* FindPotentielleUsersCell.swift in Sources */,
@@ -327,6 +350,7 @@
 				54841F1021EE32C200654795 /* PotentielleUsersDetail.swift in Sources */,
 				542FA3B921E75D040080F254 /* Fitness_app.xcdatamodeld in Sources */,
 				542FA3C321E7774C0080F254 /* FormatDisplay.swift in Sources */,
+				54841F1C21F0B77200654795 /* PendingRequestTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -92,7 +92,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
 
         //Create dataTask using the session object to send data to the server
         let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
-
+            print(response)
+            print(error)
             guard error == nil else {
                 return
             }
