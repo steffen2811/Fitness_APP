@@ -1,0 +1,824 @@
+{
+	"info": {
+		"_postman_id": "63c4b33f-9132-4c74-bcd5-fcd125ca7a41",
+		"name": "Simple_test_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create user email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffen\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "a123456A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"steffen\",\n    \"age\": \"22\",\n    \"mobile\": 26357820,\n    \"primarySports\":\"Running\",\n    \"timeSpendPerWeek\":5,\n    \"sportLevel\":5,\n    \"locationLong\":5.55,\n    \"locationLat\":5.55,\n    \"gender\":\"male\"\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/create",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user email again",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 403\", function () {",
+							"    pm.response.to.have.status(403);",
+							"});",
+							"pm.test(\"Check error user already exist\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.error).to.eql(\"User already exist\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "a123456A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"steffen\",\n    \"age\": \"22\",\n    \"mobile\": 26357820,\n    \"primarySports\":\"Running\",\n    \"timeSpendPerWeek\":5,\n    \"sportLevel\":5,\n    \"locationLong\":5.55,\n    \"locationLat\":5.55,\n    \"gender\":\"male\"\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/create",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffen\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "a123456A",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Change password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Password updated and logout success\");",
+							"});",
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"oldPassword\":\"a123456A\",\n\t\"password\":\"A123456a\",\n\t\"reTypePassword\":\"A123456a\"\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/changePassword",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"changePassword"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user email new password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffen\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "A123456a",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get current user infomation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffen\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/getCurrentUser",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"getCurrentUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update user info",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Profile updated\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"steffent\"\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/updateInfo",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"updateInfo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check name is changed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name is updated\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffent\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/getCurrentUser",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"getCurrentUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout before Facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create user Facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check password is null (FB login)\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.password).to.eql(\"null\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "EAAJbQpdGZCQcBANjNnXCQHzvIv47Xx1ATuxj9jJadH2gXEq5Ch8xjY1TOZAUHwtogH1TOZAE2H1XJuMjFZCTFKLFCjNpXhIiEUWgGk0ER2eNfOzlKCHCzuqFBgGKUs5laeVOhwn7ywU32QZCaVsLvyf1YB4cfp3kZD",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"steffen\",\n    \"age\": \"22\",\n    \"mobile\": 26357820,\n    \"primarySports\":\"Running\",\n    \"timeSpendPerWeek\":5,\n    \"sportLevel\":5,\n    \"locationLong\":5.55,\n    \"locationLat\":5.55,\n    \"gender\":\"male\"\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/facebook/create",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"facebook",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout Facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "EAAJbQpdGZCQcBANjNnXCQHzvIv47Xx1ATuxj9jJadH2gXEq5Ch8xjY1TOZAUHwtogH1TOZAE2H1XJuMjFZCTFKLFCjNpXhIiEUWgGk0ER2eNfOzlKCHCzuqFBgGKUs5laeVOhwn7ywU32QZCaVsLvyf1YB4cfp3kZD",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/facebook/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"facebook",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register run",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check password is null (FB login)\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Run registered\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"distance\": 5.52,\n    \"startTime\": 1548194429,\n    \"duration\": 3000,\n    \"lat\":[55.55,55.56,55.57],\n    \"long\":[66.66,66.66,66.67],\n    \"locationTime\":[1548194430,1548194431,1548194432],\n    \"perticipatingUsers\":[1]\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/running/registerRun",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"running",
+						"registerRun"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get run",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check distance for run\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].distance).to.eql(5.52);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/running/getRuns",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"running",
+						"getRuns"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

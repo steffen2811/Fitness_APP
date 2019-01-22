@@ -108,7 +108,7 @@ function checkPassword(req, res, next) {
 
 function checkUndefinedOrNull(variables) {
     for (i = 0; i < variables.length; i++) {
-        if (typeof variables[i] === "undefined" || variables[i] === null) {
+        if (typeof variables[i] === "undefined" || !variables[i]) {
             return true;
         }
     }

@@ -1437,7 +1437,13 @@ define({ "api": [
             "group": "Error 400",
             "optional": false,
             "field": "NoUser",
-            "description": "<p>No user in shareWithUsers.</p>"
+            "description": "<p>No user in shareWithUsers</p>"
+          },
+          {
+            "group": "Error 400",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>User does not have access to this fitness plan</p>"
           }
         ],
         "Error 403": [
@@ -1482,35 +1488,35 @@ define({ "api": [
             "group": "Success 200",
             "type": "Double",
             "optional": false,
-            "field": "Runs.Distance",
+            "field": "Runs.distance",
             "description": "<p>.</p>"
           },
           {
             "group": "Success 200",
             "type": "Int",
             "optional": false,
-            "field": "Runs.Starttime",
+            "field": "Runs.startTime",
             "description": "<p>Secound since 1970</p>"
           },
           {
             "group": "Success 200",
             "type": "Double",
             "optional": false,
-            "field": "Runs.Duration",
+            "field": "Runs.duration",
             "description": "<p>.</p>"
           },
           {
             "group": "Success 200",
             "type": "Array",
             "optional": false,
-            "field": "Runs.Lat",
+            "field": "Runs.lat",
             "description": "<p>Array of all latitude coordinated e.g. 22.23, 22.24</p>"
           },
           {
             "group": "Success 200",
             "type": "Array",
             "optional": false,
-            "field": "Runs.Long",
+            "field": "Runs.long",
             "description": "<p>Array of all longitude coordinated e.g. 22.23, 22.24</p>"
           },
           {
@@ -1568,35 +1574,35 @@ define({ "api": [
             "group": "Request body",
             "type": "Double",
             "optional": false,
-            "field": "Distance",
+            "field": "distance",
             "description": "<p>.</p>"
           },
           {
             "group": "Request body",
             "type": "Int",
             "optional": false,
-            "field": "Starttime",
+            "field": "startTime",
             "description": "<p>Secound since 1970</p>"
           },
           {
             "group": "Request body",
             "type": "Double",
             "optional": false,
-            "field": "Duration",
+            "field": "duration",
             "description": "<p>.</p>"
           },
           {
             "group": "Request body",
             "type": "Array[]",
             "optional": false,
-            "field": "Lat",
+            "field": "lat",
             "description": "<p>Array of all latitude coordinated e.g. 22.23, 22.24</p>"
           },
           {
             "group": "Request body",
             "type": "Array[]",
             "optional": false,
-            "field": "Long",
+            "field": "long",
             "description": "<p>Array of all longitude coordinated e.g. 22.23, 22.24</p>"
           },
           {

@@ -9,11 +9,11 @@ var router = express.Router();
  * @apiName registerRun
  * @apiGroup Running
  * 
- * @apiParam (Request body) {Double} Distance .
- * @apiParam (Request body) {Int} Starttime Secound since 1970
- * @apiParam (Request body) {Double} Duration .
- * @apiParam (Request body) {Array[]} Lat Array of all latitude coordinated e.g. 22.23, 22.24
- * @apiParam (Request body) {Array[]} Long Array of all longitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Double} distance .
+ * @apiParam (Request body) {Int} startTime Secound since 1970
+ * @apiParam (Request body) {Double} duration .
+ * @apiParam (Request body) {Array[]} lat Array of all latitude coordinated e.g. 22.23, 22.24
+ * @apiParam (Request body) {Array[]} long Array of all longitude coordinated e.g. 22.23, 22.24
  * @apiParam (Request body) {Array[]} locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
  * @apiParam (Request body) {Array[]} [perticipatingUsers] Users perticipated in run
  * @apiParam (Request body) {Int} [perticipatingUsers.id_users] id of user
@@ -82,11 +82,11 @@ router.post('/registerRun', function (req, res) {
  * @apiGroup Running
  * 
  * @apiSuccess {Array[]} Runs Array of elements in run (see registerRun)
- * @apiSuccess {Double} Runs.Distance .
- * @apiSuccess {Int} Runs.Starttime Secound since 1970
- * @apiSuccess {Double} Runs.Duration .
- * @apiSuccess {Array} Runs.Lat Array of all latitude coordinated e.g. 22.23, 22.24
- * @apiSuccess {Array} Runs.Long Array of all longitude coordinated e.g. 22.23, 22.24
+ * @apiSuccess {Double} Runs.distance .
+ * @apiSuccess {Int} Runs.startTime Secound since 1970
+ * @apiSuccess {Double} Runs.duration .
+ * @apiSuccess {Array} Runs.lat Array of all latitude coordinated e.g. 22.23, 22.24
+ * @apiSuccess {Array} Runs.long Array of all longitude coordinated e.g. 22.23, 22.24
  * @apiSuccess {Array} Runs.locationTime Secound since 1970 for each coordinat-set e.g. 555555, 555556
  *
  * @apiError (Error 403) AccessDenied Access denied (No session)

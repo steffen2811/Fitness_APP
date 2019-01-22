@@ -334,6 +334,11 @@ router.put('/updateInfo', function (req, res, next) {
                 error: err
             });
         } else {
+            Object.keys(user).some(function (key) {
+                if (!checks.checkUndefinedOrNull([req.body[key]])) {
+                    req.session.user[key] = req.body[key]
+                }
+            });
             return res.json({
                 message: "Profile updated"
             });

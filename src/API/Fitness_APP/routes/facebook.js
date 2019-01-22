@@ -109,7 +109,7 @@ router.post('/create',
         req.body.email = req.user._json["email"]
         req.body.password = "null" //Password is not used when using Facebook
         req.body.name = req.user._json["name"]
-        req.body.profileImgPath = req.user.photos[0].value;
+        req.body.profileImgPath = req.user.photos[0].value.replace("large", "normal");;
         next();
     }, checks.checkBodyCreateUser,
     function (req, res) {
