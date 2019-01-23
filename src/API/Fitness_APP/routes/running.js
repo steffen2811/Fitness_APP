@@ -82,6 +82,7 @@ router.post('/registerRun', function (req, res) {
  * @apiGroup Running
  * 
  * @apiSuccess {Array[]} Runs Array of elements in run (see registerRun)
+ * @apiSuccess {Double} Runs.id_running .
  * @apiSuccess {Double} Runs.distance .
  * @apiSuccess {Int} Runs.startTime Secound since 1970
  * @apiSuccess {Double} Runs.duration .
@@ -94,7 +95,7 @@ router.post('/registerRun', function (req, res) {
  * @apiError (Error 500) unspecifiedError Please report
  */
 router.get('/getRuns', function (req, res) {
-    connection.query(`select run.distance, run.duration, run.startTime, run.routeLat, run.routeLong, run.routeTime
+    connection.query(`select run.id_running, run.distance, run.duration, run.startTime, run.routeLat, run.routeLong, run.routeTime
         from users.running run
         inner join users.user_activity activity
         where activity.id_users = ${req.session.user.id_users} and activity.id_running = run.id_running`, function (err, row) {
@@ -109,6 +110,39 @@ router.get('/getRuns', function (req, res) {
             });
         } else {
             res.json(row);
+        }
+    })
+})
+
+/**
+ * @api {delete} /sports/running/deleteRun/ Delete run (Used by test)
+ * @apiVersion 1.0.0
+ * @apiName deleteRun
+ * @apiGroup Running
+ * 
+ * @apiParam (Param) {Int} runId Id of run to delete
+ * 
+ * @apiSuccess {String} message Run successfully deleted.
+ *
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 500) unspecifiedError Please report
+ */
+router.delete("/deleteRun", function (req, res) {
+    if (checks.checkUndefinedOrNull([req.query.runId])) {
+        return res.status(400).json({
+            message: "Param is missing. Check doc."
+        });
+    }
+    connection.query(`DELETE FROM users.running
+        WHERE id_running = ${req.query.runId}`, function (err, row) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        } else {
+            return res.json({
+                message: "Run successfully deleted."
+            });
         }
     })
 })

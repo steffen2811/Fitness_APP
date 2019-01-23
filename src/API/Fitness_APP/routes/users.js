@@ -4,6 +4,7 @@
 var express = require('express');
 var passport = require('passport');
 var connection = require('./../helpers/mysql');
+var createUser = require('./../helpers/createUser');
 var userModel = require("./../models/user")
 var fileUpload = require("./../middlewares/file")
 var checks = require('../middlewares/checks');
@@ -318,12 +319,11 @@ router.put('/updateInfo', function (req, res, next) {
             fristItem = false;
         }
     });
-    
-    if (query == `UPDATE users.users SET `)
-    {
+
+    if (query == `UPDATE users.users SET `) {
         return res.status(400).json({
             message: "Nothing to update"
-        });  
+        });
     }
 
     query += ` WHERE id_users=${req.session.user.id_users}`
@@ -347,33 +347,38 @@ router.put('/updateInfo', function (req, res, next) {
     })
 })
 
-function createUser(user, callback) {
-    /* Insert new user into DB */
-    connection.query(`INSERT INTO users.users (email, password, name, gender, age, mobile, primarySports, profileImgPath, timeSpendPerWeek, sportLevel, locationLong, locationLat) 
-                    VALUES ("${user.email}", 
-                            "${user.password}", 
-                            "${user.name}", 
-                            "${user.gender}", 
-                            "${user.age}", 
-                            "${user.mobile}", 
-                            "${user.primarySports}", 
-                            "${user.profileImgPath}", 
-                            "${user.timeSpendPerWeek}", 
-                            "${user.sportLevel}", 
-                            "${user.locationLong}", 
-                            "${user.locationLat}")`, function (err, result) {
+/**
+ * @api {delete} /users/deleteUser/ Delete user
+ * @apiVersion 1.0.0
+ * @apiName deleteUser
+ * @apiGroup Users
+ * 
+ * @apiSuccess {String} message User successfully deleted
+ * 
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 500) unspecifiedError Please report
+ */
+router.delete('/deleteUser', function (req, res) {
+    connection.query(`DELETE FROM users.users
+    WHERE id_users = ${req.session.user.id_users}`, function (err) {
         if (err) {
-            callback(err);
-            return;
+            return res.status(500).json({
+                error: err
+            });
         }
-        callback(null, result.insertId);
-    });
-}
+        req.session.destroy(function (err) {
+            if (err) {
+                return res.status(500).json({
+                    error: err
+                });
+            } else {
+                res.clearCookie('connect.sid')
+                return res.json({
+                    message: "User successfully deleted"
+                });
+            }
+        });
+    })
+});
 
-module.exports = {
-    router,
-    createUser
-}
-
-// App ID: 663291517402375
-// App Secret: 14d2fa999a3769a15c695b65becc0d38
+module.exports = router

@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('./../middlewares/passportjs');
-var createUser = require("./users").createUser
+var createUser = require('./../helpers/createUser');
 var userModel = require("./../models/user")
 var checks = require('../middlewares/checks');
 var router = express.Router();

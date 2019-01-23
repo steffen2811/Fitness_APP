@@ -4,14 +4,14 @@ var checks = require('../middlewares/checks');
 var router = express.Router();
 
 /**
- * @api {post} /sports/running/createFitnessPlan/ Create fitness plan
+ * @api {post} /sports/fitness/createFitnessPlan/ Create fitness plan
  * @apiVersion 1.0.0
  * @apiName createFitnessPlan
  * @apiGroup Fitness
  * 
  * @apiParam (Request body) {String} FitnessPlanName Name of plan
- * @apiParam (Request body) {Array[]} [Execises] Execises in plan
- * @apiParam (Request body) {Int} [Execises.id_fitness_exercises] Id of execise.
+ * @apiParam (Request body) {Array[]} [FitnessPlanExecises] Execises in plan
+ * @apiParam (Request body) {Int} [FitnessPlanExecises.id_fitness_exercises] Id of execise.
  * 
  * @apiSuccess {String} message Fitness plan created
  *
@@ -27,7 +27,7 @@ router.post("/createFitnessPlan", function (req, res) {
     }
     /* Insert new user into DB */
     connection.query(`INSERT INTO users.fitness_plan (FitnessPlanName) 
-        VALUES ("${req.body.FitnessPlanName}")`, function (err, result) {
+        VALUES ("${req.body.FitnessPlanName}")`, async function (err, result) {
         if (err) {
             return res.status(500).json({
                 error: err
@@ -43,13 +43,13 @@ router.post("/createFitnessPlan", function (req, res) {
             }
         }
 
-        connection.query(query, function (err) {
-            if (err) {
-                return res.status(500).json({
-                    error: err
-                });
-            }
-        });
+        try {
+            var response = await connection.query(query)
+        } catch (err) {
+            return res.status(500).json({
+                error: err
+            });
+        }
 
         connection.query(`INSERT INTO users.user_activity (id_users, id_fitness_plan) 
             VALUES ("${req.session.user.id_users}", "${result.insertId}")`, function (err) {
@@ -134,7 +134,7 @@ router.get("/getFitnessPlans", function (req, res) {
  * @apiName getExecisesInPlan
  * @apiGroup Fitness
  * 
- * @apiParam (Param) {Int} Id of fitness plan to receive data from
+ * @apiParam (Param) {Int} fitnessPlanId Id of fitness plan to receive data from
  * 
  * @apiSuccess {Array[]} Execises List of Execises.
  * @apiSuccess {String} Execises.execiseName Name of execise.
@@ -171,7 +171,7 @@ router.get("/getExecisesInPlan", function (req, res) {
  * @apiName shareFitnessPlan
  * @apiGroup Fitness
  * 
- * @apiParam (Request body) {String} fitnessPlanId Id of fitnessplan to share.
+ * @apiParam (Request body) {Int} fitnessPlanId Id of fitnessplan to share.
  * @apiParam (Request body) {Array[]} shareWithUsers Users perticipated in run
  * @apiParam (Request body) {Int} shareWithUsers.id_users id of user
  * 
@@ -183,7 +183,7 @@ router.get("/getExecisesInPlan", function (req, res) {
  * @apiError (Error 403) AccessDenied Access denied (No session)
  * @apiError (Error 500) unspecifiedError Please report
  */
-router.post("/shareFitnessPlan", function (req, res) {
+router.post("/shareFitnessPlan", async function (req, res) {
     if (checks.checkUndefinedOrNull([req.body.fitnessPlanId, req.body.shareWithUsers])) {
         return res.status(400).json({
             message: "Param is missing. Check doc."
@@ -196,18 +196,20 @@ router.post("/shareFitnessPlan", function (req, res) {
         });
     }
 
-    connection.query(`select * from users.user_activity 
-    where user_activity.id_users = ${req.session.user.id_users} and user_activity.id_fitness_plan = ${req.body.fitnessPlanId}`, function (err, row) {
-        if (err) {
-            return res.status(500).json({
-                error: err
-            });
-        } else if (row.length == 0) {
-            return res.status(400).json({
-                message: "User does not have access to this fitness plan"
-            });
-        }
-    });
+    try {
+        var result = await connection.query(`select * from users.user_activity 
+        where user_activity.id_users = ${req.session.user.id_users} and user_activity.id_fitness_plan = ${req.body.fitnessPlanId}`)
+    } catch (err) {
+        return res.status(500).json({
+            error: err
+        });
+    }
+
+    if (result.length == 0) {
+        return res.status(400).json({
+            message: "User does not have access to this fitness plan"
+        });
+    }
 
     /* generate query to insert all perticipating users. */
     var query = `INSERT INTO users.user_activity (id_users, id_fitness_plan) VALUES `;
@@ -228,6 +230,39 @@ router.post("/shareFitnessPlan", function (req, res) {
             message: "Shared with users"
         });
     });
+})
+
+/**
+ * @api {delete} /sports/fitness/deleteFitnessPlan/ Delete fitness plan (Used by test)
+ * @apiVersion 1.0.0
+ * @apiName deleteFitnessPlan
+ * @apiGroup Fitness
+ * 
+ * @apiParam (Param) {Int} fitnessPlanId Id of fitness plan to delete
+ * 
+ * @apiSuccess {String} message Fitness plan successfully deleted.
+ *
+ * @apiError (Error 403) AccessDenied Access denied (No session)
+ * @apiError (Error 500) unspecifiedError Please report
+ */
+router.delete("/deleteFitnessPlan", function (req, res) {
+    if (checks.checkUndefinedOrNull([req.query.fitnessPlanId])) {
+        return res.status(400).json({
+            message: "Param is missing. Check doc."
+        });
+    }
+    connection.query(`DELETE FROM users.fitness_plan
+        WHERE id_fitness_plan = ${req.query.fitnessPlanId}`, function (err, row) {
+        if (err) {
+            return res.status(500).json({
+                error: err
+            });
+        } else {
+            return res.json({
+                message: "Fitness plan successfully deleted."
+            });
+        }
+    })
 })
 
 module.exports = router;

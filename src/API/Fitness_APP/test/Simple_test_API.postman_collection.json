@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "63c4b33f-9132-4c74-bcd5-fcd125ca7a41",
 		"name": "Simple_test_API",
+		"description": "Test all functionality.\nGood case testing.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -16,15 +17,18 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
 							"pm.test(\"Check name in body\", function () {",
-							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.name).to.eql(\"steffen\");",
 							"});",
 							"pm.test(\"Check cookie is set to connect.sid\", function () {",
 							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
 							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
 							"});",
-							""
+							"",
+							"pm.environment.set(\"id_of_first_user\", jsonData.id_users);"
 						],
 						"type": "text/javascript"
 					}
@@ -416,7 +420,7 @@
 			"response": []
 		},
 		{
-			"name": "Update user info",
+			"name": "Update user name",
 			"event": [
 				{
 					"listen": "test",
@@ -565,15 +569,18 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
 							"pm.test(\"Check password is null (FB login)\", function () {",
-							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.password).to.eql(\"null\");",
 							"});",
 							"pm.test(\"Check cookie is set to connect.sid\", function () {",
 							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
 							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
 							"});",
-							""
+							"",
+							"pm.environment.set(\"id_of_secound_user\", jsonData.id_users);"
 						],
 						"type": "text/javascript"
 					}
@@ -721,7 +728,7 @@
 			"response": []
 		},
 		{
-			"name": "Register run",
+			"name": "Register run with email user",
 			"event": [
 				{
 					"listen": "test",
@@ -731,9 +738,162 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							"pm.test(\"Check password is null (FB login)\", function () {",
+							"pm.test(\"Check message\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.message).to.eql(\"Run registered\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"distance\": 5.52,\n    \"startTime\": 1548194429,\n    \"duration\": 3000,\n    \"lat\":[55.55,55.56,55.57],\n    \"long\":[66.66,66.66,66.67],\n    \"locationTime\":[1548194430,1548194431,1548194432],\n    \"perticipatingUsers\":[\"{{id_of_first_user}}\"]\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/running/registerRun",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"running",
+						"registerRun"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get run",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check distance for run\", function () {",
+							"    ",
+							"    pm.expect(jsonData[0].distance).to.eql(5.52);",
+							"});",
+							"pm.environment.set(\"id_running\", jsonData[0].id_running);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/running/getRuns",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"running",
+						"getRuns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get execises",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check first execise is leg press\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].execiseName).to.eql(\"Leg Press\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/getAllExecises",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"getAllExecises"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create fitness plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message)\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Fitness plan created\");",
 							"});",
 							""
 						],
@@ -753,25 +913,297 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"distance\": 5.52,\n    \"startTime\": 1548194429,\n    \"duration\": 3000,\n    \"lat\":[55.55,55.56,55.57],\n    \"long\":[66.66,66.66,66.67],\n    \"locationTime\":[1548194430,1548194431,1548194432],\n    \"perticipatingUsers\":[1]\n}"
+					"raw": "{\n    \"FitnessPlanName\": \"Fitness plan\",\n    \"FitnessPlanExecises\": [1,3,5]\n}"
 				},
 				"url": {
-					"raw": "{{Base_Url}}:{{Port}}/sports/running/registerRun",
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/createFitnessPlan/",
 					"host": [
 						"{{Base_Url}}"
 					],
 					"port": "{{Port}}",
 					"path": [
 						"sports",
-						"running",
-						"registerRun"
+						"fitness",
+						"createFitnessPlan",
+						""
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "get run",
+			"name": "Get user fitness plans",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check name of fitness plan\", function () {",
+							"    pm.expect(jsonData[0].FitnessPlanName).to.eql(\"Fitness plan\");",
+							"});",
+							"",
+							"pm.environment.set(\"id_fitness_plan\", jsonData[0].id_fitness_plan);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/getFitnessPlans/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"getFitnessPlans",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get execises in fitness plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name of first execise in fitnessplan\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData[0].execiseName).to.eql(\"Leg Press\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/getExecisesInPlan/?fitnessPlanId={{id_fitness_plan}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"getExecisesInPlan",
+						""
+					],
+					"query": [
+						{
+							"key": "fitnessPlanId",
+							"value": "{{id_fitness_plan}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Share fitness plan with email user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Shared with users\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"fitnessPlanId\": \"{{id_fitness_plan}}\",\n    \"shareWithUsers\":[\"{{id_of_first_user}}\"]\n}"
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/shareFitnessPlan",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"shareFitnessPlan"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffent\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "A123456a",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get run (perticipating user)",
 			"event": [
 				{
 					"listen": "test",
@@ -815,6 +1247,1312 @@
 						"sports",
 						"running",
 						"getRuns"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get fitness plan (shared fitnessplan)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check name of fitness plan\", function () {",
+							"    pm.expect(jsonData[0].FitnessPlanName).to.eql(\"Fitness plan\");",
+							"});",
+							"",
+							"pm.environment.set(\"id_fitness_plan\", jsonData[0].id_fitness_plan);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/getFitnessPlans/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"getFitnessPlans",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get suggested matches",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var arrayLength = jsonData.length;",
+							"",
+							"pm.test(\"Find FB account as suggested match (same propeties as email account)\", function () {",
+							"    pm.expect(jsonData[arrayLength-1].id_users).to.eql(pm.environment.get(\"id_of_secound_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getSuggestedMatches/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getSuggestedMatches",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search for user",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"var arrayLength = jsonData.length;",
+							"",
+							"pm.test(\"Find FB account (name = Steffen Kjær Thomsen)\", function () {",
+							"    pm.expect(jsonData[arrayLength-1].id_users).to.eql(pm.environment.get(\"id_of_secound_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/searchForUsers/?search=steffen k",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"searchForUsers",
+						""
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "steffen k"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send friend request to FB account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Request sent\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/sendRequest/?userToInvite={{id_of_secound_user}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"sendRequest",
+						""
+					],
+					"query": [
+						{
+							"key": "userToInvite",
+							"value": "{{id_of_secound_user}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "EAAJbQpdGZCQcBANjNnXCQHzvIv47Xx1ATuxj9jJadH2gXEq5Ch8xjY1TOZAUHwtogH1TOZAE2H1XJuMjFZCTFKLFCjNpXhIiEUWgGk0ER2eNfOzlKCHCzuqFBgGKUs5laeVOhwn7ywU32QZCaVsLvyf1YB4cfp3kZD",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/facebook/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"facebook",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pending request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check friend request is from email account\", function () {",
+							"    pm.expect(jsonData[0].id_users).to.eql(pm.environment.get(\"id_of_first_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getPendingRequest/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getPendingRequest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send deny to friend request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Response sent and request removed.\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/responseRequestDeny/?responseToUserid={{id_of_first_user}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"responseRequestDeny",
+						""
+					],
+					"query": [
+						{
+							"key": "responseToUserid",
+							"value": "{{id_of_first_user}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check pending request is removed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check pending request is removed\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"No requests found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getPendingRequest/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getPendingRequest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send friend request to email account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Request sent\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/sendRequest/?userToInvite={{id_of_first_user}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"sendRequest",
+						""
+					],
+					"query": [
+						{
+							"key": "userToInvite",
+							"value": "{{id_of_first_user}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffent\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "A123456a",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get pending request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check friend request is from facebook account\", function () {",
+							"    pm.expect(jsonData[0].id_users).to.eql(pm.environment.get(\"id_of_secound_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getPendingRequest/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getPendingRequest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send accept to friend request",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Response sent. User added to friendlist\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/responseRequestAccept/?responseToUserid={{id_of_secound_user}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"responseRequestAccept",
+						""
+					],
+					"query": [
+						{
+							"key": "responseToUserid",
+							"value": "{{id_of_secound_user}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check pending request is removed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check pending request is removed\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"No requests found\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getPendingRequest/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getPendingRequest",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check FB account is in friendlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check FB accound is in friendlist\", function () {",
+							"    pm.expect(jsonData[0].id_users).to.eql(pm.environment.get(\"id_of_secound_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getFriends/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getFriends",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "005f76a3-0ab5-4749-a5bc-ff5236aa4259",
+						"exec": [
+							"pm.test(\"Cookie deleted connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie).to.eql(undefined);",
+							"});",
+							"pm.test(\"Check message in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Logout success\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/logout",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user facebook",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "EAAJbQpdGZCQcBANjNnXCQHzvIv47Xx1ATuxj9jJadH2gXEq5Ch8xjY1TOZAUHwtogH1TOZAE2H1XJuMjFZCTFKLFCjNpXhIiEUWgGk0ER2eNfOzlKCHCzuqFBgGKUs5laeVOhwn7ywU32QZCaVsLvyf1YB4cfp3kZD",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/facebook/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"facebook",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check email account is in friendlist",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check email accound is in friendlist\", function () {",
+							"    pm.expect(jsonData[0].id_users).to.eql(pm.environment.get(\"id_of_first_user\"));",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/community/getFriends/",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"community",
+						"getFriends",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete run",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Run successfully deleted.\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/running/deleteRun/?runId={{id_running}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"running",
+						"deleteRun",
+						""
+					],
+					"query": [
+						{
+							"key": "runId",
+							"value": "{{id_running}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete fitness plan",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Fitness plan successfully deleted.\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/sports/fitness/deleteFitnessPlan/?fitnessPlanId={{id_fitness_plan}}",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"sports",
+						"fitness",
+						"deleteFitnessPlan",
+						""
+					],
+					"query": [
+						{
+							"key": "fitnessPlanId",
+							"value": "{{id_fitness_plan}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete FB account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"User successfully deleted\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/deleteUser",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"deleteUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login user email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Check name in body\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"steffent\");",
+							"});",
+							"pm.test(\"Check cookie is set to connect.sid\", function () {",
+							"    var cookie = postman.getResponseCookie(\"connect.sid\")",
+							"    pm.expect(cookie.name).to.eql(\"connect.sid\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "A123456a",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test@live.dk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/login",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete email account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1d33f3a2-7d20-4e86-a2ae-fa3edb70e8f0",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"",
+							"pm.test(\"Check message\", function () {",
+							"    pm.expect(jsonData.message).to.eql(\"User successfully deleted\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{Base_Url}}:{{Port}}/users/deleteUser",
+					"host": [
+						"{{Base_Url}}"
+					],
+					"port": "{{Port}}",
+					"path": [
+						"users",
+						"deleteUser"
 					]
 				}
 			},

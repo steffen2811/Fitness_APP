@@ -1074,7 +1074,7 @@
   },
   {
     "type": "post",
-    "url": "/sports/running/createFitnessPlan/",
+    "url": "/sports/fitness/createFitnessPlan/",
     "title": "Create fitness plan",
     "version": "1.0.0",
     "name": "createFitnessPlan",
@@ -1093,14 +1093,14 @@
             "group": "Request body",
             "type": "Array[]",
             "optional": true,
-            "field": "Execises",
+            "field": "FitnessPlanExecises",
             "description": "<p>Execises in plan</p>"
           },
           {
             "group": "Request body",
             "type": "Int",
             "optional": true,
-            "field": "Execises.id_fitness_exercises",
+            "field": "FitnessPlanExecises.id_fitness_exercises",
             "description": "<p>Id of execise.</p>"
           }
         ]
@@ -1129,6 +1129,62 @@
             "description": "<p>Param is missing. Check docs.</p>"
           }
         ],
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/fitness.js",
+    "groupTitle": "Fitness"
+  },
+  {
+    "type": "delete",
+    "url": "/sports/fitness/deleteFitnessPlan/",
+    "title": "Delete fitness plan (Used by test)",
+    "version": "1.0.0",
+    "name": "deleteFitnessPlan",
+    "group": "Fitness",
+    "parameter": {
+      "fields": {
+        "Param": [
+          {
+            "group": "Param",
+            "type": "Int",
+            "optional": false,
+            "field": "fitnessPlanId",
+            "description": "<p>Id of fitness plan to delete</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Fitness plan successfully deleted.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
         "Error 403": [
           {
             "group": "Error 403",
@@ -1242,8 +1298,8 @@
             "group": "Param",
             "type": "Int",
             "optional": false,
-            "field": "Id",
-            "description": "<p>of fitness plan to receive data from</p>"
+            "field": "fitnessPlanId",
+            "description": "<p>Id of fitness plan to receive data from</p>"
           }
         ]
       }
@@ -1389,7 +1445,7 @@
         "Request body": [
           {
             "group": "Request body",
-            "type": "String",
+            "type": "Int",
             "optional": false,
             "field": "fitnessPlanId",
             "description": "<p>Id of fitnessplan to share.</p>"
@@ -1466,6 +1522,62 @@
     },
     "filename": "routes/fitness.js",
     "groupTitle": "Fitness"
+  },
+  {
+    "type": "delete",
+    "url": "/sports/running/deleteRun/",
+    "title": "Delete run (Used by test)",
+    "version": "1.0.0",
+    "name": "deleteRun",
+    "group": "Running",
+    "parameter": {
+      "fields": {
+        "Param": [
+          {
+            "group": "Param",
+            "type": "Int",
+            "optional": false,
+            "field": "runId",
+            "description": "<p>Id of run to delete</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>Run successfully deleted.</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/running.js",
+    "groupTitle": "Running"
   },
   {
     "type": "get",
@@ -2105,6 +2217,49 @@
             "optional": false,
             "field": "MissingData",
             "description": "<p><code>DATA</code> is missing from body.</p>"
+          }
+        ],
+        "Error 500": [
+          {
+            "group": "Error 500",
+            "optional": false,
+            "field": "unspecifiedError",
+            "description": "<p>Please report</p>"
+          }
+        ]
+      }
+    },
+    "filename": "routes/users.js",
+    "groupTitle": "Users"
+  },
+  {
+    "type": "delete",
+    "url": "/users/deleteUser/",
+    "title": "Delete user",
+    "version": "1.0.0",
+    "name": "deleteUser",
+    "group": "Users",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>User successfully deleted</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "fields": {
+        "Error 403": [
+          {
+            "group": "Error 403",
+            "optional": false,
+            "field": "AccessDenied",
+            "description": "<p>Access denied (No session)</p>"
           }
         ],
         "Error 500": [

@@ -55,7 +55,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(Checks.sessionChecker);
 
-app.use('/users', usersRouter.router);
+app.use('/users', usersRouter);
 app.use('/users/facebook', facebookRouter);
 app.use('/users/community', communityRouter);
 app.use('/sports/running', runningRouter);
