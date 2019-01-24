@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `users`;
--- MySQL dump 10.13  Distrib 5.7.22, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
 --
--- Host: localhost    Database: users
+-- Host: 127.0.0.1    Database: users
 -- ------------------------------------------------------
--- Server version	5.7.24
+-- Server version	5.7.24-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -28,7 +28,7 @@ CREATE TABLE `fitness_exercises` (
   `id_fitness_exercises` int(11) NOT NULL AUTO_INCREMENT,
   `execiseName` varchar(100) NOT NULL,
   `repeats` int(11) NOT NULL,
-  `sets` varchar(45) NOT NULL,
+  `sets` int(11) NOT NULL,
   `howToVideo` varchar(500) NOT NULL,
   PRIMARY KEY (`id_fitness_exercises`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
@@ -40,7 +40,7 @@ CREATE TABLE `fitness_exercises` (
 
 LOCK TABLES `fitness_exercises` WRITE;
 /*!40000 ALTER TABLE `fitness_exercises` DISABLE KEYS */;
-INSERT INTO `fitness_exercises` VALUES (1,'Leg Press',10,'3','https://www.youtube.com/watch?v=qxRlIA0JU2A'),(3,'Lying Leg Curls',12,'3','https://www.youtube.com/watch?v=dBo-Pw2a2h8'),(4,'Wide-Grip Lat Pulldown',8,'3','https://www.youtube.com/watch?v=lueEJGjTuPQ'),(5,'Butterfly',10,'2','https://www.youtube.com/watch?v=oGxc2ph8Fnw'),(6,'Triceps pulldown',10,'3','https://www.youtube.com/watch?v=q25J5FYxcYU'),(7,'Machine Biceps Curl',8,'3','https://www.youtube.com/watch?v=uO_CNYidOw0'),(8,'Machine shoulder Press',12,'2','https://www.youtube.com/watch?v=qEwKCR5JCog'),(9,'Ab Crunch Machine',10,'3','https://www.youtube.com/watch?v=KNgfBz_u9LU');
+INSERT INTO `fitness_exercises` VALUES (1,'Leg Press',10,'3','qxRlIA0JU2A'),(3,'Lying Leg Curls',12,'3','dBo-Pw2a2h8'),(4,'Wide-Grip Lat Pulldown',8,'3','lueEJGjTuPQ'),(5,'Butterfly',10,'2','oGxc2ph8Fnw'),(6,'Triceps pulldown',10,'3','q25J5FYxcYU'),(7,'Machine Biceps Curl',8,'3','uO_CNYidOw0'),(8,'Machine shoulder Press',12,'2','qEwKCR5JCog'),(9,'Ab Crunch Machine',10,'3','KNgfBz_u9LU');
 /*!40000 ALTER TABLE `fitness_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -72,7 +72,7 @@ CREATE TABLE `fitness_plan` (
   `id_fitness_plan` int(11) NOT NULL AUTO_INCREMENT,
   `FitnessPlanName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_fitness_plan`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `friend_relationship` (
   KEY `relatedUser_fk_idx` (`relatedUser`),
   CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -161,7 +161,7 @@ CREATE TABLE `running` (
   `routeLong` longtext NOT NULL,
   `routeTime` longtext NOT NULL,
   PRIMARY KEY (`id_running`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,7 +206,7 @@ CREATE TABLE `users` (
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -215,7 +215,7 @@ CREATE TABLE `users` (
 /*!50003 SET character_set_results = utf8 */ ;
 /*!50003 SET collation_connection  = utf8_general_ci */ ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION' */ ;
+/*!50003 SET sql_mode              = 'STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`%`*/ /*!50003 TRIGGER `users`.`users_AFTER_INSERT` AFTER INSERT ON `users` FOR EACH ROW
 BEGIN
@@ -230,6 +230,7 @@ FROM 	users.users AS userTable
 
 where 	userTable.timeSpendPerWeek > NEW.timeSpendPerWeek * 0.6 and 
 		userTable.timeSpendPerWeek < NEW.timeSpendPerWeek * 1.4 and 
+        LOWER(userTable.primarySports) = LOWER(NEW.primarySports) and
         userTable.sportLevel > NEW.sportLevel * 0.6 and 
 		userTable.sportLevel < NEW.sportLevel * 1.4 and 
         ST_Distance_Sphere(point(userTable.locationLong, userTable.locationLat), point(NEW.locationLong, NEW.locationLat)) < 20000 and
@@ -357,4 +358,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-23 22:02:14
+-- Dump completed on 2019-01-24 20:58:13
