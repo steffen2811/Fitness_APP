@@ -15,12 +15,14 @@
     "email-verification": "^0.4.6",
     "express": "~4.16.0",
     "express-session": "^1.15.6",
+    "express-status-monitor": "^1.2.3",
     "morgan": "~1.9.0",
     "mysql": "^2.16.0",
     "passport": "^0.4.0",
     "passport-facebook-token": "^3.3.0",
     "passport-http": "^0.3.0",
     "password-validator": "^4.1.1",
+    "request": "^2.88.0",
     "request-stats": "^3.0.0"
   }
 }

@@ -10,8 +10,8 @@ var router = express.Router();
  * @apiGroup Fitness
  * 
  * @apiParam (Request body) {String} FitnessPlanName Name of plan
- * @apiParam (Request body) {Array[]} [FitnessPlanExecises] Execises in plan
- * @apiParam (Request body) {Int} [FitnessPlanExecises.id_fitness_exercises] Id of execise.
+ * @apiParam (Request body) {Array[]} FitnessPlanExecises Execises in plan
+ * @apiParam (Request body) {Int} FitnessPlanExecises.id_fitness_exercises Id of execise.
  * 
  * @apiSuccess {String} message Fitness plan created
  *
@@ -101,8 +101,8 @@ router.get("/getAllExecises", function (req, res) {
  * @apiGroup Fitness
  * 
  * @apiSuccess {Array[]} Plans Array of fitness plans
- * @apiSuccess {Double} Plans.id_fitness_plan Id of plan
- * @apiSuccess {Int} Plans.FitnessPlanName Name of plan
+ * @apiSuccess {Int} Plans.id_fitness_plan Id of plan
+ * @apiSuccess {String} Plans.FitnessPlanName Name of plan
  *
  * @apiError (Error 403) AccessDenied Access denied (No session)
  * @apiError (Error 404) message No fitness plans for user
@@ -137,8 +137,9 @@ router.get("/getFitnessPlans", function (req, res) {
  * @apiParam (Param) {Int} fitnessPlanId Id of fitness plan to receive data from
  * 
  * @apiSuccess {Array[]} Execises List of Execises.
+ * @apiSuccess {Int} Execises.id_fitness_exercises Id of execise.
  * @apiSuccess {String} Execises.execiseName Name of execise.
- * @apiSuccess {String} Execises.repeats Repeats.
+ * @apiSuccess {Int} Execises.repeats Repeats.
  * @apiSuccess {Int} Execises.sets Sets.
  * @apiSuccess {String} Execises.howToVideo Link to youtube.
  *
@@ -151,7 +152,7 @@ router.get("/getExecisesInPlan", function (req, res) {
             message: "Param is missing. Check doc."
         });
     }
-    connection.query(`Select fitness_exercises.execiseName, fitness_exercises.repeats, fitness_exercises.sets, fitness_exercises.howToVideo From users.fitness_exercises
+    connection.query(`Select fitness_exercises.id_fitness_exercises, fitness_exercises.execiseName, fitness_exercises.repeats, fitness_exercises.sets, fitness_exercises.howToVideo From users.fitness_exercises
     Join users.fitness_exercises_in_plan
     on fitness_exercises.id_fitness_exercises = fitness_exercises_in_plan.id_fitness_exercises
     where fitness_exercises_in_plan.id_fitness_plan = ${req.query.fitnessPlanId}`, function (err, row) {

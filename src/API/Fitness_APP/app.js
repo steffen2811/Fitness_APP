@@ -30,7 +30,7 @@ var Checks = require('./middlewares/checks');
 
 /* Set app as express */
 var app = express();
-
+app.use(require('express-status-monitor')());
 app.use(session({
     secret: 'E6A9f7JaTyxJpZrNzKTuRnQUqgzXnfsa',
     // create new redis store.
