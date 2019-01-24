@@ -1092,14 +1092,14 @@ define({ "api": [
           {
             "group": "Request body",
             "type": "Array[]",
-            "optional": true,
+            "optional": false,
             "field": "FitnessPlanExecises",
             "description": "<p>Execises in plan</p>"
           },
           {
             "group": "Request body",
             "type": "Int",
-            "optional": true,
+            "optional": false,
             "field": "FitnessPlanExecises.id_fitness_exercises",
             "description": "<p>Id of execise.</p>"
           }
@@ -1316,6 +1316,13 @@ define({ "api": [
           },
           {
             "group": "Success 200",
+            "type": "Int",
+            "optional": false,
+            "field": "Execises.id_fitness_exercises",
+            "description": "<p>Id of execise.</p>"
+          },
+          {
+            "group": "Success 200",
             "type": "String",
             "optional": false,
             "field": "Execises.execiseName",
@@ -1323,7 +1330,7 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "String",
+            "type": "Int",
             "optional": false,
             "field": "Execises.repeats",
             "description": "<p>Repeats.</p>"
@@ -1387,14 +1394,14 @@ define({ "api": [
           },
           {
             "group": "Success 200",
-            "type": "Double",
+            "type": "Int",
             "optional": false,
             "field": "Plans.id_fitness_plan",
             "description": "<p>Id of plan</p>"
           },
           {
             "group": "Success 200",
-            "type": "Int",
+            "type": "String",
             "optional": false,
             "field": "Plans.FitnessPlanName",
             "description": "<p>Name of plan</p>"
@@ -1595,6 +1602,13 @@ define({ "api": [
             "optional": false,
             "field": "Runs",
             "description": "<p>Array of elements in run (see registerRun)</p>"
+          },
+          {
+            "group": "Success 200",
+            "type": "Double",
+            "optional": false,
+            "field": "Runs.id_running",
+            "description": "<p>.</p>"
           },
           {
             "group": "Success 200",
