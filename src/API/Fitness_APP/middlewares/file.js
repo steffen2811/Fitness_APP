@@ -9,7 +9,7 @@ function fileUpload(mode) {
                 req.body.profilePicture = "data:image/png;base64," + req.body.profilePicture
             }
             //Copy image to picture folder
-            base64Img.img(req.body.profilePicture, process.env.PROFILE_PICTURE_PATH, req.body.email, function (err) {
+            base64Img.img(req.body.profilePicture, process.env.BASE_PATH + '\profilePictures', req.body.email, function (err) {
                 if (err) {
                     return res.status(500).json({
                         error: err

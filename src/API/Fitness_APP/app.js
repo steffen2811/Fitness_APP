@@ -1,14 +1,16 @@
 if (process.env.NODE_ENV == "production") {
     process.env.MYSQL_SERVER_ADR = 'db';
     process.env.REDIS_SERVER_ADR = 'redis';
-    process.env.PROFILE_PICTURE_PATH = 'http://192.168.153.140/profilePictures/';
 } else {
     process.env.MYSQL_SERVER_ADR = '127.0.0.1';
     process.env.MYSQL_ROOT_PASSWORD = 'Password1';
     process.env.REDIS_SERVER_ADR = '127.0.0.1';
-    process.env.REDIS_PASSWORD = 'Password1';
-    process.env.PROFILE_PICTURE_PATH = 'http://192.168.153.140/profilePictures/';
+    process.env.REDIS_PASSWORD = 'Password1';  
 }
+
+process.env.PROFILE_PICTURE_PATH = 'http://192.168.153.140/profilePictures/';
+process.env.BASE_PATH = __dirname;
+
 
 /* use express, path, cookie-parser and morgan */
 var express = require('express');
