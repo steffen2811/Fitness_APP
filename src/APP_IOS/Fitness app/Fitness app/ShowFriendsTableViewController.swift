@@ -162,7 +162,8 @@ class ShowFriendsTableViewController: UITableViewController{
         cell.Fitness.text = "Sport: " + user1.primarySports
         
         var data = PictureData()
-        let url = URL(string: "https://avatars.io/static/default_128.jpg")
+        //let url = URL(string: "https://avatars.io/static/default_128.jpg")
+        let url = URL(string: user1.profileImgPath as! String)
         let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         data.avatar = UIImage(data: data1!)
         cell.Profilepic.dataSource = data

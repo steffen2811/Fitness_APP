@@ -22,7 +22,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         let locationManager = LocationManager.shared
         locationManager.requestWhenInUseAuthorization()
-
+        
         return true
     }
     

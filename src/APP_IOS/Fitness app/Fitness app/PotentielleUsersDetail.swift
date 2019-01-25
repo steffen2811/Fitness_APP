@@ -95,7 +95,8 @@ class PotentielleUsersDetail: UIViewController{
         primarySportsLabel.text = "Sports: " + (jsonlement["primarySports"] as? String ?? "")
         timeSpendPerWeekLabel.text = "Time per week:  \(jsonlement["timeSpendPerWeek"] as? Int ?? 0)"
         sportLevelLabel.text = "Sport level: \(jsonlement["sportLevel"] as? Int ?? 0)"
-        showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
+        //showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
+        showProfilePicture(Url: jsonlement["profileImgPath"] as! String)
     }
     
     func configureRoundAvatar() {

@@ -14,6 +14,10 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     
     var base64SignupString = ""
     var base64StringImage = ""
+    var base64FacebookToken = ""
+    
+    var facebooklogin = false
+    
     
     let imagePicker = UIImagePickerController()
     
@@ -24,6 +28,7 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     @IBOutlet weak var Primary_Sports: UITextField!
     @IBOutlet weak var Sport_Level: UITextField!
     @IBOutlet weak var ImageView: UIImageView!
+    @IBOutlet var GenderText: UITextField!
     
     private let locationManager = LocationManager.shared
     
@@ -72,8 +77,14 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     
     @IBAction func Signup(_ sender: Any) {
         Checkfields()
-        if CheckisCompleate == true {
-            Signup()
+        if(facebooklogin == true){
+            if CheckisCompleate == true {
+                signupFacebook()
+            }
+        }else{
+            if CheckisCompleate == true {
+                Signup()
+            }
         }
     }
     
@@ -97,7 +108,7 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
             print("no image")
         }else {
             base64StringImage = convertImageTobase64(format: .png, image: image)!
-            print(base64StringImage)
+            //print(base64StringImage)
         }
     }
     
@@ -146,14 +157,19 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
             return
         }
         
+        guard let Gender = GenderText.text, !Gender.isEmpty else {
+            print("not Gender")
+            return
+        }
+        
         //do something if it's not empty
         CheckisCompleate = true
-        print("name: \(NameTxt) \nTime spend: \(TimeSpend) \nage: \(Age) \nmobile: \(Mobile) \nPrimarySport : \(PrimarySports) \nSport level: \(SportLevel)")
+        print("name: \(NameTxt) \nTime spend: \(TimeSpend) \nage: \(Age) \nmobile: \(Mobile) \nPrimarySport : \(PrimarySports) \nSport level: \(SportLevel)\n Gender: \(Gender)")
     }
     
     func Signup() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "sportLevel": Sport_Level.text, "profilepictur": base64StringImage ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilepicture": base64StringImage ] as [String : Any]
         
         //Create the url
         let url = URL(string: "http://localhost:3333/users/create")
@@ -210,6 +226,67 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
             }
         })
         task.resume()
+    }
+    
+    func signupFacebook() {
+        
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilepicture": base64StringImage ] as [String : Any]
+        
+        //Create the url
+        let url = URL(string: "http://localhost:3333/users/facebook/create")
+        
+        //Create the session object
+        let session = URLSession.shared
+        
+        //Create the UrlRequest object using the url object
+        var request = URLRequest(url: url!)
+        request.httpMethod = "POST" // set request to POST
+        request.setValue("Bearer \(base64FacebookToken)", forHTTPHeaderField: "Authorization")
+        
+        do{
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
+        } catch let error {
+            print(error.localizedDescription)
+        }
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        //Create dataTask using the session object to send data to the server
+        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "SignedUp", sender: self)
+                        }
+                        
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                    }
+                }
+                
+            }
+        })
+        task.resume()
+        
     }
 }
 

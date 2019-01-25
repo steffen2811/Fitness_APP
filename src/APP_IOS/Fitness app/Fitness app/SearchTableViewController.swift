@@ -127,7 +127,8 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         
         
         var data = PictureData()
-        let url = URL(string: "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973461_1280.png")
+        //let url = URL(string: "https://avatars.io/static/default_128.jpg")
+        let url = URL(string: item.object!["profileImgPath"] as! String)
         let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
         
         
