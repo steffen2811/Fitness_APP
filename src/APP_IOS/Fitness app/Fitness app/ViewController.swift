@@ -16,35 +16,60 @@ class ViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var PasswordTxtField: UITextField!
     let defaults = UserDefaults.standard
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         EmailTxtField.delegate = self
         PasswordTxtField.delegate = self
         
-        if(FBSDKAccessToken.current() == nil){
-            print("Not logged in with facebook ")
-        }else{
-            print("Logged in already")
-            print(FBSDKAccessToken.current())
-            var fbAccessToken = FBSDKAccessToken.current().tokenString
-            print(fbAccessToken)
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "Login", sender: self)
-            }
-        }
+        CheckifLogedin()
         
         
-        //Check cookie insted
-        if(defaults.object(forKey: "email") == nil){
-            print("Not loged ind with email")
-        }else{
-            print("loged in with email")
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "Login", sender: self)
-            }
-        }
+        
     }
+    
+    func CheckifLogedin() {
+        
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getCurrentUser")!
+        
+        var urlRequest = URLRequest(url: urlComp.url!)
+        urlRequest.httpMethod = "GET"
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            //print(response)
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "Login", sender: self)
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                        
+                    }
+                }
+                
+            }
+            
+        })
+        task.resume()
+    }
+    
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         self.view.endEditing(true)
@@ -54,7 +79,9 @@ class ViewController: UIViewController, UITextFieldDelegate {
     func viewDidAppear() {
         if (FBSDKAccessToken.current() != nil)
         {
-            performSegue(withIdentifier: "Login", sender: self)
+            DispatchQueue.main.async {
+                self.performSegue(withIdentifier: "Login", sender: self)
+            }
         }
     }
 
@@ -101,23 +128,22 @@ class ViewController: UIViewController, UITextFieldDelegate {
             guard let data = data else {
                 return
             }
-
-            let datastring = String(data: data, encoding: String.Encoding.utf8)
-            print(datastring)
-
-            print(response)
-
-
-            self.defaults.set(self.EmailTxtField.text, forKey: "email")
-            self.defaults.synchronize()
-
-            /*if let httpresponse = response as? HTTPURLResponse {
-                let Respones1 = httpresponse.allHeaderFields["Set-Cookie"] as? String
-                print(Respones1)
-                UserDefaults.standard.set(Respones1, forKey: "token")
-            }*/
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "Login", sender: self)
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 200 {
+                    DispatchQueue.main.async {
+                        self.performSegue(withIdentifier: "Login", sender: self)
+                    }
+                } else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                        
+                    }
+                }
+                
             }
 
         })
@@ -151,57 +177,106 @@ class ViewController: UIViewController, UITextFieldDelegate {
                     
                     if let Email = Info["email"] as? String
                     {
-                        
-                        getRequest(params: ["access_token": FBSDKAccessToken.current().tokenString])
-                        
-                        let defaults = UserDefaults.standard
-                        defaults.set(Email, forKey: "email")
-                        defaults.synchronize()
-                        
+                        self.FacebookLoginrequest(params: ["access_token": FBSDKAccessToken.current().tokenString])
+                        self.facebookToken = FBSDKAccessToken.current().tokenString
                     }
                     
                 }
             })
         }
     }
-}
+    
+    
+    func FacebookLoginrequest(params: [String:String]) {
+        
+        let urlComp = NSURLComponents(string: "http://localhost:3333/users/facebook/login")!
+        
+        var items = [URLQueryItem]()
+        
+        for (key,value) in params {
+            items.append(URLQueryItem(name: key, value: value))
+        }
+        
+        items = items.filter{!$0.name.isEmpty}
+        
+        if !items.isEmpty {
+            urlComp.queryItems = items
+        }
+        
+        var urlRequest = URLRequest(url: urlComp.url!)
+        urlRequest.httpMethod = "GET"
+        let config = URLSessionConfiguration.default
+        let session = URLSession(configuration: config)
+        
+        let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
+            
+            guard error == nil else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if(httpResponse.statusCode == 200){
+                    
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        print("200")
+                        sleep(1)
+                        DispatchQueue.main.async {
+                            self.performSegue(withIdentifier: "Login", sender: self)
+                        }
+                    }
+                } else if(httpResponse.statusCode == 401){
+                    self.FacebookSignup()
+                    print("401")
+                    
+                }else {
+                    print("statusCode: \(httpResponse.statusCode)")
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                        
+                    }
+                }
+                
+            }
+        })
+        task.resume()
+    }
+    
+    func facebooklogin200() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "Login", sender: Any?.self)
+        }
+    }
+    
+    
+    var facebookToken = ""
+    
+    func FacebookSignup() {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "FacebookSignup", sender: Any?.self)
+        }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?)
+    {
+        if (segue.identifier == "FacebookSignup") {
+            if let vc = segue.destination as? Signup2Viewcontroller
+            {
+                vc.base64FacebookToken = facebookToken
+                vc.facebooklogin = true
+            }
+        }else if (segue.identifier == "Login"){
+            print("seque er kørt")
+        }else{
+            print("hvor er info")
+        }
+    }
 
-func getRequest(params: [String:String]) {
-    
-    let urlComp = NSURLComponents(string: "http://localhost:3000/users/login/facebook")!
-    
-    var items = [URLQueryItem]()
-    
-    for (key,value) in params {
-        items.append(URLQueryItem(name: key, value: value))
-    }
-    
-    items = items.filter{!$0.name.isEmpty}
-    
-    if !items.isEmpty {
-        urlComp.queryItems = items
-    }
-    
-    var urlRequest = URLRequest(url: urlComp.url!)
-    urlRequest.httpMethod = "GET"
-    let config = URLSessionConfiguration.default
-    let session = URLSession(configuration: config)
-    
-    let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
-        
-        //print(response)
-        
-        //            let responseJSON = try? JSONSerialization.jsonObject(with: data!, options: [])
-        //            if let responseJSON = responseJSON as? [String: Any] {
-        //                print(responseJSON)
-        //                self.jsonlement = responseJSON as NSDictionary
-        //
-        //                DispatchQueue.main.async { // Correct
-        //                    self.EmailLabel.text = "Email: \(responseJSON["email"] as! String)"
-        //                    self.TimeLabel.text = "Time spend: \(responseJSON["timeSpendPerWeek"] as! String)"
-        //                }
-        //            }
-        
-    })
-    task.resume()
 }

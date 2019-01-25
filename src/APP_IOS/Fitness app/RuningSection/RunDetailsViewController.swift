@@ -37,6 +37,16 @@ class RunDetailsViewController: UIViewController {
         let myInt = Int(timeInterval)
         runtimestamp = myInt
     }
+    
+    
+    @IBAction func AddFriendsBtn(_ sender: Any) {
+        DispatchQueue.main.async {
+            self.performSegue(withIdentifier: "Save", sender: self)
+        }
+    }
+    
+    
+    
     @IBAction func SaveBtn(_ sender: Any) {
         SendRun()
     }
@@ -80,6 +90,12 @@ class RunDetailsViewController: UIViewController {
                     let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
                     if let responseJSON = responseJSON as? [String: Any] {
                         print(responseJSON)
+                        
+                        DispatchQueue.main.sync(execute: { () -> Void in
+                            
+                            self.performSegue(withIdentifier: "Saved", sender: self)
+                            
+                        })
                         
                     }
                 } else {
@@ -246,6 +262,21 @@ class RunDetailsViewController: UIViewController {
         }
         
         return UIColor(red: red, green: green, blue: blue, alpha: 1)
+    }
+    
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if (segue.identifier == "Save") {
+            let vc = segue.destination as! AddFriendsTableview
+            vc.run = run
+            vc.Lat = Lat
+            vc.long = long
+            vc.timestamp = timestamp
+            vc.runtimestamp = runtimestamp
+        }else{
+            print("hvor er info")
+        }
     }
 }
 

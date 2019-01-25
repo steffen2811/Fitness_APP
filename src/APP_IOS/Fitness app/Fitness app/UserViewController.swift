@@ -12,10 +12,18 @@ import SideMenu
 import FBSDKCoreKit
 import FBSDKLoginKit
 import MapKit
+import AvatarImageView
 
 class UserViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, CLLocationManagerDelegate {
 
-    @IBOutlet var imageView: UIImageView!
+    @IBOutlet var profilePic: AvatarImageView!{
+        didSet {
+            configureRoundAvatar() // Comment this line for a square avatar as that is the default.
+            //showProfilePicture()
+        }
+    }
+    
+    
     @IBOutlet var NameTxt: UITextField!
     @IBOutlet var AgeTxt: UITextField!
     @IBOutlet var levelTxt: UITextField!
@@ -64,9 +72,9 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.imageTapped(gesture:)))
         
         // add it to the image view;
-        imageView.addGestureRecognizer(tapGesture)
+        profilePic.addGestureRecognizer(tapGesture)
         // make sure imageView can be interacted with by user
-        imageView.isUserInteractionEnabled = true
+        profilePic.isUserInteractionEnabled = true
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -114,6 +122,8 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                 self.jsonlement = responseJSON as NSDictionary
 
                 DispatchQueue.main.async {
+                    //self.showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
+                    self.showProfilePicture(Url: responseJSON["profileImgPath"] as! String)
                     self.NameTxt.text = responseJSON["name"] as! String
                     self.timeSpendTxt.text = "\(responseJSON["timeSpendPerWeek"] ?? 0)"
                     self.AgeTxt.text = "\(responseJSON["age"] ?? 0)"
@@ -132,6 +142,21 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         task.resume()
     }
     
+    func configureRoundAvatar() {
+        struct Config: AvatarImageViewConfiguration { var shape: Shape = .circle }
+        profilePic.configuration = Config()
+    }
+    
+    func showProfilePicture(Url: String) {
+        var data = PictureData()
+        let url = URL(string: Url)
+        let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
+        
+        
+        data.avatar = UIImage(data: data1!)
+        profilePic.dataSource = data
+    }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
         
@@ -141,7 +166,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         }
         
         // print out the image size as a test
-        imageView.image = image
+        profilePic.image = image
         if (image == nil){
             print("no image")
         }else {

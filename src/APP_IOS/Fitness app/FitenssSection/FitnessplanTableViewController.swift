@@ -1,23 +1,20 @@
 //
-//  FindPotentielleUsers.swift
+//  FitnessplanTableViewController.swift
 //  Fitness app
 //
-//  Created by Tobias Brammer Fredriksen on 15/01/2019.
+//  Created by Tobias Brammer Fredriksen on 24/01/2019.
 //  Copyright © 2019 Tobias Brammer Fredriksen. All rights reserved.
 //
 
 import Foundation
 import UIKit
-import AvatarImageView
 
-
-class FindPotentielleUsers: UITableViewController {
+class FitnessplanTableViewController: UITableViewController {
     
-
+    
     var tableData: NSArray = NSArray()
-    var element:NSDictionary = [:]
+    var element: Int = 0
     
-    var data: [PictureData] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +34,7 @@ class FindPotentielleUsers: UITableViewController {
     
     @objc func getRequest() {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getSuggestedMatches")!
+        let urlComp = NSURLComponents(string: "http://localhost:3333/sports/fitness/getFitnessPlans")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -47,7 +44,7 @@ class FindPotentielleUsers: UITableViewController {
         let task = session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
             
             
-        print(response)
+            print(response)
             
             guard let data = data, error == nil else { return }
             
@@ -105,30 +102,12 @@ class FindPotentielleUsers: UITableViewController {
         return 130.0;//Choose your custom row height
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> FindPotentielleUsersCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! FindPotentielleUsersCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "Cell") as! UITableViewCell
         
-        if cell == nil {
-            cell = FindPotentielleUsersCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
-            print("cant find cell")
-        }
         let item: Cell = tableData[indexPath.row] as! Cell
-//        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
-        cell.Name.text = "Name: " + (item.object!["name"] as! String)
         
-        var age = "Age: \(item.object!["age"] as! Int)"
-        cell.Age.text = String(age)
-        
-        cell.Fitness.text = "Sport: " + (item.object!["primarySports"] as! String)
-    
-        
-        var data = PictureData()
-        //let url = URL(string: "https://avatars.io/static/default_128.jpg")
-        let url = URL(string: item.object!["profileImgPath"] as! String)
-        let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-    
-        data.avatar = UIImage(data: data1!)
-        cell.Profilepic.dataSource = data
+        cell.textLabel?.text = "Name: " + (item.object!["FitnessPlanName"] as! String)
         
         return cell
     }
@@ -136,8 +115,8 @@ class FindPotentielleUsers: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(tableData[indexPath.item])
         let IDitem: Cell = tableData[indexPath.row] as! Cell
-        var elementitem = IDitem.object
-        element = elementitem!
+        var elementitem = IDitem.object!["id_fitness_plan"] as! Int
+        element = elementitem
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "Info", sender: self)
         }
@@ -147,8 +126,8 @@ class FindPotentielleUsers: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if (segue.identifier == "Info") {
-            let vc = segue.destination as! PotentielleUsersDetail
-            vc.jsonlement = element
+            let vc = segue.destination as! PlanExercisesTableView
+            vc.ID = element
         }else{
             print("hvor er info")
         }
