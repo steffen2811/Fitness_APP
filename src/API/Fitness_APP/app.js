@@ -35,6 +35,7 @@ var app = express();
 app.use(require('express-status-monitor')());
 app.use(session({
     secret: 'E6A9f7JaTyxJpZrNzKTuRnQUqgzXnfsa',
+    cookie: { maxAge: 1000 * 60 * 60 * 24 * 7 }, //1 week
     // create new redis store.
     store: new redisStore({
         host: process.env.REDIS_SERVER_ADR,
@@ -42,6 +43,7 @@ app.use(session({
         port: 6379,
         client: client
     }),
+    rolling: true,
     saveUninitialized: false,
     resave: false
 }));

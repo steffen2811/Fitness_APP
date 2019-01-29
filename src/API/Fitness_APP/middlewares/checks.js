@@ -2,9 +2,7 @@ var passwordValidator = require('password-validator');
 var connection = require('../helpers/mysql');
 var userModel = require("./../models/user")
 
-/* Standart password requirements */
 var schema = new passwordValidator();
-if (process.env.NODE_ENV == "production1") {
     schema
         .is().min(8) // Minimum length 8
         .is().max(100) // Maximum length 100
@@ -12,7 +10,6 @@ if (process.env.NODE_ENV == "production1") {
         .has().lowercase() // Must have lowercase letters
         .has().digits() // Must have digits
         .has().not().spaces() // Should not have spaces
-}
 
 /* Function - Check if user is authenticated */
 function sessionChecker(req, res, next) {

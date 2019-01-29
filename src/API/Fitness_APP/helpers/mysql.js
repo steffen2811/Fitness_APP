@@ -5,8 +5,7 @@ const pool = mysql.createPool({
     host: process.env.MYSQL_SERVER_ADR,
     user: 'root',
     password: process.env.MYSQL_ROOT_PASSWORD,
-    database: 'users',
-    insecureAuth: true
+    database: 'users'
 })
 
 // Ping database to check for common exception errors.

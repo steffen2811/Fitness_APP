@@ -45,7 +45,6 @@ router.get('/login',
         }
         else {
             req.session.user = req.user[0];
-            req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
             res.json(req.session.user);
         }
     },
@@ -127,7 +126,6 @@ router.post('/create',
             }
             req.session.user = user;
             req.session.user.id_users = userid;
-            req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
             res.json(user)
         });
     }, 

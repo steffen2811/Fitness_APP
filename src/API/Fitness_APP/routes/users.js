@@ -78,7 +78,6 @@ router.post('/create', auth.getAuthData, checks.checkIfUserExist, checks.checkPa
             } else {
                 req.session.user = user;
                 req.session.user.id_users = userid;
-                req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
                 res.json(user)
             }
         });
@@ -118,7 +117,6 @@ router.get('/login', auth.getAuthData, passport.authenticate('basic', {
     session: false
 }), function (req, res) {
     req.session.user = req.user;
-    req.session.cookie.maxAge = 1000 * 60 * 60 * 24 * 7; // 1 week
     res.json(req.user)
 });
 
