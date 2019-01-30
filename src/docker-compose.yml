@@ -11,7 +11,7 @@ services:
       redis:
         condition: service_started
     ports:
-    - 3333:80/tcp
+    - 8080:80/tcp
     env_file:
       - Docker-variables.env
     restart: always
