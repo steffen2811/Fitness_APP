@@ -36,8 +36,11 @@ class ShowFriendsTableViewController: UITableViewController{
     }
     
     @objc func getRequest() {
+        if(users.isEmpty == false){
+            users.removeAll()
+        }
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getFriends")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/community/getFriends")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -51,15 +54,15 @@ class ShowFriendsTableViewController: UITableViewController{
             
             guard let data = data, error == nil else { return }
             
-            guard let cars = try? JSONDecoder().decode([User].self, from: data) else {
+            guard let Users = try? JSONDecoder().decode([User].self, from: data) else {
                 print("Error: Couldn't decode data into cars array")
                 return
             }
             
-            for car in cars {
-                print("User is \(car)")
+            for User in Users {
+                print("User is \(User)")
                 print("---")
-                self.users.append(car)
+                self.users.append(User)
                 print(self.users.count)
                 
             }

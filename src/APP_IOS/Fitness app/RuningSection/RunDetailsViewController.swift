@@ -55,7 +55,7 @@ class RunDetailsViewController: UIViewController {
         let locations = run.locations
         let parameters = ["distance": run.distance,"startTime": runtimestamp  , "duration": run.duration, "lat": Lat, "long": long, "locationTime": timestamp ] as [String : Any]
         //Create the url
-        let url = URL(string: "http://localhost:3333/sports/running/registerRun")
+        let url = URL(string: "http://\(UrlVar.urlvar)/sports/running/registerRun")
         
         //Create the session object
         let session = URLSession.shared

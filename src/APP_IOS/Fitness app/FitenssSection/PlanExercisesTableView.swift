@@ -11,11 +11,13 @@ import UIKit
 
 class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    @IBOutlet var nameLabel: UILabel!
     
     @IBOutlet var tableView: UITableView!
     
     
     var ID:Int = 0
+    var name:String = ""
     
     var execises = [Exercise]()
     //var users = [Exercise]()
@@ -31,7 +33,7 @@ class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableView
     }
     
     func getRequest() {
-        let url = URL(string: "http://localhost:3333/sports/fitness/getExecisesInPlan/?fitnessPlanId=\(ID)")!
+        let url = URL(string: "http://\(UrlVar.urlvar)/sports/fitness/getExecisesInPlan/?fitnessPlanId=\(ID)")!
         let task = URLSession.shared.exercisesTask(with: url) { exercises, response, error in
             if let exercises = exercises {
                 print(exercises)
@@ -45,6 +47,7 @@ class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableView
                     
                     DispatchQueue.main.sync(execute: { () -> Void in
                         self.tableView.reloadData()
+                        self.nameLabel.text = "Plan name: \(self.name)"
                     })
                     
                 }
@@ -70,7 +73,7 @@ class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableView
         
         let user1: Exercise
         user1 = execises[indexPath.row]
-        cell.textLabel!.text = "Name: \(user1.execiseName)"
+        cell.textLabel!.text = "Execise Name: \(user1.execiseName)"
         print(user1.execiseName)
         
         return cell
@@ -78,13 +81,13 @@ class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableView
     
     
     
-    var user: Exercise?
+    var exercise: Exercise?
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // cell selected code here
-        let user1: Exercise
-        user1 = execises[indexPath.row]
-        user = user1
+        let exercise1: Exercise
+        exercise1 = execises[indexPath.row]
+        exercise = exercise1
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "execiseInfo", sender: self)
         }
@@ -100,7 +103,7 @@ class PlanExercisesTableView: UIViewController, UITableViewDelegate, UITableView
         
         if (segue.identifier == "execiseInfo") {
             let vc = segue.destination as! execiseDetail
-            vc.user = user
+            vc.exercise = exercise
         }
         if (segue.identifier == "SharePlan"){
             let vc = segue.destination as! ShareFitnessPlanTableViewController

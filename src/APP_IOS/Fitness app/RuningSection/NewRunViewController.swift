@@ -132,11 +132,11 @@ class NewRunViewController: UIViewController {
         print("Pace:  \(formattedPace)")
     }
     
-    //this starts the location updates and set the activitytime and the filter (The minimum distance (measured in meters) a device must move horizontally before an update event is generated.)
+    //this starts the location updates and set the activitytime and the filter (The minimum distance (measured in meters) a device must move horizontally before an update event is generated.
     private func startLocationUpdates() {
         locationManager.delegate = self
         locationManager.activityType = .fitness
-        locationManager.distanceFilter = 10
+        locationManager.distanceFilter = 3
         locationManager.startUpdatingLocation()
     }
     
@@ -182,7 +182,7 @@ extension NewRunViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         for newLocation in locations {
             let howRecent = newLocation.timestamp.timeIntervalSinceNow
-            guard newLocation.horizontalAccuracy < 20 && abs(howRecent) < 10 else { continue }
+            //guard newLocation.horizontalAccuracy < 20 && abs(howRecent) < 10 else { continue }
             
             if let lastLocation = locationList.last {
                 let delta = newLocation.distance(from: lastLocation)

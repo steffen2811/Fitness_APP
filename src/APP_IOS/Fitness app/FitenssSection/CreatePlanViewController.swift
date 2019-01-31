@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class CreatePlanViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class CreatePlanViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate {
     
     @IBOutlet var tableView: UITableView!
     
@@ -17,10 +17,11 @@ class CreatePlanViewController: UIViewController, UITableViewDelegate, UITableVi
     
     var Friendsadded = [Int]()
     var execises = [Exercise]()
-    //var users = [Exercise]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        nameTxt.delegate = self
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -29,17 +30,28 @@ class CreatePlanViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.view.endEditing(true)
+        return false
+    }
+    //let url = URL(string: "http://\(UrlVar.urlvar)/sports/fitness/getAllExecises")!
     func getRequest() {
-        let url = URL(string: "http://localhost:3333/sports/fitness/getAllExecises")!
+        let url = URL(string: "http://192.168.153.140/sports/fitness/getAllExecises")!
         let task = URLSession.shared.exercisesTask(with: url) { exercises, response, error in
+            print(response)
+            print(exercises)
             if let exercises = exercises {
                 print(exercises)
                 
-                for car in exercises {
-                    print("User is \(car.execiseName)")
+                for exercise in exercises {
+                    print("User is \(exercise.execiseName)")
                     print("---")
-                    self.execises.append(car)
+                    self.execises.append(exercise)
                     print(self.execises.count)
+                    
+                    DispatchQueue.main.sync(execute: { () -> Void in
+                        self.tableView.reloadData()
+                    })
                     
                 }
             }
@@ -95,7 +107,7 @@ class CreatePlanViewController: UIViewController, UITableViewDelegate, UITableVi
     func SendPlan() {
         let parameters = ["FitnessPlanName": nameTxt.text , "FitnessPlanExecises": Friendsadded ] as [String : Any]
         //Create the url
-        let url = URL(string: "http://localhost:3333/sports/fitness/createFitnessPlan/")
+        let url = URL(string: "http://\(UrlVar.urlvar)/sports/fitness/createFitnessPlan/")
         
         //Create the session object
         let session = URLSession.shared

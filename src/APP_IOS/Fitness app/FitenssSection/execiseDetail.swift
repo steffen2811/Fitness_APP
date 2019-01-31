@@ -19,7 +19,7 @@ class execiseDetail: UIViewController{
     @IBOutlet var repeatsLabel: UILabel!
     @IBOutlet var SetsLabel: UILabel!
     
-    var user: Exercise?
+    var exercise: Exercise?
     
     
     override func viewDidLoad() {
@@ -31,16 +31,16 @@ class execiseDetail: UIViewController{
     
     
     private func configureView() {
-        if let user = user {
-            NameLabel.text = user.execiseName
+        if let exercise = exercise {
+            NameLabel.text = exercise.execiseName
             
-            var repeats = "Repeats: \(user.repeats as! Int)"
+            var repeats = "Repeats: \(exercise.repeats as! Int)"
             repeatsLabel.text = String(repeats)
             
-//            var Sets = "Sets: \(user.sets as! Int)"
-//            SetsLabel.text = String(Sets)
+            var Sets = "Sets: \(exercise.sets as! Int)"
+            SetsLabel.text = String(Sets)
             
-            let request = URLRequest(url: NSURL(string: "https://www.youtube.com/embed/XkwuBMNUgzs")! as URL)
+            let request = URLRequest(url: NSURL(string: "https://www.youtube.com/embed/\(exercise.howToVideo)")! as URL)
             webView.load(request)
         }
         

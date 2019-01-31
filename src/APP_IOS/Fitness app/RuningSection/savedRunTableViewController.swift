@@ -33,7 +33,7 @@ class savedRunTableViewController: UITableViewController{
     
     @objc func getRequest() {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/sports/running/getRuns")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/sports/running/getRuns")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"

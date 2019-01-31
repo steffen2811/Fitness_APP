@@ -14,8 +14,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
     
     @IBOutlet var SearchBar: UISearchBar!
     
-    var tableData: NSArray = NSArray()
-    var element:NSDictionary = [:]
+    var users = [User]()
     
     var data: [PictureData] = []
     
@@ -40,10 +39,18 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         // Dispose of any resources that can be recreated.
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        users.removeAll()
+    }
+    
     
     func getRequest(Search: String) {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/searchForUsers/?search=\(Search)")!
+        if(users.isEmpty == false){
+            users.removeAll()
+        }
+        
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/community/searchForUsers/?search=\(Search)")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -57,51 +64,31 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
             
             guard let data = data, error == nil else { return }
             
-            do {
-                //create json object from data
-                if var json = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [AnyObject] {
-                    // handle json...
-                    //print(json)
-                    var jsonElement = NSDictionary()
-                    let Data = NSMutableArray()
-                    for i in 0 ..< json.count
-                    {
-                        jsonElement = json[i] as! NSDictionary
-                        print(json[i])
-                        let cell = Cell()
-                        cell.object = jsonElement
-                        Data.add(cell)
-                        
-                        
-                    }
-                    
-                    DispatchQueue.main.sync(execute: { () -> Void in
-                        
-                        self.itemsDownloaded(items: Data)
-                        
-                    })
-                    
-                } else {
-                    print(NSString(data: data, encoding: String.Encoding.utf8.rawValue))
-                }
-            } catch let error {
-                print(error.localizedDescription)
+            guard let Users = try? JSONDecoder().decode([User].self, from: data) else {
+                print("Error: Couldn't decode data into cars array")
+                return
             }
             
+            for user in Users {
+                print("User is \(user)")
+                print("---")
+                self.users.append(user)
+                print(self.users.count)
+                
+            }
+            
+            DispatchQueue.main.sync(execute: { () -> Void in
+                self.tableView.reloadData()
+                self.refreshControl?.endRefreshing()
+            })
         })
         task.resume()
-    }
-    
-    func itemsDownloaded(items: NSArray) {
-        
-        tableData = items
-        self.tableView.reloadData()
     }
     
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of feed items
-        return tableData.count
+        return users.count
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
@@ -116,33 +103,31 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
             cell = FindPotentielleUsersCell(style: UITableViewCell.CellStyle.default, reuseIdentifier: "Cell")
             print("cant find cell")
         }
-        let item: Cell = tableData[indexPath.row] as! Cell
-        //        cell?.order_idtxt.text = "\(item.object!["order_id"]!)"
-        cell.Name.text = "Name: " + (item.object!["name"] as! String)
+        let user1: User
+        user1 = users[indexPath.row]
+        cell.Name.text = "Name: " + user1.name
         
-        var age = "Age: \(item.object!["age"] as! Int)"
+        var age = "Age: \(user1.age as! Int)"
         cell.Age.text = String(age)
         
-        cell.Fitness.text = "Sport: " + (item.object!["primarySports"] as! String)
-        
+        cell.Fitness.text = "Sport: " + user1.primarySports
         
         var data = PictureData()
         //let url = URL(string: "https://avatars.io/static/default_128.jpg")
-        let url = URL(string: item.object!["profileImgPath"] as! String)
+        let url = URL(string: user1.profileImgPath as! String)
         let data1 = try? Data(contentsOf: url!) //make sure your image in this url does exist, otherwise unwrap in a if let check / try-catch
-        
-        
         data.avatar = UIImage(data: data1!)
         cell.Profilepic.dataSource = data
         
         return cell
     }
+    var user : User?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(tableData[indexPath.item])
-        let IDitem: Cell = tableData[indexPath.row] as! Cell
-        var elementitem = IDitem.object
-        element = elementitem!
+        let user1: User
+        user1 = users[indexPath.row]
+        user = user1
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "Info", sender: self)
         }
@@ -154,7 +139,7 @@ class SearchTableViewController: UITableViewController, UISearchBarDelegate{
         
         if (segue.identifier == "Info") {
             let vc = segue.destination as! PotentielleUsersDetail
-            vc.jsonlement = element
+            vc.user = user
         }else{
             print("hvor er info")
         }

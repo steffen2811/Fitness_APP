@@ -39,6 +39,7 @@
 		54A3D12C21E790B4005ECAFB /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */; };
 		54A3D12E21E79F09005ECAFB /* StoryboardSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */; };
 		54B25BCC21C3E38100656F1F /* MainpageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B25BCB21C3E38100656F1F /* MainpageViewController.swift */; };
+		54BDD34621FB20770028BA41 /* GlobalVar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54BDD34521FB20770028BA41 /* GlobalVar.swift */; };
 		54D7E91B21F4BDFC000767CD /* UserStruckt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91A21F4BDFC000767CD /* UserStruckt.swift */; };
 		54D7E91D21F5DF69000767CD /* RunTableviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91C21F5DF69000767CD /* RunTableviewCell.swift */; };
 		54D7E91F21F5E0D8000767CD /* savedRunTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D7E91E21F5E0D8000767CD /* savedRunTableViewController.swift */; };
@@ -84,6 +85,7 @@
 		54A3D12B21E790B4005ECAFB /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardSupport.swift; sourceTree = "<group>"; };
 		54B25BCB21C3E38100656F1F /* MainpageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainpageViewController.swift; sourceTree = "<group>"; };
+		54BDD34521FB20770028BA41 /* GlobalVar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalVar.swift; sourceTree = "<group>"; };
 		54D7E91A21F4BDFC000767CD /* UserStruckt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserStruckt.swift; sourceTree = "<group>"; };
 		54D7E91C21F5DF69000767CD /* RunTableviewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunTableviewCell.swift; sourceTree = "<group>"; };
 		54D7E91E21F5E0D8000767CD /* savedRunTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = savedRunTableViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 				54A3D12921E78DBE005ECAFB /* MulticolorPolyLine.swift */,
 				54A3D12D21E79F09005ECAFB /* StoryboardSupport.swift */,
 				54841F1521EF718800654795 /* ProfilePicstruct.swift */,
+				54BDD34521FB20770028BA41 /* GlobalVar.swift */,
 			);
 			path = Suportfiles;
 			sourceTree = "<group>";
@@ -374,6 +377,7 @@
 				54841F0C21EE2FD500654795 /* Cell.swift in Sources */,
 				542FA3BC21E75FC60080F254 /* RunDetailsViewController.swift in Sources */,
 				54841F1621EF718800654795 /* ProfilePicstruct.swift in Sources */,
+				54BDD34621FB20770028BA41 /* GlobalVar.swift in Sources */,
 				5470DF9621B2FD1D0010B9FB /* SignupViewController.swift in Sources */,
 				54B25BCC21C3E38100656F1F /* MainpageViewController.swift in Sources */,
 				5409322821F85DCB001271FA /* CreatePlanViewController.swift in Sources */,

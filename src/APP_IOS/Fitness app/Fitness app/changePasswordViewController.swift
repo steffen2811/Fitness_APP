@@ -59,7 +59,7 @@ class changePasswordViewController: UIViewController, UITextFieldDelegate {
         
         print(parameters)
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/changePassword")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/changePassword")
             
         print(url)
             

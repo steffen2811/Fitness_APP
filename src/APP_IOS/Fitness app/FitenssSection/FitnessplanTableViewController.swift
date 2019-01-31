@@ -34,7 +34,7 @@ class FitnessplanTableViewController: UITableViewController {
     
     @objc func getRequest() {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/sports/fitness/getFitnessPlans")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/sports/fitness/getFitnessPlans")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -112,11 +112,15 @@ class FitnessplanTableViewController: UITableViewController {
         return cell
     }
     
+    var planName = ""
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //print(tableData[indexPath.item])
         let IDitem: Cell = tableData[indexPath.row] as! Cell
         var elementitem = IDitem.object!["id_fitness_plan"] as! Int
         element = elementitem
+        var elementName = IDitem.object!["FitnessPlanName"] as! String
+        planName = elementName
         DispatchQueue.main.async {
             self.performSegue(withIdentifier: "Info", sender: self)
         }
@@ -127,6 +131,7 @@ class FitnessplanTableViewController: UITableViewController {
         
         if (segue.identifier == "Info") {
             let vc = segue.destination as! PlanExercisesTableView
+            vc.name = planName
             vc.ID = element
         }else{
             print("hvor er info")

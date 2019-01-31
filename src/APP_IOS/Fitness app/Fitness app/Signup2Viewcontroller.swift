@@ -18,9 +18,11 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     
     var facebooklogin = false
     
+    @IBOutlet var NameLabel: UILabel!
     
     let imagePicker = UIImagePickerController()
     
+    @IBOutlet var ImageBtn: UIButton!
     @IBOutlet weak var NameText: UITextField!
     @IBOutlet weak var TimeSpendText: UITextField!
     @IBOutlet weak var AgeText: UITextField!
@@ -41,6 +43,18 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         MobileText.delegate = self
         Primary_Sports.delegate = self
         Sport_Level.delegate = self
+        
+        if facebooklogin == true {
+            ImageView.isHidden = true
+            ImageBtn.isHidden = true
+            NameText.isHidden = true
+            NameLabel.isHidden = true
+        }else {
+            ImageView.isHidden = false
+            ImageBtn.isHidden = false
+            NameText.isHidden = false
+            NameLabel.isHidden = false
+        }
         
         //print(base64SignupString)
         imagePicker.delegate = self
@@ -107,9 +121,36 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         if (image == nil){
             print("no image")
         }else {
-            base64StringImage = convertImageTobase64(format: .png, image: image)!
-            //print(base64StringImage)
+            var image1 = self.resizeImage(image: image, targetSize: CGSize(width: 128.0, height: 128.0))
+            base64StringImage = convertImageTobase64(format: .png, image: image1)!
+            //print(base64StringImage.count)
         }
+    }
+    
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+        
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+        
+        // Figure out what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+        
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return newImage!
     }
     
     public enum ImageFormat {
@@ -127,9 +168,11 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func Checkfields() {
-        guard let NameTxt = NameText.text, !NameTxt.isEmpty else {
-            print("no text in name")
-            return
+        if facebooklogin == false {
+            guard let NameTxt = NameText.text, !NameTxt.isEmpty else {
+                print("no text in name")
+                return
+            }
         }
         
         guard let TimeSpend = TimeSpendText.text, !TimeSpend.isEmpty else {
@@ -164,15 +207,14 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         
         //do something if it's not empty
         CheckisCompleate = true
-        print("name: \(NameTxt) \nTime spend: \(TimeSpend) \nage: \(Age) \nmobile: \(Mobile) \nPrimarySport : \(PrimarySports) \nSport level: \(SportLevel)\n Gender: \(Gender)")
     }
     
     func Signup() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilepicture": base64StringImage ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilePicture": base64StringImage ] as [String : Any]
         
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/create")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/create")
         
         //Create the session object
         let session = URLSession.shared
@@ -182,6 +224,7 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
         request.httpMethod = "POST" // set request to POST
         request.setValue("Basic \(base64SignupString)", forHTTPHeaderField: "Authorization")
         
+        //Add parameters to httpbody
         do{
             request.httpBody = try JSONSerialization.data(withJSONObject: parameters, options: .prettyPrinted)
         } catch let error {
@@ -209,11 +252,6 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
                     if let responseJSON = responseJSON as? [String: Any] {
                         print(responseJSON)
                         
-                        let defaults = UserDefaults.standard
-                        
-                        defaults.set(responseJSON["email"], forKey: "email")
-                        defaults.synchronize()
-                        
                         DispatchQueue.main.async {
                             self.performSegue(withIdentifier: "SignedUp", sender: self)
                         }
@@ -221,6 +259,11 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
                     }
                 } else {
                     print("statusCode: \(httpResponse.statusCode)")
+                    let responseJSON = try? JSONSerialization.jsonObject(with: data, options: [])
+                    if let responseJSON = responseJSON as? [String: Any] {
+                        print(responseJSON)
+                        
+                    }
                 }
                 
             }
@@ -230,10 +273,10 @@ class Signup2Viewcontroller: UIViewController, UIImagePickerControllerDelegate, 
     
     func signupFacebook() {
         
-        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "name": NameText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilepicture": base64StringImage ] as [String : Any]
+        let parameters = ["timeSpendPerWeek": TimeSpendText.text, "locationLong": center.longitude, "locationLat": center.latitude, "age": AgeText.text, "mobile": MobileText.text, "primarySports": Primary_Sports.text, "gender": GenderText.text, "sportLevel": Sport_Level.text, "profilepicture": base64StringImage ] as [String : Any]
         
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/facebook/create")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/facebook/create")
         
         //Create the session object
         let session = URLSession.shared

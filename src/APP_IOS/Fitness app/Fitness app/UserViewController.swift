@@ -19,7 +19,6 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     @IBOutlet var profilePic: AvatarImageView!{
         didSet {
             configureRoundAvatar() // Comment this line for a square avatar as that is the default.
-            //showProfilePicture()
         }
     }
     
@@ -38,7 +37,6 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     var base64StringImage = ""
     
-    let defaults = UserDefaults.standard
     
     var jsonlement:NSDictionary = [:]
     
@@ -105,7 +103,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func getRequest() {
             
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getCurrentUser")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/getCurrentUser")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -131,8 +129,8 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
                     self.MobileTxt.text = "\(responseJSON["mobile"] ?? 0)"
                     self.SportTxt.text = responseJSON["primarySports"] as! String
                     self.emailTxt.text = responseJSON["email"] as! String
-                    self.longLabel.text = "\(responseJSON["locationLat"] ?? 0.0)"
-                    self.latLabel.text = "\(responseJSON["locationLong"] ?? 0.0)"
+                    self.longLabel.text = "\(responseJSON["locationLong"] ?? 0.0)"
+                    self.latLabel.text = "\(responseJSON["locationLat"] ?? 0.0)"
                     self.newLongtitude = responseJSON["locationLong"] as! Double
                     self.newLatitude = responseJSON["locationLat"] as! Double
                 }
@@ -241,7 +239,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
         let parameters = ["timeSpendPerWeek": timeSpendTxt.text, "name": NameTxt.text, "locationLong": newLongtitude, "locationLat": newLatitude, "age": AgeTxt.text, "mobile": MobileTxt.text, "primarySports": SportTxt.text, "sportLevel": levelTxt.text, "profilepictur": base64StringImage ] as [String : Any]
         
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/create")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/create")
         
         //Create the session object
         let session = URLSession.shared
@@ -290,7 +288,7 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
     
     func Logout() {
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/logout")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/logout")
         
         //Create the session object
         let session = URLSession.shared
@@ -321,9 +319,6 @@ class UserViewController: UIViewController, UIImagePickerControllerDelegate, UIN
             if(FBSDKAccessToken.current() != nil){
             FBSDKLoginManager().logOut()
             }
-            
-            self.defaults.removeObject(forKey: "email")
-            self.defaults.synchronize()
             
             DispatchQueue.main.async {
                 self.performSegue(withIdentifier: "Logud", sender: self)

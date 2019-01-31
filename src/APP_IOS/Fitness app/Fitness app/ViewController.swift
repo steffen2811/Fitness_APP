@@ -31,7 +31,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func CheckifLogedin() {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/getCurrentUser")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/getCurrentUser")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -98,7 +98,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
         let base64LoginString = loginData.base64EncodedString()
 
         //Create the url
-        let url = URL(string: "http://localhost:3333/users/login")
+        let url = URL(string: "http://\(UrlVar.urlvar)/users/login")
 
         //Create the session object
         let session = URLSession.shared
@@ -189,7 +189,7 @@ class ViewController: UIViewController, UITextFieldDelegate {
     
     func FacebookLoginrequest(params: [String:String]) {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/facebook/login")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/facebook/login")!
         
         var items = [URLQueryItem]()
         

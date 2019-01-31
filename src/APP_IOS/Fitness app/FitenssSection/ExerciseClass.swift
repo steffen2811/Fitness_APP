@@ -20,7 +20,7 @@ class Exercise: Codable {
     let idFitnessExercises: Int
     let execiseName: String
     let repeats: Int
-    let sets: String
+    let sets: Int
     let howToVideo: String
     
     enum CodingKeys: String, CodingKey {
@@ -31,7 +31,7 @@ class Exercise: Codable {
         case howToVideo = "howToVideo"
     }
     
-    init(idFitnessExercises: Int, execiseName: String, repeats: Int, sets: String, howToVideo: String) {
+    init(idFitnessExercises: Int, execiseName: String, repeats: Int, sets: Int, howToVideo: String) {
         self.idFitnessExercises = idFitnessExercises
         self.execiseName = execiseName
         self.repeats = repeats

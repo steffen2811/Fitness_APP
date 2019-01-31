@@ -39,7 +39,7 @@ class ShareFitnessPlanTableViewController: UITableViewController{
     
     @objc func getRequest() {
         
-        let urlComp = NSURLComponents(string: "http://localhost:3333/users/community/getFriends")!
+        let urlComp = NSURLComponents(string: "http://\(UrlVar.urlvar)/users/community/getFriends")!
         
         var urlRequest = URLRequest(url: urlComp.url!)
         urlRequest.httpMethod = "GET"
@@ -129,7 +129,7 @@ class ShareFitnessPlanTableViewController: UITableViewController{
     func SendRun() {
         let parameters = ["fitnessPlanId": ID, "shareWithUsers": Friendsadded ] as [String : Any]
         //Create the url
-        let url = URL(string: "http://localhost:3333/sports/fitness/shareFitnessPlan/")
+        let url = URL(string: "http://\(UrlVar.urlvar)/sports/fitness/shareFitnessPlan/")
         
         //Create the session object
         let session = URLSession.shared

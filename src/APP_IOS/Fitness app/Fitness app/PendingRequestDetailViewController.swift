@@ -26,25 +26,23 @@ class PendingRequestDetailViewController: UIViewController{
     @IBOutlet var timeSpendPerWeekLabel: UILabel!
     @IBOutlet var sportLevelLabel: UILabel!
     
-    var jsonlement:NSDictionary = [:]
+    //var jsonlement:NSDictionary = [:]
+    
+    var user: User?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(jsonlement)
+        print(user)
         configureView()
         
     }
     
     @IBAction func AcceptButton(_ sender: Any) {
-        if let quantity = jsonlement["id_users"] as? NSNumber {
-            SendRequest(ID : quantity.stringValue, Url: "http://localhost:3333/users/community/responseRequestAccept", Type: "PUT")
-        }
+        SendRequest(ID : "\(String(describing: user!.id_users))", Url: "http://\(UrlVar.urlvar)/users/community/responseRequestAccept", Type: "PUT")
     }
     
     @IBAction func DenyButton(_ sender: Any) {
-        if let quantity = jsonlement["id_users"] as? NSNumber {
-            SendRequest(ID : quantity.stringValue, Url: "http://localhost:3333/users/community/responseRequestDeny", Type: "DELETE")
-        }
+        SendRequest(ID : "\(String(describing: user!.id_users))", Url: "http://\(UrlVar.urlvar)/users/community/responseRequestDeny", Type: "DELETE")
     }
     
     func SendRequest(ID: String, Url: String, Type: String ) {
@@ -102,14 +100,27 @@ class PendingRequestDetailViewController: UIViewController{
     
     
     private func configureView() {
-        NameLabel.text =  "Name: " + (jsonlement["name"] as? String ?? "")
-        genderLabel.text = "Gender: " + (jsonlement["gender"] as? String ?? "")
-        ageLabel.text = "Age: \(jsonlement["age"] as? Int ?? 0)"
-        primarySportsLabel.text = "Sports: " + (jsonlement["primarySports"] as? String ?? "")
-        timeSpendPerWeekLabel.text = "Time per week:  \(jsonlement["timeSpendPerWeek"] as? Int ?? 0)"
-        sportLevelLabel.text = "Sport level: \(jsonlement["sportLevel"] as? Int ?? 0)"
-        //showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
-        showProfilePicture(Url: jsonlement["profileImgPath"] as! String)
+//        NameLabel.text =  "Name: " + (jsonlement["name"] as? String ?? "")
+//        genderLabel.text = "Gender: " + (jsonlement["gender"] as? String ?? "")
+//        ageLabel.text = "Age: \(jsonlement["age"] as? Int ?? 0)"
+//        primarySportsLabel.text = "Sports: " + (jsonlement["primarySports"] as? String ?? "")
+//        timeSpendPerWeekLabel.text = "Time per week:  \(jsonlement["timeSpendPerWeek"] as? Int ?? 0)"
+//        sportLevelLabel.text = "Sport level: \(jsonlement["sportLevel"] as? Int ?? 0)"
+//        //showProfilePicture(Url: "https://graph.facebook.com/v2.6/2006345182734802/picture?type=large")
+//        showProfilePicture(Url: jsonlement["profileImgPath"] as! String)
+        if let user = user {
+            NameLabel.text = user.name
+            genderLabel.text = user.gender
+            var age = "Age: \(user.age as! Int)"
+            ageLabel.text = String(age)
+            primarySportsLabel.text = user.primarySports
+            var time = "Time per week:  \(user.timeSpendPerWeek as! Int)"
+            timeSpendPerWeekLabel.text = String(time)
+            var level = "Sport level: \(user.sportLevel as! Int)"
+            sportLevelLabel.text = String(level)
+            showProfilePicture(Url: user.profileImgPath as! String)
+            
+        }
     }
     
     func configureRoundAvatar() {
