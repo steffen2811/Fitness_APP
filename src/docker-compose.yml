@@ -39,7 +39,7 @@ services:
     image: redis:4.0.5-alpine
     env_file:
       - Docker-variables.env
-    command: redis-server --requirepass Password1 --appendonly yes
+    command: redis-server --requirepass $${REDIS_PASSWORD} --appendonly yes
     hostname: redis
     ports:
     - 6379:6379/tcp

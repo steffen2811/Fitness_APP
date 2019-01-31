@@ -1,0 +1,3277 @@
+{
+	"id": "19740caa-453f-4221-928d-eab5a809f46a",
+	"name": "Simple_test_API",
+	"allTests": [],
+	"timestamp": "2019-01-31T11:26:17.875Z",
+	"collection_id": "63c4b33f-9132-4c74-bcd5-fcd125ca7a41",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "45fc1a2c-fb5f-4ef0-a7ca-1210e0641ec9",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "63c4b33f-9132-4c74-bcd5-fcd125ca7a41",
+		"name": "Simple_test_API",
+		"description": "Test all functionality.\nGood case testing.",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [
+			"2398acee-4d97-4534-b620-610a7c91159f",
+			"4285a66c-a55a-49f3-9874-7b32d596bc24",
+			"687c9de6-9eab-45fa-b659-bbcd6149c77f",
+			"745c3d3b-f03f-4acc-b63b-532b0fd2dc84",
+			"dfb2eb46-b158-45f6-aeed-815820ff2fe1",
+			"bf1e0a0c-8686-44fb-bb37-5afc14fe5b86",
+			"409a9f73-a278-451f-ad8c-0ab47b82ca97",
+			"434f2142-863c-42bb-adde-ad7c740fcb88",
+			"6ed6f41c-1d1b-4095-930e-3a5c26075246",
+			"549030eb-8f0b-4719-95f5-c323c1de5129",
+			"90d112fa-d1d9-4400-8f3b-3e9969a0e130",
+			"59a7375d-d2d2-44f7-8047-5852f9d489b2",
+			"8edd207c-58a2-4ec2-8807-8dd701989acd",
+			"628e8f75-da16-43c8-b310-3768c6761df7",
+			"9d50e3c6-0561-407a-b722-792e421b39e3",
+			"2897b121-05cc-4bf7-81ad-8c7c2da97024",
+			"67231b92-29e1-4ef7-9c9b-5302757d3eae",
+			"9b41a0c9-23d4-4336-8d92-9c920c8e842a",
+			"9717bb8b-4e49-4b6b-bbf4-54a1e233aacd",
+			"c57fe311-4687-4326-bc37-6727de99aa21",
+			"b96683c1-39ba-49e0-9928-7815d9de2bdb",
+			"1fa30e16-b671-444f-815e-63e7bf1b9448",
+			"174707c3-3764-46ae-b097-5a48770018f7",
+			"3cad5d47-886d-45ba-85e1-01638c298157",
+			"efdb770c-baee-412b-ac85-192d65a52e81",
+			"f8636bc4-5852-466e-9f4c-9f47c79d3cb2",
+			"c354f426-e28a-43be-9fe3-d99dd8c654b9",
+			"991b227e-8440-427e-a1ad-1d1b316eb7ea",
+			"0f15ed72-b6e9-45db-a946-990deb959ec0",
+			"58c5f229-07e0-4d01-a382-13db200b7de6",
+			"5d3e02be-7b81-4f93-8571-9cb459414263",
+			"b2f909d9-baf0-4a1e-85a5-afc74cb56f31",
+			"523ba003-4657-40ec-a318-b5ebc0bea6d9",
+			"04e3779d-805b-4023-896d-1ef8236eadef",
+			"d484a018-f508-464a-a835-f3ff3965fb45",
+			"e0b66658-de09-4c24-b6dc-0ac63afbab2b",
+			"aa13abd3-528e-4b7d-8b00-0ec9d0666df5",
+			"442390a3-3c74-4eb3-9c37-e8945eb59b3b",
+			"8e578952-d54c-45f5-ada1-bcdcd8118ca2",
+			"ba3b276d-e539-46f9-808e-7c165be7ad77",
+			"39b1224d-7cdd-4758-bf60-c02b08998403",
+			"8a3cbcd1-8d49-49d8-9ddf-48dd9244d168",
+			"5005a4f9-13b6-41d1-a70b-2b80c0ac6f18",
+			"ac3fe726-f573-4e70-833b-f170a8f14253",
+			"853f2a03-6c60-44eb-a196-c4f06a1e613d",
+			"7b8c37ad-e375-404b-9f95-649427443251",
+			"de6a54b1-a663-43c4-9bcd-9e20d1b68d3d"
+		],
+		"folders_order": [],
+		"owner": "6462149",
+		"permissions": {},
+		"favorite": false,
+		"shared": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [
+		{
+			"value": 15,
+			"key": "id_fitness_plan",
+			"enabled": true
+		}
+	],
+	"results": [
+		{
+			"name": "Create user email",
+			"id": "2398acee-4d97-4534-b620-610a7c91159f",
+			"url": "192.168.153.140:80/users/create",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"361"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "361",
+			"totalRequestTime": "361",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout",
+			"id": "4285a66c-a55a-49f3-9874-7b32d596bc24",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"27"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "27",
+			"totalRequestTime": "27",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create user email again",
+			"id": "687c9de6-9eab-45fa-b659-bbcd6149c77f",
+			"url": "192.168.153.140:80/users/create",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden",
+				"detail": {
+					"name": "Forbidden",
+					"detail": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 403",
+				"status": "pass",
+				"Check error user already exist": true
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check error user already exist": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"10"
+			],
+			"allTests": [
+				{
+					"Status code is 403": true,
+					"Check error user already exist": true
+				}
+			],
+			"time": "10",
+			"totalRequestTime": "10",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user email",
+			"id": "745c3d3b-f03f-4acc-b63b-532b0fd2dc84",
+			"url": "192.168.153.140:80/users/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"596"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "596",
+			"totalRequestTime": "596",
+			"iterationResults": {}
+		},
+		{
+			"name": "Change password",
+			"id": "dfb2eb46-b158-45f6-aeed-815820ff2fe1",
+			"url": "192.168.153.140:80/users/changePassword",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message in body": true,
+				"Cookie deleted connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"521"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message in body": true,
+					"Cookie deleted connect.sid": true
+				}
+			],
+			"time": "521",
+			"totalRequestTime": "521",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user email new password",
+			"id": "bf1e0a0c-8686-44fb-bb37-5afc14fe5b86",
+			"url": "192.168.153.140:80/users/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"271"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "271",
+			"totalRequestTime": "271",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get current user infomation",
+			"id": "409a9f73-a278-451f-ad8c-0ab47b82ca97",
+			"url": "192.168.153.140:80/users/getCurrentUser",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"61"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true
+				}
+			],
+			"time": "61",
+			"totalRequestTime": "61",
+			"iterationResults": {}
+		},
+		{
+			"name": "Update user name",
+			"id": "434f2142-863c-42bb-adde-ad7c740fcb88",
+			"url": "192.168.153.140:80/users/updateInfo",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"105"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "105",
+			"totalRequestTime": "105",
+			"iterationResults": {}
+		},
+		{
+			"name": "Check name is changed",
+			"id": "6ed6f41c-1d1b-4095-930e-3a5c26075246",
+			"url": "192.168.153.140:80/users/getCurrentUser",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name is updated": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name is updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"356"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name is updated": true
+				}
+			],
+			"time": "356",
+			"totalRequestTime": "356",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout before Facebook",
+			"id": "549030eb-8f0b-4719-95f5-c323c1de5129",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"66"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "66",
+			"totalRequestTime": "66",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create user Facebook",
+			"id": "90d112fa-d1d9-4400-8f3b-3e9969a0e130",
+			"url": "192.168.153.140:80/users/facebook/create",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check password is null (FB login)": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check password is null (FB login)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"1122"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check password is null (FB login)": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "1122",
+			"totalRequestTime": "1122",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout Facebook",
+			"id": "59a7375d-d2d2-44f7-8047-5852f9d489b2",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"9"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "9",
+			"totalRequestTime": "9",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "8edd207c-58a2-4ec2-8807-8dd701989acd",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"207"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "207",
+			"totalRequestTime": "207",
+			"iterationResults": {}
+		},
+		{
+			"name": "Register run with email user",
+			"id": "628e8f75-da16-43c8-b310-3768c6761df7",
+			"url": "192.168.153.140:80/sports/running/registerRun",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"110"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "110",
+			"totalRequestTime": "110",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get run",
+			"id": "9d50e3c6-0561-407a-b722-792e421b39e3",
+			"url": "192.168.153.140:80/sports/running/getRuns",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check distance for run": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check distance for run": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"65"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check distance for run": true
+				}
+			],
+			"time": "65",
+			"totalRequestTime": "65",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get execises",
+			"id": "2897b121-05cc-4bf7-81ad-8c7c2da97024",
+			"url": "192.168.153.140:80/sports/fitness/getAllExecises",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check first execise is leg press": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check first execise is leg press": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"72"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check first execise is leg press": true
+				}
+			],
+			"time": "72",
+			"totalRequestTime": "72",
+			"iterationResults": {}
+		},
+		{
+			"name": "Create fitness plan",
+			"id": "67231b92-29e1-4ef7-9c9b-5302757d3eae",
+			"url": "192.168.153.140:80/sports/fitness/createFitnessPlan/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message)": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"169"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message)": true
+				}
+			],
+			"time": "169",
+			"totalRequestTime": "169",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get user fitness plans",
+			"id": "9b41a0c9-23d4-4336-8d92-9c920c8e842a",
+			"url": "192.168.153.140:80/sports/fitness/getFitnessPlans/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name of fitness plan": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of fitness plan": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"90"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name of fitness plan": true
+				}
+			],
+			"time": "90",
+			"totalRequestTime": "90",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get execises in fitness plan",
+			"id": "9717bb8b-4e49-4b6b-bbf4-54a1e233aacd",
+			"url": "192.168.153.140:80/sports/fitness/getExecisesInPlan/?fitnessPlanId=1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name of first execise in fitnessplan": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of first execise in fitnessplan": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"70"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name of first execise in fitnessplan": true
+				}
+			],
+			"time": "70",
+			"totalRequestTime": "70",
+			"iterationResults": {}
+		},
+		{
+			"name": "Share fitness plan with email user",
+			"id": "c57fe311-4687-4326-bc37-6727de99aa21",
+			"url": "192.168.153.140:80/sports/fitness/shareFitnessPlan",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"67"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "67",
+			"totalRequestTime": "67",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout",
+			"id": "b96683c1-39ba-49e0-9928-7815d9de2bdb",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"13"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "13",
+			"totalRequestTime": "13",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user email",
+			"id": "1fa30e16-b671-444f-815e-63e7bf1b9448",
+			"url": "192.168.153.140:80/users/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"314"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "314",
+			"totalRequestTime": "314",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get run (perticipating user)",
+			"id": "174707c3-3764-46ae-b097-5a48770018f7",
+			"url": "192.168.153.140:80/sports/running/getRuns",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check distance for run": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check distance for run": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"106"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check distance for run": true
+				}
+			],
+			"time": "106",
+			"totalRequestTime": "106",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get fitness plan (shared fitnessplan)",
+			"id": "3cad5d47-886d-45ba-85e1-01638c298157",
+			"url": "192.168.153.140:80/sports/fitness/getFitnessPlans/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name of fitness plan": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of fitness plan": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"421"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name of fitness plan": true
+				}
+			],
+			"time": "421",
+			"totalRequestTime": "421",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get suggested matches",
+			"id": "efdb770c-baee-412b-ac85-192d65a52e81",
+			"url": "192.168.153.140:80/users/community/getSuggestedMatches/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Find FB account as suggested match (same propeties as email account)": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Find FB account as suggested match (same propeties as email account)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"71"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Find FB account as suggested match (same propeties as email account)": true
+				}
+			],
+			"time": "71",
+			"totalRequestTime": "71",
+			"iterationResults": {}
+		},
+		{
+			"name": "Search for user",
+			"id": "f8636bc4-5852-466e-9f4c-9f47c79d3cb2",
+			"url": "192.168.153.140:80/users/community/searchForUsers/?search=steffen k",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Find FB account (name = Steffen Kjær Thomsen)": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Find FB account (name = Steffen Kjær Thomsen)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"75"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Find FB account (name = Steffen Kjær Thomsen)": true
+				}
+			],
+			"time": "75",
+			"totalRequestTime": "75",
+			"iterationResults": {}
+		},
+		{
+			"name": "Send friend request to FB account",
+			"id": "c354f426-e28a-43be-9fe3-d99dd8c654b9",
+			"url": "192.168.153.140:80/users/community/sendRequest/?userToInvite=2",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"77"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "77",
+			"totalRequestTime": "77",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout",
+			"id": "991b227e-8440-427e-a1ad-1d1b316eb7ea",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"17"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "17",
+			"totalRequestTime": "17",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "0f15ed72-b6e9-45db-a946-990deb959ec0",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"279"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "279",
+			"totalRequestTime": "279",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get pending request",
+			"id": "58c5f229-07e0-4d01-a382-13db200b7de6",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check friend request is from email account": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check friend request is from email account": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"150"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check friend request is from email account": true
+				}
+			],
+			"time": "150",
+			"totalRequestTime": "150",
+			"iterationResults": {}
+		},
+		{
+			"name": "Send deny to friend request",
+			"id": "5d3e02be-7b81-4f93-8571-9cb459414263",
+			"url": "192.168.153.140:80/users/community/responseRequestDeny/?responseToUserid=1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"873"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "873",
+			"totalRequestTime": "873",
+			"iterationResults": {}
+		},
+		{
+			"name": "Check pending request is removed",
+			"id": "b2f909d9-baf0-4a1e-85a5-afc74cb56f31",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 404",
+				"status": "pass",
+				"Check pending request is removed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check pending request is removed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"202"
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Check pending request is removed": true
+				}
+			],
+			"time": "202",
+			"totalRequestTime": "202",
+			"iterationResults": {}
+		},
+		{
+			"name": "Send friend request to email account",
+			"id": "523ba003-4657-40ec-a318-b5ebc0bea6d9",
+			"url": "192.168.153.140:80/users/community/sendRequest/?userToInvite=1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"86"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "86",
+			"totalRequestTime": "86",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout",
+			"id": "04e3779d-805b-4023-896d-1ef8236eadef",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"12"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "12",
+			"totalRequestTime": "12",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user email",
+			"id": "d484a018-f508-464a-a835-f3ff3965fb45",
+			"url": "192.168.153.140:80/users/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"343"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "343",
+			"totalRequestTime": "343",
+			"iterationResults": {}
+		},
+		{
+			"name": "Get pending request",
+			"id": "e0b66658-de09-4c24-b6dc-0ac63afbab2b",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check friend request is from facebook account": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check friend request is from facebook account": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"152"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check friend request is from facebook account": true
+				}
+			],
+			"time": "152",
+			"totalRequestTime": "152",
+			"iterationResults": {}
+		},
+		{
+			"name": "Send accept to friend request",
+			"id": "aa13abd3-528e-4b7d-8b00-0ec9d0666df5",
+			"url": "192.168.153.140:80/users/community/responseRequestAccept/?responseToUserid=2",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"74"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "74",
+			"totalRequestTime": "74",
+			"iterationResults": {}
+		},
+		{
+			"name": "Check pending request is removed",
+			"id": "442390a3-3c74-4eb3-9c37-e8945eb59b3b",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 404",
+				"status": "pass",
+				"Check pending request is removed": true
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check pending request is removed": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"57"
+			],
+			"allTests": [
+				{
+					"Status code is 404": true,
+					"Check pending request is removed": true
+				}
+			],
+			"time": "57",
+			"totalRequestTime": "57",
+			"iterationResults": {}
+		},
+		{
+			"name": "Check FB account is in friendlist",
+			"id": "8e578952-d54c-45f5-ada1-bcdcd8118ca2",
+			"url": "192.168.153.140:80/users/community/getFriends/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check FB accound is in friendlist": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check FB accound is in friendlist": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"63"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check FB accound is in friendlist": true
+				}
+			],
+			"time": "63",
+			"totalRequestTime": "63",
+			"iterationResults": {}
+		},
+		{
+			"name": "Logout",
+			"id": "ba3b276d-e539-46f9-808e-7c165be7ad77",
+			"url": "192.168.153.140:80/users/logout",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Cookie deleted connect.sid",
+				"status": "pass",
+				"Check message in body": true
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"14"
+			],
+			"allTests": [
+				{
+					"Cookie deleted connect.sid": true,
+					"Check message in body": true
+				}
+			],
+			"time": "14",
+			"totalRequestTime": "14",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "39b1224d-7cdd-4758-bf60-c02b08998403",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"197"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "197",
+			"totalRequestTime": "197",
+			"iterationResults": {}
+		},
+		{
+			"name": "Check email account is in friendlist",
+			"id": "8a3cbcd1-8d49-49d8-9ddf-48dd9244d168",
+			"url": "192.168.153.140:80/users/community/getFriends/",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check email accound is in friendlist": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check email accound is in friendlist": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"60"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check email accound is in friendlist": true
+				}
+			],
+			"time": "60",
+			"totalRequestTime": "60",
+			"iterationResults": {}
+		},
+		{
+			"name": "Delete run",
+			"id": "5005a4f9-13b6-41d1-a70b-2b80c0ac6f18",
+			"url": "192.168.153.140:80/sports/running/deleteRun/?runId=1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"72"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "72",
+			"totalRequestTime": "72",
+			"iterationResults": {}
+		},
+		{
+			"name": "Delete fitness plan",
+			"id": "ac3fe726-f573-4e70-833b-f170a8f14253",
+			"url": "192.168.153.140:80/sports/fitness/deleteFitnessPlan/?fitnessPlanId=1",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"123"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "123",
+			"totalRequestTime": "123",
+			"iterationResults": {}
+		},
+		{
+			"name": "Delete FB account",
+			"id": "853f2a03-6c60-44eb-a196-c4f06a1e613d",
+			"url": "192.168.153.140:80/users/deleteUser",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"32"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "32",
+			"totalRequestTime": "32",
+			"iterationResults": {}
+		},
+		{
+			"name": "Login user email",
+			"id": "7b8c37ad-e375-404b-9f95-649427443251",
+			"url": "192.168.153.140:80/users/login",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check name in body": true,
+				"Check cookie is set to connect.sid": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"311"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check name in body": true,
+					"Check cookie is set to connect.sid": true
+				}
+			],
+			"time": "311",
+			"totalRequestTime": "311",
+			"iterationResults": {}
+		},
+		{
+			"name": "Delete email account",
+			"id": "de6a54b1-a663-43c4-9bcd-9e20d1b68d3d",
+			"url": "192.168.153.140:80/users/deleteUser",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"error": null,
+				"name": "Status code is 200",
+				"status": "pass",
+				"Check message": true
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"23"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true,
+					"Check message": true
+				}
+			],
+			"time": "23",
+			"totalRequestTime": "23",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 102,
+	"totalFail": 0,
+	"totalTime": 8572,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "Create user email",
+			"id": "2398acee-4d97-4534-b620-610a7c91159f",
+			"url": "192.168.153.140:80/users/create",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout",
+			"id": "4285a66c-a55a-49f3-9874-7b32d596bc24",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Create user email again",
+			"id": "687c9de6-9eab-45fa-b659-bbcd6149c77f",
+			"url": "192.168.153.140:80/users/create",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 403,
+				"name": "Forbidden",
+				"detail": {
+					"name": "Forbidden",
+					"detail": "The request was a legal request, but the server is refusing to respond to it. Unlike a 401 Unauthorized response, authenticating will make no difference."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 403": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check error user already exist": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user email",
+			"id": "745c3d3b-f03f-4acc-b63b-532b0fd2dc84",
+			"url": "192.168.153.140:80/users/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Change password",
+			"id": "dfb2eb46-b158-45f6-aeed-815820ff2fe1",
+			"url": "192.168.153.140:80/users/changePassword",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user email new password",
+			"id": "bf1e0a0c-8686-44fb-bb37-5afc14fe5b86",
+			"url": "192.168.153.140:80/users/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get current user infomation",
+			"id": "409a9f73-a278-451f-ad8c-0ab47b82ca97",
+			"url": "192.168.153.140:80/users/getCurrentUser",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Update user name",
+			"id": "434f2142-863c-42bb-adde-ad7c740fcb88",
+			"url": "192.168.153.140:80/users/updateInfo",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Check name is changed",
+			"id": "6ed6f41c-1d1b-4095-930e-3a5c26075246",
+			"url": "192.168.153.140:80/users/getCurrentUser",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name is updated": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout before Facebook",
+			"id": "549030eb-8f0b-4719-95f5-c323c1de5129",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Create user Facebook",
+			"id": "90d112fa-d1d9-4400-8f3b-3e9969a0e130",
+			"url": "192.168.153.140:80/users/facebook/create",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check password is null (FB login)": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout Facebook",
+			"id": "59a7375d-d2d2-44f7-8047-5852f9d489b2",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "8edd207c-58a2-4ec2-8807-8dd701989acd",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Register run with email user",
+			"id": "628e8f75-da16-43c8-b310-3768c6761df7",
+			"url": "192.168.153.140:80/sports/running/registerRun",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get run",
+			"id": "9d50e3c6-0561-407a-b722-792e421b39e3",
+			"url": "192.168.153.140:80/sports/running/getRuns",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check distance for run": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get execises",
+			"id": "2897b121-05cc-4bf7-81ad-8c7c2da97024",
+			"url": "192.168.153.140:80/sports/fitness/getAllExecises",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check first execise is leg press": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Create fitness plan",
+			"id": "67231b92-29e1-4ef7-9c9b-5302757d3eae",
+			"url": "192.168.153.140:80/sports/fitness/createFitnessPlan/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message)": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get user fitness plans",
+			"id": "9b41a0c9-23d4-4336-8d92-9c920c8e842a",
+			"url": "192.168.153.140:80/sports/fitness/getFitnessPlans/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of fitness plan": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get execises in fitness plan",
+			"id": "9717bb8b-4e49-4b6b-bbf4-54a1e233aacd",
+			"url": "192.168.153.140:80/sports/fitness/getExecisesInPlan/?fitnessPlanId=1",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of first execise in fitnessplan": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Share fitness plan with email user",
+			"id": "c57fe311-4687-4326-bc37-6727de99aa21",
+			"url": "192.168.153.140:80/sports/fitness/shareFitnessPlan",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout",
+			"id": "b96683c1-39ba-49e0-9928-7815d9de2bdb",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user email",
+			"id": "1fa30e16-b671-444f-815e-63e7bf1b9448",
+			"url": "192.168.153.140:80/users/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get run (perticipating user)",
+			"id": "174707c3-3764-46ae-b097-5a48770018f7",
+			"url": "192.168.153.140:80/sports/running/getRuns",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check distance for run": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get fitness plan (shared fitnessplan)",
+			"id": "3cad5d47-886d-45ba-85e1-01638c298157",
+			"url": "192.168.153.140:80/sports/fitness/getFitnessPlans/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name of fitness plan": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get suggested matches",
+			"id": "efdb770c-baee-412b-ac85-192d65a52e81",
+			"url": "192.168.153.140:80/users/community/getSuggestedMatches/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Find FB account as suggested match (same propeties as email account)": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Search for user",
+			"id": "f8636bc4-5852-466e-9f4c-9f47c79d3cb2",
+			"url": "192.168.153.140:80/users/community/searchForUsers/?search=steffen k",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Find FB account (name = Steffen Kjær Thomsen)": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Send friend request to FB account",
+			"id": "c354f426-e28a-43be-9fe3-d99dd8c654b9",
+			"url": "192.168.153.140:80/users/community/sendRequest/?userToInvite=2",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout",
+			"id": "991b227e-8440-427e-a1ad-1d1b316eb7ea",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "0f15ed72-b6e9-45db-a946-990deb959ec0",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get pending request",
+			"id": "58c5f229-07e0-4d01-a382-13db200b7de6",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check friend request is from email account": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Send deny to friend request",
+			"id": "5d3e02be-7b81-4f93-8571-9cb459414263",
+			"url": "192.168.153.140:80/users/community/responseRequestDeny/?responseToUserid=1",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Check pending request is removed",
+			"id": "b2f909d9-baf0-4a1e-85a5-afc74cb56f31",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check pending request is removed": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Send friend request to email account",
+			"id": "523ba003-4657-40ec-a318-b5ebc0bea6d9",
+			"url": "192.168.153.140:80/users/community/sendRequest/?userToInvite=1",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout",
+			"id": "04e3779d-805b-4023-896d-1ef8236eadef",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user email",
+			"id": "d484a018-f508-464a-a835-f3ff3965fb45",
+			"url": "192.168.153.140:80/users/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Get pending request",
+			"id": "e0b66658-de09-4c24-b6dc-0ac63afbab2b",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check friend request is from facebook account": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Send accept to friend request",
+			"id": "aa13abd3-528e-4b7d-8b00-0ec9d0666df5",
+			"url": "192.168.153.140:80/users/community/responseRequestAccept/?responseToUserid=2",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Check pending request is removed",
+			"id": "442390a3-3c74-4eb3-9c37-e8945eb59b3b",
+			"url": "192.168.153.140:80/users/community/getPendingRequest/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 404": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check pending request is removed": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Check FB account is in friendlist",
+			"id": "8e578952-d54c-45f5-ada1-bcdcd8118ca2",
+			"url": "192.168.153.140:80/users/community/getFriends/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check FB accound is in friendlist": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Logout",
+			"id": "ba3b276d-e539-46f9-808e-7c165be7ad77",
+			"url": "192.168.153.140:80/users/logout",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Cookie deleted connect.sid": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message in body": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user facebook",
+			"id": "39b1224d-7cdd-4758-bf60-c02b08998403",
+			"url": "192.168.153.140:80/users/facebook/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Check email account is in friendlist",
+			"id": "8a3cbcd1-8d49-49d8-9ddf-48dd9244d168",
+			"url": "192.168.153.140:80/users/community/getFriends/",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check email accound is in friendlist": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Delete run",
+			"id": "5005a4f9-13b6-41d1-a70b-2b80c0ac6f18",
+			"url": "192.168.153.140:80/sports/running/deleteRun/?runId=1",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Delete fitness plan",
+			"id": "ac3fe726-f573-4e70-833b-f170a8f14253",
+			"url": "192.168.153.140:80/sports/fitness/deleteFitnessPlan/?fitnessPlanId=1",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Delete FB account",
+			"id": "853f2a03-6c60-44eb-a196-c4f06a1e613d",
+			"url": "192.168.153.140:80/users/deleteUser",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Login user email",
+			"id": "7b8c37ad-e375-404b-9f95-649427443251",
+			"url": "192.168.153.140:80/users/login",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check name in body": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check cookie is set to connect.sid": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Delete email account",
+			"id": "de6a54b1-a663-43c4-9bcd-9e20d1b68d3d",
+			"url": "192.168.153.140:80/users/deleteUser",
+			"time": "2019-01-31T11:26:17.875Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Check message": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		}
+	],
+	"synced": false
+}
