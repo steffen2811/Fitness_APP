@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
 USE `users`;
--- MySQL dump 10.13  Distrib 5.7.24, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.22, for Win64 (x86_64)
 --
--- Host: 127.0.0.1    Database: users
+-- Host: localhost    Database: users
 -- ------------------------------------------------------
--- Server version	5.7.24-log
+-- Server version	5.7.25
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -40,7 +40,7 @@ CREATE TABLE `fitness_exercises` (
 
 LOCK TABLES `fitness_exercises` WRITE;
 /*!40000 ALTER TABLE `fitness_exercises` DISABLE KEYS */;
-INSERT INTO `fitness_exercises` VALUES (1,'Leg Press',10,'3','qxRlIA0JU2A'),(3,'Lying Leg Curls',12,'3','dBo-Pw2a2h8'),(4,'Wide-Grip Lat Pulldown',8,'3','lueEJGjTuPQ'),(5,'Butterfly',10,'2','oGxc2ph8Fnw'),(6,'Triceps pulldown',10,'3','q25J5FYxcYU'),(7,'Machine Biceps Curl',8,'3','uO_CNYidOw0'),(8,'Machine shoulder Press',12,'2','qEwKCR5JCog'),(9,'Ab Crunch Machine',10,'3','KNgfBz_u9LU');
+INSERT INTO `fitness_exercises` VALUES (1,'Leg Press',10,3,'qxRlIA0JU2A'),(3,'Lying Leg Curls',12,3,'dBo-Pw2a2h8'),(4,'Wide-Grip Lat Pulldown',8,3,'lueEJGjTuPQ'),(5,'Butterfly',10,2,'oGxc2ph8Fnw'),(6,'Triceps pulldown',10,3,'q25J5FYxcYU'),(7,'Machine Biceps Curl',8,3,'uO_CNYidOw0'),(8,'Machine shoulder Press',12,2,'qEwKCR5JCog'),(9,'Ab Crunch Machine',10,3,'KNgfBz_u9LU');
 /*!40000 ALTER TABLE `fitness_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -62,6 +62,16 @@ CREATE TABLE `fitness_exercises_in_plan` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `fitness_exercises_in_plan`
+--
+
+LOCK TABLES `fitness_exercises_in_plan` WRITE;
+/*!40000 ALTER TABLE `fitness_exercises_in_plan` DISABLE KEYS */;
+INSERT INTO `fitness_exercises_in_plan` VALUES (1,1),(6,1),(9,1),(3,2),(4,2),(5,2),(7,3),(8,3),(9,3);
+/*!40000 ALTER TABLE `fitness_exercises_in_plan` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `fitness_plan`
 --
 
@@ -72,8 +82,18 @@ CREATE TABLE `fitness_plan` (
   `id_fitness_plan` int(11) NOT NULL AUTO_INCREMENT,
   `FitnessPlanName` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`id_fitness_plan`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `fitness_plan`
+--
+
+LOCK TABLES `fitness_plan` WRITE;
+/*!40000 ALTER TABLE `fitness_plan` DISABLE KEYS */;
+INSERT INTO `fitness_plan` VALUES (1,'Legs'),(2,'Back'),(3,'Biceps');
+/*!40000 ALTER TABLE `fitness_plan` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `friend_relationship`
@@ -92,8 +112,18 @@ CREATE TABLE `friend_relationship` (
   KEY `relatedUser_fk_idx` (`relatedUser`),
   CONSTRAINT `relatedUser_fk` FOREIGN KEY (`relatedUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `requestByUser_fk` FOREIGN KEY (`requestByUser`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `friend_relationship`
+--
+
+LOCK TABLES `friend_relationship` WRITE;
+/*!40000 ALTER TABLE `friend_relationship` DISABLE KEYS */;
+INSERT INTO `friend_relationship` VALUES (1,12,3,1),(2,12,4,1),(3,11,7,1),(4,4,7,1),(5,10,6,1);
+/*!40000 ALTER TABLE `friend_relationship` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -165,6 +195,15 @@ CREATE TABLE `running` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `running`
+--
+
+LOCK TABLES `running` WRITE;
+/*!40000 ALTER TABLE `running` DISABLE KEYS */;
+/*!40000 ALTER TABLE `running` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `user_activity`
 --
 
@@ -183,6 +222,15 @@ CREATE TABLE `user_activity` (
   CONSTRAINT `id_users_fk` FOREIGN KEY (`id_users`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_activity`
+--
+
+LOCK TABLES `user_activity` WRITE;
+/*!40000 ALTER TABLE `user_activity` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_activity` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `users`
@@ -206,8 +254,18 @@ CREATE TABLE `users` (
   `locationLong` float NOT NULL,
   `locationLat` float NOT NULL,
   PRIMARY KEY (`id_users`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (3,'testuser1@test.dk','$2a$10$KZC6l9ytzuXnZJJsw.y23OqAue4F1U/8Xb93Vbi1FAQLTV7CnWq5G','Steffen Thomsen','Male',22,26357820,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',10,5,9.0395,56.5472),(4,'testuser2@test.dk','$2a$10$omhnPWtG7Urb47PLXw8CyOy6R0z/H.eOekJHKsBbcr8zvwDzfi65i','Poul Madsen','Male',55,42675841,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',9,6,9.1225,56.546),(5,'testuser3@test.dk','$2a$10$IHjzeCLylG/F2QV7FIiwK./AnPEvDoZ7aAUgJFtG06lxhdde9ZpoW','Ib Toft','Male',45,25454965,'Fitness','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',10,8,9.33402,56.5103),(6,'testuser4@test.dk','$2a$10$Z8MAjAWYZd970nvZNfsiZOhHLUjxpDl2KRDntiowfziS7dHM0jciC','Sara Justesen','Female',50,65654154,'Fitness','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',7,7,9.3426,56.5049),(7,'testuser5@test.dk','$2a$10$lIA2OOeteiBDE2hes01h2.wpPBS88OZjZilw2a2ehWwvCqy.x.fQm','Simon Flintholm','Male',25,54548542,'Fitness','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',3,2,9.39935,56.4579),(8,'testuser6@test.dk','$2a$10$w0V.gEEz/SyscEUDVkP7BeVqzNLX46Gp8860LkUOG0Qyb8blfYCSa','Maya Kjær','Female',39,55454654,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',5,3,9.39798,56.4427),(9,'testuser7@test.dk','$2a$10$OQymC2aUFZNMAm8MK89Hy.LOHjRWpiylgPgyY0srgb80yivvQvpty','Julie Pedersen','Female',21,54469455,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',6,4,9.37601,56.4412),(10,'testuser8@test.dk','$2a$10$qehl1jF4znihs23sIQI0Iey0.8Ow7HGLFeuK1q0nr5HpuCLsGKRwu','Kristina Strøm','Female',25,54545451,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',5,4,9.41515,56.4499),(11,'testuser9@test.dk','$2a$10$jU48RY/mRq7kA9hJgJVIyuHmmmMIYZ0Dohc8U03kRq4BCviXx6PR2','Mathias Laursen','Male',33,45451657,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',6,5,9.44398,56.4526),(12,'testuser10@test.dk','$2a$10$MRqYy1Gzg.xUjRl6R.wuWu17sqKG8gCpUK84ju9k53rHOC9YCr/4q','Vivi Jensen','Female',63,24647913,'Running','http://192.168.153.140/profilePictures/standartProfilePicture.jpg',5,4,9.39873,56.4365);
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
 /*!50003 SET @saved_col_connection = @@collation_connection */ ;
@@ -261,6 +319,16 @@ CREATE TABLE `users_suggested_matches` (
   CONSTRAINT `id_users_2_fk` FOREIGN KEY (`id_users_2`) REFERENCES `users` (`id_users`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users_suggested_matches`
+--
+
+LOCK TABLES `users_suggested_matches` WRITE;
+/*!40000 ALTER TABLE `users_suggested_matches` DISABLE KEYS */;
+INSERT INTO `users_suggested_matches` VALUES (4,3,'1 hour',5089.219438035263,'1 levels'),(9,8,'1 hour',1361.089184151921,'1 levels'),(10,8,'0 hour',1325.0544539056996,'1 levels'),(10,9,'1 hour',2593.8916073166884,'0 levels'),(11,9,'0 hour',4365.339464703175,'1 levels'),(11,10,'1 hour',1796.6231014776968,'1 levels'),(12,8,'0 hour',696.7387885881482,'1 levels'),(12,9,'1 hour',1492.558417741175,'0 levels'),(12,10,'0 hour',1805.3041786033825,'0 levels'),(12,11,'1 hour',3308.959181973319,'1 levels');
+/*!40000 ALTER TABLE `users_suggested_matches` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Dumping events for database 'users'
@@ -358,4 +426,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-01-24 20:58:13
+-- Dump completed on 2019-02-06 20:43:47
