@@ -1,0 +1,402 @@
+Current configuration : 9376 bytes
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname FJCore01
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$Uzb5$YhYr6WEjP9PAxHqFSHha3/
+!
+username administrator password 0 Password1
+!
+!
+aaa new-model
+!
+!
+!
+!
+!
+aaa session-id common
+switch 1 provision ws-c3750-48ts
+system mtu routing 1500
+vtp mode off
+ip routing
+ip domain-name FJ.local
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-251233920
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-251233920
+ revocation-check none
+ rsakeypair TP-self-signed-251233920
+!
+!
+crypto pki certificate chain TP-self-signed-251233920
+ certificate self-signed 01
+  30820247 308201B0 A0030201 02020101 300D0609 2A864886 F70D0101 04050030
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 32353132 33333932 30301E17 0D393330 33303130 30303133
+  375A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3235 31323333
+  39323030 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100
+  C4A46562 E2E0E847 89B8DFC8 947AB128 D9391078 98434141 53822177 F4B960FA
+  540ED98D 7B05A608 E2E60A08 220F991F 6013492C 2C5A9BFA 56F1F26A FC51F94E
+  29F0F16D 7B63A32F BFEC2212 115B5F3D B9C85CC2 64A12D7D 812FCD22 1E6ED54B
+  C9C544D7 CCC63DB1 E5F2B908 13E05543 33B48DAE ECC274CC BBCA20C8 DC5B982B
+  02030100 01A37130 6F300F06 03551D13 0101FF04 05300301 01FF301C 0603551D
+  11041530 13821146 4A436F72 6530312E 464A2E6C 6F63616C 301F0603 551D2304
+  18301680 1421F0C1 ED1A926B ACCAE23D 5693497C 2B589005 1C301D06 03551D0E
+  04160414 21F0C1ED 1A926BAC CAE23D56 93497C2B 5890051C 300D0609 2A864886
+  F70D0101 04050003 818100A5 05FCC7A8 3F1978AF 8A72E893 F1CDA667 59326B09
+  788FAD46 3594FE40 096C2C20 CF9A2D68 43629907 DDC03701 F7EF3892 402E3EC0
+  EDF8835A D01D0732 1645E87E 50AB3B3B 162166D2 CA12CB1F 21B81C3D BBBEB24E
+  E505BE28 5C475BE3 ADA60A61 7D005645 9F802BA4 6DF13726 5EFDEAFC FF9C1BA1
+  8D7F0B81 3B44DE71 F78C4D
+  quit
+!
+!
+!
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 5,10,50,100,110,120,130,140
+!
+ip ssh version 2
+!
+!
+!
+interface Port-channel1
+ description FromFJSW01
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel2
+ description FromFJSW02
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel3
+ description FromFJSW03
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel4
+ description FromFJSW04
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface Port-channel5
+ description ToFJCore02
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+!
+interface FastEthernet1/0/1
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/2
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/3
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/4
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/5
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/6
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/7
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/8
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/9
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/10
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/11
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/12
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/13
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/14
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/15
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/16
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/17
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/18
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/19
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/20
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/21
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/22
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/23
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/24
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/25
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/26
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/27
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/28
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/29
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/30
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/31
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/32
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/33
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/34
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/35
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/36
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/37
+ switchport access vlan 100
+ switchport mode access
+!
+interface FastEthernet1/0/38
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 5 mode active
+!
+interface FastEthernet1/0/39
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 5 mode active
+!
+interface FastEthernet1/0/40
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 4 mode active
+!
+interface FastEthernet1/0/41
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 4 mode active
+!
+interface FastEthernet1/0/42
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 3 mode active
+!
+interface FastEthernet1/0/43
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 3 mode active
+!
+interface FastEthernet1/0/44
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 2 mode active
+!
+interface FastEthernet1/0/45
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 2 mode active
+!
+interface FastEthernet1/0/46
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface FastEthernet1/0/47
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface FastEthernet1/0/48
+ no switchport
+ ip address 10.0.0.2 255.255.255.248
+!
+interface GigabitEthernet1/0/1
+!
+interface GigabitEthernet1/0/2
+!
+interface GigabitEthernet1/0/3
+!
+interface GigabitEthernet1/0/4
+!
+interface Vlan1
+ description Management-Vlan
+ ip address 172.16.1.2 255.255.255.240
+ standby 1 ip 172.16.1.1
+ standby 1 priority 110
+ standby 1 preempt
+ standby 1 track 1 decrement 20
+!
+interface Vlan100
+ description Server-Vlan
+ ip address 192.168.100.2 255.255.255.0
+ standby 100 ip 192.168.100.1
+ standby 100 priority 110
+ standby 100 preempt
+ standby 100 track 1 decrement 20
+!
+interface Vlan110
+ description User-Vlan01
+ ip address 192.168.110.2 255.255.255.0
+ ip helper-address 192.168.100.11
+ ip helper-address 192.168.100.21
+ standby 110 ip 192.168.110.1
+ standby 110 priority 110
+ standby 110 preempt
+ standby 110 track 1 decrement 20
+!
+interface Vlan120
+ description User-Vlan02
+ ip address 192.168.120.2 255.255.255.0
+ ip helper-address 192.168.100.11
+ ip helper-address 192.168.100.21
+ standby 120 ip 192.168.120.1
+ standby 120 priority 110
+ standby 120 preempt
+ standby 120 track 1 decrement 20
+!
+interface Vlan130
+ description User-Vlan03
+ ip address 192.168.130.2 255.255.255.0
+ ip helper-address 192.168.100.11
+ ip helper-address 192.168.100.21
+ standby 130 ip 192.168.130.1
+ standby 130 preempt
+!
+interface Vlan140
+ description User-Vlan04
+ ip address 192.168.140.2 255.255.255.0
+ ip helper-address 192.168.100.11
+ ip helper-address 192.168.100.21
+ standby 140 ip 192.168.140.1
+ standby 140 preempt
+!
+router ospf 1
+ router-id 2.2.2.2
+ log-adjacency-changes
+ network 10.0.0.0 0.0.0.7 area 1
+ network 172.16.1.0 0.0.0.15 area 0
+ network 192.168.100.0 0.0.0.255 area 0
+ network 192.168.110.0 0.0.0.255 area 0
+ network 192.168.120.0 0.0.0.255 area 0
+ network 192.168.130.0 0.0.0.255 area 0
+ network 192.168.140.0 0.0.0.255 area 0
+!
+ip classless
+ip http server
+ip http secure-server
+!
+!
+!
+snmp-server community FJRead RO
+!
+!
+line con 0
+line vty 0 4
+ logging synchronous
+ transport input ssh
+line vty 5 15
+!
+end

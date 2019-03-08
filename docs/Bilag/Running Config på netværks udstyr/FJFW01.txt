@@ -1,0 +1,156 @@
+: Serial Number: JMX1813Z0H8
+: Hardware:   ASA5505, 512 MB RAM, CPU Geode 500 MHz
+:
+ASA Version 9.2(4)
+!
+hostname FJFW01
+enable password HK/vZasaheGFeLV4 encrypted
+names
+!
+interface Ethernet0/0
+ switchport access vlan 5
+!
+interface Ethernet0/1
+ switchport access vlan 10
+!
+interface Ethernet0/2
+ switchport access vlan 10
+!
+interface Ethernet0/3
+ switchport access vlan 50
+!
+interface Ethernet0/4
+ switchport access vlan 50
+!
+interface Ethernet0/5
+ switchport access vlan 50
+!
+interface Ethernet0/6
+ switchport access vlan 50
+!
+interface Ethernet0/7
+!
+interface Vlan1
+ no nameif
+ no security-level
+ no ip address
+!
+interface Vlan5
+ nameif outside
+ security-level 0
+ ip address 192.168.153.140 255.255.255.0
+!
+interface Vlan10
+ nameif inside
+ security-level 100
+ ip address 10.0.0.1 255.255.255.248
+!
+interface Vlan50
+ nameif DMZ
+ security-level 50
+ ip address 192.168.50.1 255.255.255.248
+!
+ftp mode passive
+object network obj_any
+ subnet 0.0.0.0 0.0.0.0
+object network NAT-Web
+ subnet 192.168.50.0 255.255.255.0
+object network WEB-Server
+ host 192.168.50.4
+object service Port-8080
+ service tcp destination eq 8080
+object network FJ-Monitoring
+ host 192.168.100.40
+object network FJ-Web
+ host 192.168.50.4
+access-list outside_access_in_1 extended permit object Port-8080 any object FJ-Web
+pager lines 24
+logging asdm informational
+mtu outside 1500
+mtu inside 1500
+mtu DMZ 1500
+no failover
+icmp unreachable rate-limit 1 burst-size 1
+no asdm history enable
+arp timeout 14400
+no arp permit-nonconnected
+!
+object network obj_any
+ nat (any,outside) dynamic interface
+object network WEB-Server
+ nat (DMZ,outside) static interface service tcp 8080 www
+access-group outside_access_in_1 in interface outside
+router ospf 1
+ router-id 1.1.1.1
+ network 10.0.0.0 255.255.255.248 area 1
+ network 192.168.50.0 255.255.255.248 area 1
+ log-adj-changes
+ default-information originate
+!
+route outside 0.0.0.0 0.0.0.0 192.168.153.1 1
+timeout xlate 3:00:00
+timeout pat-xlate 0:00:30
+timeout conn 1:00:00 half-closed 0:10:00 udp 0:02:00 icmp 0:00:02
+timeout sunrpc 0:10:00 h323 0:05:00 h225 1:00:00 mgcp 0:05:00 mgcp-pat 0:05:00
+timeout sip 0:30:00 sip_media 0:02:00 sip-invite 0:03:00 sip-disconnect 0:02:00
+timeout sip-provisional-media 0:02:00 uauth 0:05:00 absolute
+timeout tcp-proxy-reassembly 0:01:00
+timeout floating-conn 0:00:00
+dynamic-access-policy-record DfltAccessPolicy
+user-identity default-domain LOCAL
+aaa authentication ssh console LOCAL
+http server enable
+http 0.0.0.0 0.0.0.0 inside
+snmp-server host inside 192.168.100.40 community *****
+no snmp-server location
+no snmp-server contact
+snmp-server community *****
+crypto ipsec security-association pmtu-aging infinite
+crypto ca trustpool policy
+telnet timeout 5
+no ssh stricthostkeycheck
+ssh 0.0.0.0 0.0.0.0 inside
+ssh timeout 5
+ssh version 2
+ssh key-exchange group dh-group1-sha1
+console timeout 0
+
+dhcpd auto_config outside
+!
+threat-detection basic-threat
+threat-detection statistics access-list
+no threat-detection statistics tcp-intercept
+username administrator password 8SYsAcRU4s6DpQP1 encrypted
+!
+class-map inspection_default
+ match default-inspection-traffic
+!
+!
+policy-map type inspect dns preset_dns_map
+ parameters
+  message-length maximum client auto
+  message-length maximum 512
+policy-map global_policy
+ class inspection_default
+  inspect dns preset_dns_map
+  inspect ftp
+  inspect h323 h225
+  inspect h323 ras
+  inspect rsh
+  inspect rtsp
+  inspect esmtp
+  inspect sqlnet
+  inspect skinny
+  inspect sunrpc
+  inspect xdmcp
+  inspect sip
+  inspect netbios
+  inspect tftp
+  inspect ip-options
+  inspect icmp
+!
+service-policy global_policy global
+prompt hostname context
+no call-home reporting anonymous
+Cryptochecksum:461827ec137be7e842a41bab62d52022
+: end

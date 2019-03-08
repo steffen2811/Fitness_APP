@@ -1,0 +1,352 @@
+Current configuration : 9103 bytes
+!
+! Last configuration change at 00:52:46 UTC Mon Mar 8 1993 by administrator
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname FJSW03
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$0SyK$Lw216xKnn/kzqIxq5H.qf0
+!
+username administrator password 0 Password1
+aaa new-model
+!
+!
+!
+!
+!
+!
+!
+!
+aaa session-id common
+system mtu routing 1500
+vtp mode off
+!
+!
+ip domain-name FJ.local
+!
+!
+crypto pki trustpoint TP-self-signed-3116161664
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3116161664
+ revocation-check none
+ rsakeypair TP-self-signed-3116161664
+!
+!
+crypto pki certificate chain TP-self-signed-3116161664
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274
+  69666963 6174652D 33313136 31363136 3634301E 170D3933 30333031 30303031
+  30305A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 31313631
+  36313636 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281
+  8100C70D E2E796E6 71D84750 1E1DAE52 3763827B FCDC7938 FE2ADFA4 4B3051BB
+  DC1A46D7 5857382C A5E8ADDD 5F1E9824 BACD6CF4 856DF2B5 2B10715A 9CCEB096
+  976EF8C6 4DFA42BB 52C89F1A 51ED9F6A 70BCAEBB AA2CD653 E9863E65 E715ABCE
+  D856D9D6 611BD39D B6AEA2C5 902B0DA9 12EB87E7 E7D76AEE 33BCB220 6DA27F88
+  BBA10203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603
+  551D2304 18301680 148878D5 8A98CEF4 5F45BFBE A48C529D 83022B08 F3301D06
+  03551D0E 04160414 8878D58A 98CEF45F 45BFBEA4 8C529D83 022B08F3 300D0609
+  2A864886 F70D0101 05050003 8181009B B79ABCE7 429AAE16 9219D4D5 FC1708A1
+  EC7A477D 086E64DD 38F9FB55 72BED7D7 85270D18 2FF629A9 E85B4C0D 6B762526
+  58FA7A22 9CB95021 DD825F5C AECA3E96 83505A72 BBC699C6 291410AF CA4FBA02
+  8C8ACB6D 33BB87AC 61B09426 D4855C80 6F26CFF1 E0BB6CBB 67780A30 5A454B54
+  90338469 FF0DD31B 96C21404 6D7C81
+        quit
+!
+!
+!
+!
+!
+errdisable recovery cause bpduguard
+errdisable recovery cause storm-control
+errdisable recovery interval 30
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan 5,10,50,100,110,120,130,140
+!
+ip ssh version 2
+!
+!
+!
+!
+!
+interface Port-channel1
+ description To FJCore02
+ switchport mode trunk
+!
+interface Port-channel3
+ description ToFJCore01
+ switchport mode trunk
+!
+interface FastEthernet0/1
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/2
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/3
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/4
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/5
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/6
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/7
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/8
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/9
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/10
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/11
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/12
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/13
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/14
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/15
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/16
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/17
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/18
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/19
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/20
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/21
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/22
+ switchport access vlan 130
+ switchport mode access
+ switchport port-security maximum 5
+ storm-control broadcast level 10.00
+ storm-control action shutdown
+ storm-control action trap
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface FastEthernet0/23
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 3 mode active
+!
+interface FastEthernet0/24
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 3 mode active
+!
+interface GigabitEthernet0/1
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface GigabitEthernet0/2
+ switchport mode trunk
+ channel-protocol lacp
+ channel-group 1 mode active
+!
+interface Vlan1
+ description Management-Vlan
+ ip address 172.16.1.6 255.255.255.240
+!
+ip default-gateway 172.16.1.1
+ip http server
+ip http secure-server
+snmp-server community FJRead RO
+!
+!
+!
+!
+line con 0
+line vty 0 4
+ logging synchronous
+ transport input ssh
+line vty 5 15
+!
+end
